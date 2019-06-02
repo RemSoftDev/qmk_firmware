@@ -112,7 +112,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* 4 */	 TO(_FN_DEV),   KC_TAB,      KC_F2,        KC_F5,   KC_LEFT, KC_UP, KC_RIGHT, KC_DOWN, KC_NO,     KC_BSPACE, \
 /*		    0						1			2			3		4			 5		  6	    	7			8		9		*/
 /* 5 */	 KC_AUDIO_VOL_UP,  	  KC_EQUAL,    KC_BSLASH,  KC_0,    KC_9,      KC_8,    KC_7,     KC_6,     KC_HOME,   KC_END, \
-/* 6 */	 KC_AUDIO_VOL_DOWN,   TG(_FN_NUM), KC_MINS,    KC_P,    KC_O,      KC_I,, \
+/* 6 */	 KC_AUDIO_VOL_DOWN,   TG(_FN_NUM), KC_MINS,    KC_P,    KC_O,      KC_I,    KC_U,     KC_Y,     KC_ENTER,  TD(TD_PAUSE_WINL), \
+/* 7 */	 KC_MEDIA_NEXT_TRACK, KC_RCTRL,    KC_QUOT,    KC_SCLN, KC_L,      KC_K,    KC_J,     KC_H,     KC_SPACE,  KC_RWIN, \
 /* 8 */	 KC_MEDIA_PREV_TRACK, KC_ENTER,    KC_RSHIFT,  KC_SLSH, KC_DOT,    KC_COMM, KC_M,     KC_N,     KC_NO,     KC_ESCAPE, \
 /* 9 */	 KC_MEDIA_PLAY_PAUSE, KC_DELETE,   KC_F2,      KC_F5,   KC_RIGHT,  KC_UP,   KC_LEFT,  KC_DOWN,  KC_NO,     KC_BSPACE \
 	),
@@ -187,17 +188,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* 9 */	 KC_MEDIA_PLAY_PAUSE, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO  \
 	),
 	[_FN_F] = LAYOUT(
-/*		 0		1	    	2			3			4		 5			6		7			8			9		*/
+/*		 0	    	1	    	2			3			4		 5			6		7			8			9		*/
 /* 0 */	 TO(_BASE), KC_TRNS,    KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, \
 /* 1 */	 KC_TRNS,   KC_TRNS,    KC_NO,     KC_F12,  KC_F11,  KC_F10,  KC_F9,    KC_NO,   KC_TRNS, KC_TRNS, \
 /* 2 */	 KC_TRNS,   KC_TRNS,    KC_NO  ,   KC_F8,   KC_F7,   KC_F6,   KC_F5,    KC_NO,   KC_TRNS, KC_TRNS, \
 /* 3 */	 KC_TRNS,   KC_TRNS,    KC_LSHIFT, KC_F4,   KC_F3,   KC_F2,   KC_F1,    KC_NO,   KC_NO,   KC_TRNS, \
 /* 4 */	 KC_TRNS,   KC_TRNS,    KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_NO,   KC_TRNS, \
 /*		 0						1			2			3		    4		5		  6	    	7		8		9		*/
-/* 5 */	 KC_TRNS, KC_TRNS, KC_NO,     KC_NO,       KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_TRNS, \
-/* 6 */	 KC_TRNS, KC_TRNS,    KC_PSLS,   KC_F12,   KC_F11,   KC_F10,  KC_F9, KC_NO,   KC_TRNS, KC_TRNS, \
-/* 7 */	 KC_TRNS, KC_TRNS,    KC_PAST,   KC_F8,    KC_F7,    KC_F6,   KC_F5, KC_NO,   KC_TRNS, KC_TRNS, \
-/* 8 */	 KC_TRNS, KC_TRNS,    KC_RSHIFT, KC_F4,    KC_F3,    KC_F2,   KC_F1, KC_KP_0, KC_NO,   KC_TRNS, \
+/* 5 */	 KC_TRNS, KC_TRNS,    KC_NO,     KC_NO,    KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_TRNS, \
+/* 6 */	 KC_TRNS, KC_TRNS,    KC_PSLS,   KC_F12,   KC_F11,   KC_F10,  KC_F9,   KC_NO,   KC_TRNS, KC_TRNS, \
+/* 7 */	 KC_TRNS, KC_TRNS,    KC_PAST,   KC_F8,    KC_F7,    KC_F6,   KC_F5,   KC_NO,   KC_TRNS, KC_TRNS, \
+/* 8 */	 KC_TRNS, KC_TRNS,    KC_RSHIFT, KC_F4,    KC_F3,    KC_F2,   KC_F1,   KC_KP_0, KC_NO,   KC_TRNS, \
 /* 9 */	 KC_TRNS, KC_TRNS,    KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,   KC_TRNS  \
 	),
 };
