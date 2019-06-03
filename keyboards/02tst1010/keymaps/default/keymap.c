@@ -14,15 +14,15 @@
 enum {
   TD_PSCREEN_CAD,
   TD_PAUSE_WINL,
-  TD_WIN_SHIFT,
-  TD_KC1_F1
+  TD_SHIFT_CAPS,
+  TD_ALT_ENTER
 };
 
 qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_PSCREEN_CAD] = ACTION_TAP_DANCE_DOUBLE(KC_PSCREEN, LCTL(LALT(KC_DEL))),
     [TD_PAUSE_WINL]  = ACTION_TAP_DANCE_DOUBLE(KC_PAUSE, LWIN(KC_L)),
-    [TD_WIN_SHIFT]  = ACTION_TAP_DANCE_DOUBLE(KC_LWIN, MT(MOD_LSFT, KC_A)),
-    [TD_KC1_F1]  = ACTION_TAP_DANCE_DOUBLE(KC_1, KC_F1)
+    [TD_SHIFT_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_LSHIFT, KC_CAPSLOCK),
+    [TD_ALT_ENTER]   = ACTION_TAP_DANCE_DOUBLE(KC_LALT, KC_ENTER)
 };
 
 enum custom_keycodes {
@@ -40,13 +40,12 @@ bool     long_press_was     = false;
 bool     long_press_is      = false;
 uint16_t long_press_value   = KC_NO;
 uint16_t single_press_value = KC_NO;
-const char *dd= "aaaa";
 uint16_t long_press_timer   = 0;
 
-void long_press(keyrecord_t *record, uint16_t single_press_val, char *long_press_val) {
+void long_press(keyrecord_t *record, uint16_t single_press_val, char long_press_val) {
   if (record->event.pressed) {
     single_press_value = single_press_val;
-    dd   = long_press_val;
+    long_press_value   = long_press_val;
 
     long_press_is    = true;
     long_press_timer = timer_read();
@@ -63,7 +62,6 @@ void long_press(keyrecord_t *record, uint16_t single_press_val, char *long_press
   }
 }
 
-char *dds= "aaaa";
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case EML_1:
@@ -84,8 +82,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case PSWD_4:
       if (record->event.pressed) {SEND_STRING("1976319");} break;
 
+/* SS_LCTRL(SS_LALT(SS_TAP(X_DELETE))) */
     case CAD__PS:
-      long_press(record,  KC_1, SS_LCTRL(SS_LALT(SS_TAP(X_DELETE))));
+      long_press(record,  KC_1, KC_1);
       break;
   }
 
@@ -95,7 +94,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void matrix_scan_user(void) {
   if (long_press_is) {
     if (timer_elapsed(long_press_timer) > 300) {
-
+      char my_str[4] = "ok.";
+send_string(my_str);
       long_press_is  = false;
       long_press_was = true;
     }
@@ -105,11 +105,11 @@ void matrix_scan_user(void) {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT(
 /*		 	0				1	    	2			3		4		 5		6		    7			8			9		*/
-/* 0 */	 TO(_FN_F),     KC_NO,       KC_GRAVE,     KC_1,    KC_2,    KC_3,  KC_4,     KC_5,    KC_PGUP,   KC_PGDOWN, \
-/* 1 */	 TO(_FN_CSGO),  TG(_FN_NUM), KC_RBRACKET,  KC_W,    KC_E,    KC_R,  KC_T,     KC_B,    KC_ENTER,  TD(TD_PSCREEN_CAD), \
-/* 2 */	 TO(_FN_EML),   KC_LCTRL,    KC_LBRACKET,  KC_A,    KC_S,    KC_D,  KC_F,     KC_G,    KC_SPACE,  TD(TD_WIN_SHIFT), \
-/* 3 */	 TO(_FN_PSWD),  KC_LALT,     KC_LSHIFT,    KC_Q,    KC_Z,    KC_X,  KC_C,     KC_V,    KC_NO,     KC_ESCAPE, \
-/* 4 */	 TO(_FN_DEV),   KC_TAB,      KC_F2,        KC_F5,   KC_LEFT, KC_UP, KC_RIGHT, KC_DOWN, KC_NO,     KC_BSPACE, \
+/* 0 */	 TO(_FN_F),     KC_NO,           KC_GRAVE,         KC_1,    KC_2,    KC_3,  KC_4,     KC_5,    KC_PGUP,   KC_PGDOWN, \
+/* 1 */	 TO(_FN_CSGO),  TG(_FN_NUM),     KC_RBRACKET,      KC_W,    KC_E,    KC_R,  KC_T,     KC_B,    KC_ENTER,  TD(TD_PSCREEN_CAD), \
+/* 2 */	 TO(_FN_EML),   KC_LCTRL,        KC_LBRACKET,      KC_A,    KC_S,    KC_D,  KC_F,     KC_G,    KC_SPACE,  KC_LWIN, \
+/* 3 */	 TO(_FN_PSWD),  TD(TD_ALT_ENTER),TD(TD_SHIFT_CAPS),KC_Q,    KC_Z,    KC_X,  KC_C,     KC_V,    KC_NO,     KC_ESCAPE, \
+/* 4 */	 TO(_FN_DEV),   KC_TAB,          KC_F2,            KC_F5,   KC_LEFT, KC_UP, KC_RIGHT, KC_DOWN, KC_NO,     KC_BSPACE, \
 /*		    0					1			2			3		4			 5		  6	    	7			8		9		*/
 /* 5 */	 KC_AUDIO_VOL_UP,  	  KC_EQUAL,    KC_BSLASH,  KC_0,    KC_9,      KC_8,    KC_7,     KC_6,     KC_HOME,   KC_END, \
 /* 6 */	 KC_AUDIO_VOL_DOWN,   TG(_FN_NUM), KC_MINS,    KC_P,    KC_O,      KC_I,    KC_U,     KC_Y,     KC_ENTER,  TD(TD_PAUSE_WINL), \
