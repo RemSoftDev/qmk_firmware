@@ -15,14 +15,24 @@ enum {
   TD_PSCREEN_CAD,
   TD_PAUSE_WINL,
   TD_SHIFT_CAPS,
-  TD_ALT_ENTER
+  TD_ALT_ENTER,
+  TD_F2_PLUS_ENTER
 };
 
+void F2_PLUS_ENTER(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    tap_code(KC_F2);
+  } else {
+    SEND_STRING("+"SS_TAP(X_ENTER));
+  }
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [TD_PSCREEN_CAD] = ACTION_TAP_DANCE_DOUBLE(KC_PSCREEN, LCTL(LALT(KC_DEL))),
-    [TD_PAUSE_WINL]  = ACTION_TAP_DANCE_DOUBLE(KC_PAUSE, LWIN(KC_L)),
-    [TD_SHIFT_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_LSHIFT, KC_CAPSLOCK),
-    [TD_ALT_ENTER]   = ACTION_TAP_DANCE_DOUBLE(KC_LALT, KC_ENTER)
+    [TD_PSCREEN_CAD]   = ACTION_TAP_DANCE_DOUBLE(KC_PSCREEN, LCTL(LALT(KC_DEL))),
+    [TD_PAUSE_WINL]    = ACTION_TAP_DANCE_DOUBLE(KC_PAUSE, LWIN(KC_L)),
+    [TD_SHIFT_CAPS]    = ACTION_TAP_DANCE_DOUBLE(KC_LSHIFT, KC_CAPSLOCK),
+    [TD_ALT_ENTER]     = ACTION_TAP_DANCE_DOUBLE(KC_LALT, KC_ENTER),
+    [TD_F2_PLUS_ENTER] = ACTION_TAP_DANCE_FN (F2_PLUS_ENTER)
 };
 
 enum custom_keycodes {
@@ -109,7 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* 1 */	 TO(_FN_CSGO),  TG(_FN_NUM),     KC_RBRACKET,      KC_W,    KC_E,    KC_R,  KC_T,     KC_B,    KC_ENTER,  TD(TD_PSCREEN_CAD), \
 /* 2 */	 TO(_FN_EML),   KC_LCTRL,        KC_LBRACKET,      KC_A,    KC_S,    KC_D,  KC_F,     KC_G,    KC_SPACE,  KC_LWIN, \
 /* 3 */	 TO(_FN_PSWD),  TD(TD_ALT_ENTER),TD(TD_SHIFT_CAPS),KC_Q,    KC_Z,    KC_X,  KC_C,     KC_V,    KC_NO,     KC_ESCAPE, \
-/* 4 */	 TO(_FN_DEV),   KC_TAB,          KC_F2,            KC_F5,   KC_LEFT, KC_UP, KC_RIGHT, KC_DOWN, KC_NO,     KC_BSPACE, \
+/* 4 */	 TO(_FN_DEV),   KC_TAB,          TD(TD_F2_PLUS_ENTER),KC_F5,   KC_LEFT, KC_UP, KC_RIGHT, KC_DOWN, KC_NO,     KC_BSPACE, \
 /*		    0					1			2			3		4			 5		  6	    	7			8		9		*/
 /* 5 */	 KC_AUDIO_VOL_UP,  	  KC_EQUAL,    KC_BSLASH,  KC_0,    KC_9,      KC_8,    KC_7,     KC_6,     KC_HOME,   KC_END, \
 /* 6 */	 KC_AUDIO_VOL_DOWN,   TG(_FN_NUM), KC_MINS,    KC_P,    KC_O,      KC_I,    KC_U,     KC_Y,     KC_ENTER,  TD(TD_PAUSE_WINL), \
