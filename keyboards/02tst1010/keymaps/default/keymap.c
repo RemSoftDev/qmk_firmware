@@ -185,11 +185,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	),
 	[_FN_CSGO] = LAYOUT(
 /*		 	0		1	  	 2		3			4		 5		 6		7	 8		    9		*/
-/* 0 */	 KC_NO,    KC_NO,  KC_NO,  KC_NO,     KC_NO,  KC_NO, KC_NO, KC_NO,  KC_NO,    KC_NO, \
-/* 1 */	 TO(_BASE),KC_NO,  KC_NO,  KC_1,      KC_2,   KC_3,  KC_4,  KC_B,   KC_ENTER, KC_NO, \
-/* 2 */	 KC_F3,    KC_NO,  KC_NO,  KC_LSHIFT, KC_A,   KC_W,  KC_D,  KC_G,   KC_SPACE, KC_RWIN, \
-/* 3 */	 KC_NO,    KC_NO,  KC_NO,  KC_LCTRL,  KC_Q,   KC_S,  KC_R,  KC_E,   KC_NO,    KC_ESCAPE, \
-/* 4 */	 KC_NO,    KC_TAB, KC_NO,  KC_NO,     KC_NO,  KC_NO, KC_K,  KC_NO,  KC_NO,    KC_NO, \
+/* 0 */	 KC_NO,    KC_NO,  KC_NO,  KC_1,      KC_2,    KC_3,  KC_4,  KC_5,   KC_NO,    KC_NO, \
+/* 1 */	 TO(_BASE),KC_NO,  KC_NO,  KC_NO,     KC_Q,    KC_NO, KC_R,  KC_B,   KC_ENTER, KC_NO, \
+/* 2 */	 KC_F3,    KC_NO,  KC_NO,  KC_LSHIFT, KC_A,    KC_W,  KC_D,  KC_G,   KC_SPACE, KC_RWIN, \
+/* 3 */	 KC_NO,    KC_NO,  KC_NO,  KC_LCTRL,  KC_T,    KC_S,  KC_F,  KC_E,   KC_NO,    KC_ESCAPE, \
+/* 4 */	 KC_NO,    KC_TAB, KC_NO,  KC_NO,     KC_GRAVE,KC_NO, KC_K,  KC_NO,  KC_NO,    KC_NO, \
 /*		 	0	   	1		2		3		4		 5		  6	   	7		8		9		*/
 /* 5 */	 KC_TRNS, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
 /* 6 */	 KC_TRNS, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
