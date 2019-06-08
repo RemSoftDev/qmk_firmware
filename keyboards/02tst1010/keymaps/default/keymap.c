@@ -114,11 +114,11 @@ send_string(my_str);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT(
-/*		 	0				1	    	2			3		4		 5		6		    7			8			9		*/
-/* 0 */	 TO(_FN_F),     KC_NO,           KC_GRAVE,         KC_1,    KC_2,    KC_3,  KC_4,     KC_5,    KC_PGUP,   KC_PGDOWN, \
-/* 1 */	 TO(_FN_CSGO),  TG(_FN_NUM),     KC_RBRACKET,      KC_W,    KC_E,    KC_R,  KC_T,     KC_B,    KC_ENTER,  TD(TD_PSCREEN_CAD), \
-/* 2 */	 TO(_FN_EML),   KC_LCTRL,        KC_LBRACKET,      KC_A,    KC_S,    KC_D,  KC_F,     KC_G,    KC_SPACE,  KC_LWIN, \
-/* 3 */	 TO(_FN_PSWD),  TD(TD_ALT_ENTER),TD(TD_SHIFT_CAPS),KC_Q,    KC_Z,    KC_X,  KC_C,     KC_V,    KC_NO,     KC_ESCAPE, \
+/*		 	0				1	    	    2			        3		4		 5		6		    7			8			9		*/
+/* 0 */	 TO(_FN_F),     KC_NO,           KC_GRAVE,            KC_1,    KC_2,    KC_3,  KC_4,     KC_5,    KC_PGUP,   KC_PGDOWN, \
+/* 1 */	 TO(_FN_CSGO),  TG(_FN_NUM),     KC_RBRACKET,         KC_W,    KC_E,    KC_R,  KC_T,     KC_B,    KC_ENTER,  TD(TD_PSCREEN_CAD), \
+/* 2 */	 TO(_FN_EML),   KC_LCTRL,        KC_LBRACKET,         KC_A,    KC_S,    KC_D,  KC_F,     KC_G,    KC_SPACE,  KC_LWIN, \
+/* 3 */	 TO(_FN_PSWD),  TD(TD_ALT_ENTER),TD(TD_SHIFT_CAPS),   KC_Q,    KC_Z,    KC_X,  KC_C,     KC_V,    KC_NO,     KC_ESCAPE, \
 /* 4 */	 TO(_FN_DEV),   KC_TAB,          TD(TD_F2_PLUS_ENTER),KC_F5,   KC_LEFT, KC_UP, KC_RIGHT, KC_DOWN, KC_NO,     KC_BSPACE, \
 /*		    0					1			2			3		4			 5		  6	    	7			8		9		*/
 /* 5 */	 KC_AUDIO_VOL_UP,  	  KC_EQUAL,    KC_BSLASH,  KC_0,    KC_9,      KC_8,    KC_7,     KC_6,     KC_HOME,   KC_END, \
@@ -187,9 +187,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*		 	0		1	  	 2		3			4		 5		 6		7	 8		    9		*/
 /* 0 */	 KC_NO,    KC_NO,  KC_NO,  KC_1,      KC_2,    KC_3,  KC_4,  KC_5,   KC_NO,    KC_NO, \
 /* 1 */	 TO(_BASE),KC_NO,  KC_NO,  KC_NO,     KC_Q,    KC_NO, KC_R,  KC_B,   KC_ENTER, KC_NO, \
-/* 2 */	 KC_F3,    KC_NO,  KC_NO,  KC_LSHIFT, KC_A,    KC_W,  KC_D,  KC_G,   KC_SPACE, KC_RWIN, \
+/* 2 */	 KC_NO,    KC_NO,  KC_NO,  KC_LSHIFT, KC_A,    KC_W,  KC_D,  KC_G,   KC_SPACE, KC_RWIN, \
 /* 3 */	 KC_NO,    KC_NO,  KC_NO,  KC_LCTRL,  KC_T,    KC_S,  KC_F,  KC_E,   KC_NO,    KC_ESCAPE, \
-/* 4 */	 KC_NO,    KC_TAB, KC_NO,  KC_NO,     KC_GRAVE,KC_NO, KC_K,  KC_NO,  KC_NO,    KC_NO, \
+/* 4 */	 KC_NO,    KC_TAB, KC_NO,  KC_NO,     KC_GRAVE,KC_F3, KC_K,  KC_NO,  KC_NO,    KC_NO, \
 /*		 	0	   	1		2		3		4		 5		  6	   	7		8		9		*/
 /* 5 */	 KC_TRNS, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
 /* 6 */	 KC_TRNS, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
