@@ -60,8 +60,6 @@ SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
 NKRO_ENABLE = yes		# USB Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
 BACKLIGHT_ENABLE = no  # Enable keyboard backlight functionality
 AUDIO_ENABLE = no
-RGBLIGHT_ENABLE = no
+RGBLIGHT_ENABLE = yes
 OLED_DRIVER_ENABLE = no     # Enable the OLED Driver (+5000)
 CONSOLE_ENABLE = yes # вывод отладочной информации в https://www.pjrc.com/teensy/hid_listen.html
-NO_USB_STARTUP_CHECK = yes  
-

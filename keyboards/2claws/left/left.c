@@ -122,7 +122,7 @@ static uint8_t state = 1;
  state++;
 	  
 }
-/*
+
 // для проверки rgb led
 void rgb_chek(void) {
 static uint8_t state = 1;
@@ -153,37 +153,19 @@ static uint8_t state = 1;
  state++;
 	  
 }
-*/
 
-// в самом начале инициалицации
-void keyboard_pre_init_user(void) {
-  // Call the keyboard pre init code.
-// SCL & SDA 
-DDRD &= ~( (1<<1) | (1<<0) ); // IN
-//PORTD &= ~( (1<<1) | (1<<0) );
-// TXD & RXD
-DDRD &= ~( (1<<3) | (1<<2) ); // IN
-PORTD &= ~( (1<<3) | (1<<2) );
 
-hvb_init_extern();
-  // Set our LED pins as output
-//  setPinOutput(B0);
-//  setPinOutput(B1);
-//  setPinOutput(B2);
-//  setPinOutput(B3);
-//  setPinOutput(B4);
-}
 
-// в  середине
+
 void matrix_init_kb(void) {
     // put your keyboard start-up code here
     // runs once when the firmware starts up
 //    led_init_ports();
 //    matrix_init_user();
-//    rgblight_enable_noeeprom();
+    rgblight_enable_noeeprom();
 	motor_init_ports();
-//	hvb_init_local();
-	hvb_init_extern();
+	hvb_init_local();
+//	hvb_init_extern();
 //    rgblight_mode_noeeprom(RGBLIGHT_MODE_RGB_TEST);
 //rgblight_setrgb(0x00, 0x00, 0xFF);
 //	rgblight_mode_noeeprom(3);
@@ -213,21 +195,6 @@ rgb_chek();
 //	rgblight_mode(RGBLIGHT_MODE_RGB_TEST);
 }
 
-// d самома конце инициализации
-void keyboard_post_init_user(void) {
-  // Call the post init code.
-//  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
-//  rgblight_sethsv_noeeprom(180, 255, 255); // sets the color to teal/cyan without saving
-//  rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3); // sets mode to Fast breathing without saving
-
-// SCL & SDA 
-DDRD &= ~( (1<<1) | (1<<0) ); // IN
-//PORTD &= ~( (1<<1) | (1<<0) );
-// TXD & RXD
-DDRD &= ~( (1<<3) | (1<<2) ); // IN
-PORTD &= ~( (1<<3) | (1<<2) );
-
-}
 
 
 uint16_t test_timer = 0;        // таймер "штуки"
@@ -238,7 +205,7 @@ void matrix_scan_user(void) {     //# The very important timer.
     if (timer_elapsed(test_timer) > 2000) {
 		test_timer = timer_read();
 		
-//		rgb_chek();
+		rgb_chek();
 		motor_chek();
     }
  }
