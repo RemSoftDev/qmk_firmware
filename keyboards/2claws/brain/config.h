@@ -10,13 +10,13 @@
 #define PRODUCT         2claws
 #define DESCRIPTION     test2claws
 /* key matrix size */
-#define MATRIX_ROWS 4
-#define MATRIX_COLS 6
+#define MATRIX_ROWS 7
+#define MATRIX_COLS 20
 
 /* key matrix pins */
 // MCU = at90usb1286
-#define MATRIX_ROW_PINS { A0, A1, A2, A3 }
-#define MATRIX_COL_PINS { C1, C2, C3, C4, C5, C6 }
+//#define MATRIX_ROW_PINS { A0, A1, A2, A3 }
+//#define MATRIX_COL_PINS { C1, C2, C3, C4, C5, C6 }
 #define UNUSED_PINS
 
 #define DIRECT_PINS { { D4 } }		//  * pins mapped to rows and columns, from left to right. Defines a matrix where each switch is connected to a separate pin and ground.
@@ -40,13 +40,21 @@
 /* ws2812 RGB LED */
 #define RGB_DI_PIN B5
 
+//sets the I2C clock rate speed for keyboards using I2C. The default is `400000L`, except for keyboards using `split_common`, where the default is `100000L`.
+#define F_SCL 100000L
+
+// run RGB animations?
+#define RGBLIGHT_ANIMATIONS
+
 #define RGBLED_NUM 120
 #define RGBLIGHT_HUE_STEP 8
 #define RGBLIGHT_SAT_STEP 8
 #define RGBLIGHT_VAL_STEP 8
 
-#define RGBLIGHT_LIMIT_VAL 255
-#define USB_MAX_POWER_CONSUMPTION 400
+#define RGBLIGHT_LIMIT_VAL 64
+
+// sets the maximum power (in mA) over USB for the device (default: 500)
+#define USB_MAX_POWER_CONSUMPTION 500
 
 #define OLED_DISPLAY_ADDRESS 0x3C
 #define OLED_IC OLED_IC_SSD1306
@@ -55,6 +63,11 @@
 #define OLED_DISPLAY_WIDTH 128
 #define OLED_DISPLAY_HEIGHT 64
 #define OLED_MATRIX_SIZE 1024
+
+// Master half is defined to be the right half
+#define MASTER_RIGHT
+
+#define USE_I2C
 
 
 
