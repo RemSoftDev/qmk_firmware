@@ -164,8 +164,8 @@ void matrix_init_kb(void) {
 //    matrix_init_user();
 //    rgblight_enable_noeeprom();
 	motor_init_ports();
-	hvb_init_local();
-//	hvb_init_extern();
+//	hvb_init_local();
+	hvb_init_extern();
 //    rgblight_mode_noeeprom(RGBLIGHT_MODE_RGB_TEST);
 //rgblight_setrgb(0x00, 0x00, 0xFF);
 //	rgblight_mode_noeeprom(3);

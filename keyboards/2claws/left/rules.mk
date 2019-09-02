@@ -61,5 +61,11 @@ NKRO_ENABLE = yes		# USB Nkey Rollover - if this doesn't work, see here: https:/
 BACKLIGHT_ENABLE = no  # Enable keyboard backlight functionality
 AUDIO_ENABLE = no
 RGBLIGHT_ENABLE = no # неможет быть использован одновремено С OLED (pin SCL - на тойже ноге)
-OLED_DRIVER_ENABLE = yes     # Enable the OLED Driver (+5000)
+OLED_DRIVER_ENABLE = no     # Enable the OLED Driver (+5000)
 CONSOLE_ENABLE = yes # вывод отладочной информации в https://www.pjrc.com/teensy/hid_listen.html
+
+CUSTOM_MATRIX = yes  # custom matrix setup
+
+#VPATH += drivers/gpio
+SRC += matrix.c transport.c split_util.c
+QUANTUM_LIB_SRC += i2c_slave.c i2c_master.c

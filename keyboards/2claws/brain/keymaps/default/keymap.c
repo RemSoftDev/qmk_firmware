@@ -45,15 +45,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		   * |--------------------------------------------------------'----`--------------|    |
 		   * |Ctrl|Gui |Alt |      Space           |Alt |Gui|Ctr|Left |Down|Rght| 0  | .  |    |
 		   * `---------------------------------------------------------------------------------'
+		   * RGB_TOG, \
+		   * RESET, \
 		   */
 	[_QWERTY] = LAYOUT(
-			KC_F2, \
+			RGB_TOG, \
 			KC_F1,  KC_F2,    KC_F3,    KC_F4,   KC_F5,   KC_F6,                                                                              KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, \
-			KC_E,   KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, KC_E,    KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, \
-			KC_E,   KC_DEL,   KC_RBRC,  KC_W,    KC_E,    KC_R,    KC_T,    KC_B,    KC_RWIN,  KC_SLCK, KC_P,    KC_EQL,   KC_SLSH,  KC_0,    KC_9,    KC_8,    KC_7,    KC_6,    KC_HOME,  KC_END,\
-			KC_E,   KC_TAB,   KC_LBRC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_PDOT,  KC_BSLS, KC_P,    KC_NLCK,  KC_MINS,  KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_PSCR,   KC_INS,\
-			KC_E,   KC_LALT,  KC_APP,   KC_Q,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_RCTL, KC_NLCK, KC_F11,   KC_QUOT,  KC_SCLN, KC_L,    KC_K,    KC_J,    KC_H,    KC_PAUS,   KC_PAST,\
-			KC_E,   MO(_FN),  KC_P7,   KC_P8,    KC_LEFT, KC_UP,   KC_RGHT, KC_DOWN,           KC_ENT,  KC_CAPS,           KC_P9,    KC_SLSH, KC_DOT,  KC_COMM, KC_M,    KC_N,    KC_RCTL,    KC_PMNS
+			KC_1,   KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, KC_E,    KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, \
+			KC_2,   KC_DEL,   KC_RBRC,  KC_W,    KC_E,    KC_R,    KC_T,    KC_B,    KC_RWIN,  KC_SLCK, KC_P,    KC_EQL,   KC_SLSH,  KC_0,    KC_9,    KC_8,    KC_7,    KC_6,    KC_HOME,  KC_END,\
+			KC_3,   KC_TAB,   KC_LBRC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_PDOT,  KC_BSLS, KC_P,    KC_NLCK,  KC_MINS,  KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_PSCR,   KC_INS,\
+			KC_4,   KC_LALT,  KC_APP,   KC_Q,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_RCTL, KC_NLCK, KC_F11,   KC_QUOT,  KC_SCLN, KC_L,    KC_K,    KC_J,    KC_H,    KC_PAUS,   KC_PAST,\
+			KC_5,   MO(_FN),  KC_P7,   KC_P8,    KC_LEFT, KC_UP,   KC_RGHT, KC_DOWN,           KC_ENT,  KC_CAPS,           KC_P9,    KC_SLSH, KC_DOT,  KC_COMM, KC_M,    KC_N,    KC_RCTL,    KC_PMNS
 		),
 	[_FN] = LAYOUT(
 			KC_TRNS, \
@@ -146,14 +148,17 @@ void keyboard_pre_init_user(void) {
 //  setPinOutput(B4);
 }
 
-void matrix_init_kb(void) {
+// в середине инициализации
+void matrix_init_user(void) {
+//void matrix_init_kb(void) {
     // put your keyboard start-up code here
     // runs once when the firmware starts up
-	    rgblight_enable_noeeprom();
+//	    rgblight_enable_noeeprom();
+//	    rgblight_enable();
 //	oled_init(OLED_ROTATION_0);
 
 //    D1_init_ports();
-//    matrix_init_user();
+
 //    rgblight_enable_noeeprom();
 //	motor_init_ports();
 //	hvb_init_local();
@@ -170,6 +175,14 @@ void matrix_init_kb(void) {
 	_delay_ms(1000);
 	D1_on();
 	*/
+}
+
+// вызввается после того как все встроенные модули проинициализировались
+void keyboard_post_init_user(void) {
+  // Call the post init code.
+  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
+  rgblight_sethsv_noeeprom(180, 255, 255); // sets the color to teal/cyan without saving
+  rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3); // sets mode to Fast breathing without saving
 }
 
 // для проверки rgb led
@@ -281,7 +294,7 @@ void matrix_scan_user(void) {     //# The very important timer.
     if (timer_elapsed(test_timer) > 50) {
 		test_timer = timer_read();
 		
-		rgb_chek();
+//		rgb_chek();
 //		motor_chek();
     }
  }

@@ -40,11 +40,11 @@
 /* ws2812 RGB LED */
 #define RGB_DI_PIN B5
 
-//sets the I2C clock rate speed for keyboards using I2C. The default is `400000L`, except for keyboards using `split_common`, where the default is `100000L`.
-#define F_SCL 100000L
-
 // run RGB animations?
 #define RGBLIGHT_ANIMATIONS
+
+//#define RGBLIGHT_EFFECT_STATIC_GRADIENT
+//#define RGBLIGHT_EFFECT_RAINBOW_SWIRL
 
 #define RGBLED_NUM 120
 #define RGBLIGHT_HUE_STEP 8
@@ -63,11 +63,15 @@
 #define OLED_DISPLAY_WIDTH 128
 #define OLED_DISPLAY_HEIGHT 64
 #define OLED_MATRIX_SIZE 1024
+//#define OLED_DISABLE_TIMEOUT // шоб нетух єкран без нажатий
 
-// Master half is defined to be the right half
-#define MASTER_RIGHT
+//sets the I2C clock rate speed for keyboards using I2C. The default is `400000L`, except for keyboards using `split_common`, where the default is `100000L`.
+#define F_SCL 100000L
 
 #define USE_I2C
+
+// Master half is defined to be the right half
+// #define MASTER_RIGHT // ПОБОЧНО!ПРОЄЦИРУЕТ DIRECT_PINS НА K300 В МАТРИЦЕ
 
 
 
