@@ -290,6 +290,7 @@ uint16_t test_timer =0;
 // эта функция вызывается в главном цикле
 void matrix_scan_user(void) {     //# The very important timer. 
 
+//	_delay_ms(20); // гипотеза что слишком частій опрос слева вешает его
 //D1_blink(300);
     if (timer_elapsed(test_timer) > 50) {
 		test_timer = timer_read();

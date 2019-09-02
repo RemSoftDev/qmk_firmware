@@ -70,6 +70,8 @@
 
 #define USE_I2C
 
+#define N_SLAVES_I2C 2 // количество поддчиненных клавиатур
+#define SLAVE_I2C_ADDRESS 0x32 // адрес первой подчиненой клавиатуры, у сдеуюющей буде адрес на 1 больше
 // Master half is defined to be the right half
 // #define MASTER_RIGHT // ПОБОЧНО!ПРОЄЦИРУЕТ DIRECT_PINS НА K300 В МАТРИЦЕ
 

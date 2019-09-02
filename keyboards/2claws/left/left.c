@@ -275,26 +275,30 @@ void oled_task_user(void) {
 
 #endif
 
-uint16_t test_timer = 0;        // таймер "штуки"
+
 
 // эта функция вызывается в главном цикле
-void matrix_scan_user(void) {     //# The very important timer. 
-
-    if (timer_elapsed(test_timer) > 2000) {
+//void matrix_scan_user(void) {     //# The very important timer.
+void matrix_slave_scan_user(void) {
+;
+/*
+static uint16_t test_timer = 0;        // таймер
+	if (timer_elapsed(test_timer) > 2000) {
 		test_timer = timer_read();
 		
 //		rgb_chek();
 		motor_chek();
     }
+ */
  }
  
- 
- void matrix_scan_kb(void) {
-    // put your looping keyboard code here
+/*
+void matrix_scan_kb(void) {
+// put your looping keyboard code here
     // runs every cycle (a lot)
 
     matrix_scan_user();
 }
-
+*/
 
 

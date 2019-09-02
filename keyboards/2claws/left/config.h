@@ -57,3 +57,5 @@
 #define F_SCL 100000L
 
 #define USE_I2C
+
+#define SLAVE_I2C_ADDRESS 0x32

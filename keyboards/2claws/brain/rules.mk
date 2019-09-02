@@ -1,8 +1,3 @@
-SRC += xulkal.c \
-    process_records.c \
-    custom_tap_dance.c \
-    timer_utils.c
-
 # MCU name
 #MCU = atmega32u4
 MCU = at90usb1286
@@ -72,3 +67,10 @@ NO_USB_STARTUP_CHECK = yes
 #SPLIT_KEYBOARD = yes       # это разделенная клавиатура ( quantum/split_common добавляет каталог )
 #SPLIT_TRANSPORT = custom 	# это отменяет добавленный выше quantum/split_common каталог;) но... quantum/split_common/split_util.c остался(
 CUSTOM_MATRIX = yes			# нужно самому реализовать matrix_init() and matrix_scan().
+
+SRC += matrix.c \
+    split_util.c \
+    transport.c
+
+QUANTUM_LIB_SRC += i2c_slave.c \
+	i2c_master.c
