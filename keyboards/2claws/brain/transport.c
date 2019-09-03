@@ -73,10 +73,10 @@ bool transport_master(matrix_row_t matrix[], uint8_t slave_i2c_addr) {
 	pak_cnt_i2c++;
 
 	if(pak_cnt_i2c==1){
-		dprintf("i2c=%u\n", slave_i2c_addr);
+		dprintf("i2c0=%u\n", slave_i2c_addr);
 	}
 	if(pak_cnt_i2c==2){
-		dprintf("i2c=%u\n", slave_i2c_addr);
+		dprintf("i2c1=%u\n", slave_i2c_addr);
 	}
 
 	if(pak_cnt_i2c==10000){

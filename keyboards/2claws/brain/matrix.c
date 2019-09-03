@@ -323,7 +323,7 @@ uint8_t matrix_scan(void) {
         //if (!transport_master(matrix + thatHand) {
 			uint8_t	slave_i2c_addr = SLAVE_I2C_ADDRESS+n_slaves_i2c; //  I2C адрес следующего раба от базоваого адреса
 			//                                смещение в матрице
-			if (!transport_master((matrix + thatHand+(thatHand*n_slaves_i2c) ) , slave_i2c_addr) ) { //
+			if (!transport_master((matrix + thatHand/*+(thatHand*n_slaves_i2c) */) , slave_i2c_addr) ) { //
 				error_count++;
 				//dprintf("slave_i2c_addr = %d\n", slave_i2c_addr);
 				//dprintf("error_count = %d\n", error_count);

@@ -111,11 +111,10 @@ void sel_to_port2(void) {
 }
 
 
-uint16_t d1_timer = 0;        // таймер "штуки"
-
 // мигает светикоом с заданsv тактом (в милисекундах)
 void D1_blink(uint16_t takt) {
-static bool is_d1 = false;
+	static uint16_t d1_timer = 0;
+	static bool is_d1 = false;
 
     if (timer_elapsed(d1_timer) > takt) {
 		d1_timer = timer_read();
