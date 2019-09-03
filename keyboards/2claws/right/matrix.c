@@ -29,8 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "debounce.h"
 #include "transport.h"
 
-#include "debug.h"
-
 #ifdef ENCODER_ENABLE
 #    include "encoder.h"
 #endif
@@ -54,7 +52,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define ERROR_DISCONNECT_COUNT 5
 
-#define ROWS_PER_HAND (MATRIX_ROWS / 2)
+//#define ROWS_PER_HAND (MATRIX_ROWS / 2)
+#define ROWS_PER_HAND MATRIX_ROWS	//tt
 
 #ifdef DIRECT_PINS
 static pin_t direct_pins[MATRIX_ROWS][MATRIX_COLS] = DIRECT_PINS;
@@ -314,34 +313,21 @@ uint8_t _matrix_scan(void) {
 
 uint8_t matrix_scan(void) {
     uint8_t ret = _matrix_scan();
-//    dprintf("m");
+
     if (is_keyboard_master()) {
         static uint8_t error_count;
 
-        for (uint8_t n_slaves_i2c=0; n_slaves_i2c<N_SLAVES_I2C*2; n_slaves_i2c=n_slaves_i2c+2 ) { // перебираю подчиненые клавиатуры
-        //	error_count = 0;
-        //if (!transport_master(matrix + thatHand) {
-			uint8_t	slave_i2c_addr = SLAVE_I2C_ADDRESS+n_slaves_i2c; //  I2C адрес следующего раба от базоваого адреса
-			//                                смещение в матрице
-			if (!transport_master((matrix + thatHand+(thatHand*n_slaves_i2c) ) , slave_i2c_addr) ) { //
-				error_count++;
-				//dprintf("slave_i2c_addr = %d\n", slave_i2c_addr);
-				//dprintf("error_count = %d\n", error_count);
-				if (error_count > ERROR_DISCONNECT_COUNT) {
-					// reset other half if disconnected
-					//dprint("\nr/c ERROR_DISCONNECT_COUNT %x\n",slave_i2c_addr);
-					//dprintf("slave_i2c_addr = %d\n", slave_i2c_addr);
-					//dprint("eeeeee\n");
-					for (int i = 0; i < ROWS_PER_HAND; ++i) {
-						matrix[thatHand + i] = 0;
-					}
-				}
-			} else {
-				error_count = 0;
-				//dprintf("slave_i2c_addr = %d\n", slave_i2c_addr);
-				//dprintf("error_count = %d\n", error_count);
-				//dprintf("transport_master=1");
-			}
+        if (!transport_master(matrix + thatHand)) {
+            error_count++;
+
+            if (error_count > ERROR_DISCONNECT_COUNT) {
+                // reset other half if disconnected
+                for (int i = 0; i < ROWS_PER_HAND; ++i) {
+                    matrix[thatHand + i] = 0;
+                }
+            }
+        } else {
+            error_count = 0;
         }
 
         matrix_scan_quantum();

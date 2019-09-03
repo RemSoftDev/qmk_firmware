@@ -1,12 +1,11 @@
 # MCU name
-#MCU = atmega32u4
-MCU = at90usb1286
+MCU = atmega32u4
 
 # Processor frequency.
 #     This will define a symbol, F_CPU, in all source code files equal to the
 #     processor frequency in Hz. You can then use this symbol in your source code to
 #     calculate timings. Do NOT tack on a 'UL' at the end, this will be done
-#     automaticallye to create a 32-bit value in your source code.
+#     automatically to create a 32-bit value in your source code.
 #
 #     This will be an integer division of F_USB below, as it is sourced by
 #     F_USB after it has run through any CPU prescalers. Note that this value
@@ -55,22 +54,18 @@ OPT_DEFS += -DBOOTLOADER_SIZE=4096
 BOOTMAGIC_ENABLE = full	# Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = yes	# Mouse keys(+4700)
 EXTRAKEY_ENABLE = yes	# Audio control and System control(+450)
-CONSOLE_ENABLE = yes	# Console for debug(+400) вывод отладочной информации в https://www.pjrc.com/teensy/hid_listen.html
-COMMAND_ENABLE = yes    # Commands for debug and configuration
+CONSOLE_ENABLE = no	# Console for debug(+400)
+COMMAND_ENABLE = no    # Commands for debug and configuration
 SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
 NKRO_ENABLE = yes		# USB Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
-BACKLIGHT_ENABLE = no  # Enable keyboard backlight functionality
+BACKLIGHT_ENABLE = yes  # Enable keyboard backlight functionality
 AUDIO_ENABLE = no
-RGBLIGHT_ENABLE = yes
-OLED_DRIVER_ENABLE = yes     # Enable the OLED Driver (+5000)
-NO_USB_STARTUP_CHECK = yes
-#SPLIT_KEYBOARD = yes       # это разделенная клавиатура ( quantum/split_common добавляет каталог )
-#SPLIT_TRANSPORT = custom 	# это отменяет добавленный выше quantum/split_common каталог;) но... quantum/split_common/split_util.c остался(
-CUSTOM_MATRIX = yes			# нужно самому реализовать matrix_init() and matrix_scan().
+RGBLIGHT_ENABLE = no # неможет быть использован одновремено С OLED (pin SCL - на тойже ноге)
+OLED_DRIVER_ENABLE = no     # Enable the OLED Driver (+5000)
+CONSOLE_ENABLE = no # вывод отладочной информации в https://www.pjrc.com/teensy/hid_listen.html
+NO_USB_STARTUP_CHECK = yes # стартовать не дожидаясь USB содинения!
+CUSTOM_MATRIX = yes  # custom matrix setup
 
-SRC += matrix.c \
-    split_util.c \
-    transport.c
-
-QUANTUM_LIB_SRC += i2c_slave.c \
-	i2c_master.c
+#VPATH += drivers/gpio
+SRC += matrix.c transport.c split_util.c
+QUANTUM_LIB_SRC += i2c_slave.c i2c_master.c

@@ -6,8 +6,7 @@
 #include "quantum.h"
 
 //#define ROWS_PER_HAND (MATRIX_ROWS / 2)
-#define ROWS_PER_HAND (MATRIX_ROWS / 4) //tt проверка откуда мусор в I2C - таки да!
-
+#define ROWS_PER_HAND MATRIX_ROWS //tt опросим всю матрицу
 
 #ifdef RGBLIGHT_ENABLE
 #    include "rgblight.h"
@@ -46,56 +45,21 @@ static I2C_slave_buffer_t *const i2c_buffer = (I2C_slave_buffer_t *)i2c_slave_re
 #    define I2C_KEYMAP_START offsetof(I2C_slave_buffer_t, smatrix)
 #    define I2C_ENCODER_START offsetof(I2C_slave_buffer_t, encoder_state)
 
-#    define TIMEOUT 100 // по уму должно быть зависимо от размера пакета и скорости
-
+#    define TIMEOUT 100
+/*
 #    ifndef SLAVE_I2C_ADDRESS
 #        define SLAVE_I2C_ADDRESS 0x32
 #    endif
-
+*/
 // Get rows from other half over i2c
-bool transport_master(matrix_row_t matrix[], uint8_t slave_i2c_addr) {
-
-#	ifndef TEST_I2C
-
-	i2c_readReg(slave_i2c_addr, I2C_KEYMAP_START, (void *)matrix, sizeof(i2c_buffer->smatrix), TIMEOUT);
-#   else
-
-	static uint16_t pak_err0_i2c = 0;
-	static uint16_t pak_err1_i2c = 0;
-	static uint16_t pak_cnt_i2c = 0;
-
-	i2c_status_t status = i2c_readReg(slave_i2c_addr, I2C_KEYMAP_START, (void *)matrix, sizeof(i2c_buffer->smatrix), TIMEOUT);
-	if (status != I2C_STATUS_SUCCESS) {
-		if (slave_i2c_addr==SLAVE_I2C_ADDRESS) pak_err0_i2c++;
-		if (slave_i2c_addr== (SLAVE_I2C_ADDRESS+2) ) pak_err1_i2c++;
-	}
-
-	pak_cnt_i2c++;
-
-	if(pak_cnt_i2c==1){
-		dprintf("i2c=%u\n", slave_i2c_addr);
-	}
-	if(pak_cnt_i2c==2){
-		dprintf("i2c=%u\n", slave_i2c_addr);
-	}
-
-	if(pak_cnt_i2c==10000){
-		dprintf("pak_cnt_i2c=%u\n", pak_cnt_i2c);
-		dprintf("pak_err0_i2c=%u\n", pak_err0_i2c);
-		dprintf("pak_err1_i2c=%u\n", pak_err1_i2c);
-		pak_err0_i2c=0;
-		pak_err1_i2c=0;
-		pak_cnt_i2c=0;
-	}
-
-#   endif
-
+bool transport_master(matrix_row_t matrix[]) {
+    i2c_readReg(SLAVE_I2C_ADDRESS, I2C_KEYMAP_START, (void *)matrix, sizeof(i2c_buffer->smatrix), TIMEOUT);
 
     // write backlight info
 #    ifdef BACKLIGHT_ENABLE
     uint8_t level = is_backlight_enabled() ? get_backlight_level() : 0;
     if (level != i2c_buffer->backlight_level) {
-        if (i2c_writeReg(slave_i2c_addr, I2C_BACKLIGHT_START, (void *)&level, sizeof(level), TIMEOUT) >= 0) {
+        if (i2c_writeReg(SLAVE_I2C_ADDRESS, I2C_BACKLIGHT_START, (void *)&level, sizeof(level), TIMEOUT) >= 0) {
             i2c_buffer->backlight_level = level;
         }
     }
@@ -105,18 +69,18 @@ bool transport_master(matrix_row_t matrix[], uint8_t slave_i2c_addr) {
     if (rgblight_get_change_flags()) {
         rgblight_syncinfo_t rgblight_sync;
         rgblight_get_syncinfo(&rgblight_sync);
-        if (i2c_writeReg(slave_i2c_addr, I2C_RGB_START, (void *)&rgblight_sync, sizeof(rgblight_sync), TIMEOUT) >= 0) {
+        if (i2c_writeReg(SLAVE_I2C_ADDRESS, I2C_RGB_START, (void *)&rgblight_sync, sizeof(rgblight_sync), TIMEOUT) >= 0) {
             rgblight_clear_change_flags();
         }
     }
 #    endif
 
 #    ifdef ENCODER_ENABLE
-    i2c_readReg(slave_i2c_addr, I2C_ENCODER_START, (void *)i2c_buffer->encoder_state, sizeof(i2c_buffer->encoder_state), TIMEOUT);
+    i2c_readReg(SLAVE_I2C_ADDRESS, I2C_ENCODER_START, (void *)i2c_buffer->encoder_state, sizeof(i2c_buffer->encoder_state), TIMEOUT);
     encoder_update_raw(i2c_buffer->encoder_state);
 #    endif
 
-    return true; //tt FIXME нуж знать когда связь = false !
+    return true;
 }
 
 void transport_slave(matrix_row_t matrix[]) {

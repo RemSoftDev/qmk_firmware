@@ -180,9 +180,9 @@ void matrix_init_user(void) {
 // вызввается после того как все встроенные модули проинициализировались
 void keyboard_post_init_user(void) {
   // Call the post init code.
-  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
-  rgblight_sethsv_noeeprom(180, 255, 255); // sets the color to teal/cyan without saving
-  rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3); // sets mode to Fast breathing without saving
+//  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
+//  rgblight_sethsv_noeeprom(180, 255, 255); // sets the color to teal/cyan without saving
+//  rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3); // sets mode to Fast breathing without saving
 }
 
 // для проверки rgb led

@@ -71,7 +71,10 @@
 #define USE_I2C
 
 #define N_SLAVES_I2C 2 // количество поддчиненных клавиатур
-#define SLAVE_I2C_ADDRESS 0x32 // адрес первой подчиненой клавиатуры, у сдеуюющей буде адрес на 1 больше
+#define SLAVE_I2C_ADDRESS 0x30 // адрес первой подчиненой клавиатуры, у сдеуюющей буде адрес на 2 больше
+
+#define TEST_I2C // каждые 10000 запровсов по I2C выводит сколько небыло ответов - реализация в transport_master();
+
 // Master half is defined to be the right half
 // #define MASTER_RIGHT // ПОБОЧНО!ПРОЄЦИРУЕТ DIRECT_PINS НА K300 В МАТРИЦЕ
 
