@@ -6,7 +6,7 @@
 #include "quantum.h"
 
 //#define ROWS_PER_HAND (MATRIX_ROWS / 2)
-#define ROWS_PER_HAND (3) //tt проверка откуда мусор в I2C - таки да!
+//#define ROWS_PER_HAND (3) //tt проверка откуда мусор в I2C - таки да!
 
 
 #ifdef RGBLIGHT_ENABLE

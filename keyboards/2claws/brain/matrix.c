@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ERROR_DISCONNECT_COUNT 5
 
 //#define ROWS_PER_HAND (MATRIX_ROWS / 2)
-#define ROWS_PER_HAND 3
+
 
 #ifdef DIRECT_PINS
 static pin_t direct_pins[MATRIX_ROWS][MATRIX_COLS] = DIRECT_PINS;
@@ -343,8 +343,8 @@ uint8_t matrix_scan(void) {
         	//uint8_t	slave_i2c_addr = SLAVE_I2C_ADDRESS+n_slaves_i2c; //  I2C адрес следующего раба от базоваого адреса
 
 			//                смещение в матрице
-        	transport_master( (matrix +1) , SLAVE_I2C_ADDRESS ); // возвращет всеравно всегда true
-			transport_master( (matrix +1+3) , (SLAVE_I2C_ADDRESS+2) ); // возвращет всеравно всегда true
+        	transport_master( (matrix + ROWS_BRAIN ) , SLAVE_I2C_ADDRESS ); // возвращет всеравно всегда true
+			transport_master( (matrix + ROWS_BRAIN + ROWS_PER_HAND) , (SLAVE_I2C_ADDRESS+2) ); // возвращет всеравно всегда true
 			//dprintf("slave_i2c_addr = %d\n", slave_i2c_addr);
 			//dprintf("error_count = %d\n", error_count);
 			// reset other half if disconnected

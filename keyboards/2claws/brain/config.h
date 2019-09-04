@@ -10,8 +10,9 @@
 #define PRODUCT         2claws
 #define DESCRIPTION     test2claws
 /* key matrix size */
-#define MATRIX_ROWS 7
-#define MATRIX_COLS 20
+#define MATRIX_ROWS 13
+#define MATRIX_COLS 10
+#define ROWS_PER_HAND 6
 
 // количество рядов заполняемых платой мозга (идут первыми в общей матрице клавиш)
 #define ROWS_BRAIN 1
@@ -26,7 +27,7 @@
 //  * pins mapped to rows and columns, from left to right. Defines a matrix where each switch is connected to a separate pin and ground.
 #define NO NO_PIN
 #define DIRECT_PINS {\
-{ NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, D4 } }
+{ D4 } }
 //00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F  00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
 //00  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  19 MATRIX_COLS=20
 /* COL2ROW or ROW2COL */
