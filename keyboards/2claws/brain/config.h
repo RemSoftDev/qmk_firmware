@@ -13,14 +13,22 @@
 #define MATRIX_ROWS 7
 #define MATRIX_COLS 20
 
+// количество рядов заполняемых платой мозга (идут первыми в общей матрице клавиш)
+#define ROWS_BRAIN 1
+// следующие ряды от раба с наименьшим адресом I2C и так далее
+
 /* key matrix pins */
 // MCU = at90usb1286
 //#define MATRIX_ROW_PINS { A0, A1, A2, A3 }
 //#define MATRIX_COL_PINS { C1, C2, C3, C4, C5, C6 }
 #define UNUSED_PINS
 
-#define DIRECT_PINS { { D4 } }		//  * pins mapped to rows and columns, from left to right. Defines a matrix where each switch is connected to a separate pin and ground.
-
+//  * pins mapped to rows and columns, from left to right. Defines a matrix where each switch is connected to a separate pin and ground.
+#define NO NO_PIN
+#define DIRECT_PINS {\
+{ NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, D4 } }
+//00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F  00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
+//00  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  19 MATRIX_COLS=20
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
 

@@ -54,7 +54,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define ERROR_DISCONNECT_COUNT 5
 
-#define ROWS_PER_HAND (MATRIX_ROWS / 2)
+//#define ROWS_PER_HAND (MATRIX_ROWS / 2)
+#define ROWS_PER_HAND 3
 
 #ifdef DIRECT_PINS
 static pin_t direct_pins[MATRIX_ROWS][MATRIX_COLS] = DIRECT_PINS;
@@ -65,7 +66,7 @@ static pin_t col_pins[MATRIX_COLS] = MATRIX_COL_PINS;
 
 /* matrix state(1:on, 0:off) */
 static matrix_row_t matrix[MATRIX_ROWS];
-static matrix_row_t raw_matrix[ROWS_PER_HAND];
+static matrix_row_t raw_matrix[ROWS_BRAIN];
 
 // row offsets for each hand
 uint8_t thisHand, thatHand;
@@ -295,63 +296,63 @@ void matrix_init(void) {
 uint8_t _matrix_scan(void) {
     bool changed = false;
 
-#if defined(DIRECT_PINS) || (DIODE_DIRECTION == COL2ROW)
     // Set row, read cols
-    for (uint8_t current_row = 0; current_row < ROWS_PER_HAND; current_row++) {
+    uint8_t current_row = 0; // первая строка
         changed |= read_cols_on_row(raw_matrix, current_row);
-    }
-#elif (DIODE_DIRECTION == ROW2COL)
-    // Set col, read rows
-    for (uint8_t current_col = 0; current_col < MATRIX_COLS; current_col++) {
-        changed |= read_rows_on_col(raw_matrix, current_col);
-    }
-#endif
 
-    debounce(raw_matrix, matrix + thisHand, ROWS_PER_HAND, changed);
+    debounce(raw_matrix, matrix + 0, 1, changed);
 
     return (uint8_t)changed;
 }
 
-uint8_t matrix_scan(void) {
-    uint8_t ret = _matrix_scan();
-//    dprintf("m");
-    if (is_keyboard_master()) {
-        static uint8_t error_count;
 
-        for (uint8_t n_slaves_i2c=0; n_slaves_i2c<N_SLAVES_I2C*2; n_slaves_i2c=n_slaves_i2c+2 ) { // перебираю подчиненые клавиатуры
-        //	error_count = 0;
-        //if (!transport_master(matrix + thatHand) {
-			uint8_t	slave_i2c_addr = SLAVE_I2C_ADDRESS+n_slaves_i2c; //  I2C адрес следующего раба от базоваого адреса
-			//                                смещение в матрице
-			if (!transport_master((matrix + thatHand/*+(thatHand*n_slaves_i2c) */) , slave_i2c_addr) ) { //
-				error_count++;
-				//dprintf("slave_i2c_addr = %d\n", slave_i2c_addr);
-				//dprintf("error_count = %d\n", error_count);
-				if (error_count > ERROR_DISCONNECT_COUNT) {
-					// reset other half if disconnected
-					//dprint("\nr/c ERROR_DISCONNECT_COUNT %x\n",slave_i2c_addr);
-					//dprintf("slave_i2c_addr = %d\n", slave_i2c_addr);
-					//dprint("eeeeee\n");
-					for (int i = 0; i < ROWS_PER_HAND; ++i) {
-						matrix[thatHand + i] = 0;
-					}
-				}
-			} else {
-				error_count = 0;
-				//dprintf("slave_i2c_addr = %d\n", slave_i2c_addr);
-				//dprintf("error_count = %d\n", error_count);
-				//dprintf("transport_master=1");
-			}
-        }
+void mat_tst(uint16_t takt) {
+	static uint16_t count_mat = 0;
+	static bool is_tst = false;
+	uint16_t tmp;
+    if (timer_elapsed(count_mat) > takt) {
+    	count_mat = timer_read();
+		if (is_tst) {
+			is_tst = false;
+	        //phex(takt);
+	        //print(": ");
+	       // print_matrix_row(row);
+	        //print("\n");
+			matrix_print();
+			//tmp = sizeof(matrix_row_t); // вернуло 4 зависит от MATRIX_COLS  у лев и проай будут 2!!!!
+			//dprintf("matrix_row_t=%u\n", tmp);
+			//tmp = sizeof(matrix); // вернуло 28 (28/4= 7 строк: 1+3+3 3*4=12 байт от половинки = вся матрица половинки )
+			//dprintf("matrix=%u\n", tmp);
+	        PORTD |=(1<<7); // 1=led off
+		}
+		else {
+			is_tst = true;
+			PORTD &= ~(1<<7); // 0 = led on
+		}
+    }
+}
+
+uint8_t matrix_scan(void) {
+
+	mat_tst(1000);
+    uint8_t ret = _matrix_scan();  // опрос локальной матрицы = по сути одной кнопки.
+//    dprintf("m");
+
+//        for (uint8_t n_slaves_i2c=0; n_slaves_i2c<N_SLAVES_I2C*2; n_slaves_i2c=n_slaves_i2c+2 ) { // перебираю подчиненые клавиатуры
+
+        	//uint8_t	slave_i2c_addr = SLAVE_I2C_ADDRESS+n_slaves_i2c; //  I2C адрес следующего раба от базоваого адреса
+
+			//                смещение в матрице
+        	transport_master( (matrix +1) , SLAVE_I2C_ADDRESS ); // возвращет всеравно всегда true
+			transport_master( (matrix +1+3) , (SLAVE_I2C_ADDRESS+2) ); // возвращет всеравно всегда true
+			//dprintf("slave_i2c_addr = %d\n", slave_i2c_addr);
+			//dprintf("error_count = %d\n", error_count);
+			// reset other half if disconnected
+			//dprint("\nr/c ERROR_DISCONNECT_COUNT %x\n",slave_i2c_addr);
+			//dprintf("slave_i2c_addr = %d\n", slave_i2c_addr);
+
+       // }
 
         matrix_scan_quantum();
-    } else {
-        transport_slave(matrix + thisHand);
-#ifdef ENCODER_ENABLE
-        encoder_read();
-#endif
-        matrix_slave_scan_user();
-    }
-
     return ret;
 }

@@ -276,7 +276,7 @@ void oled_task_user(void) {
 	if (false) {
     render_status();
   } else {
-	D1_blink(1000);
+//	D1_blink(1000);
     render_logo();
     oled_scroll_left();
   }
