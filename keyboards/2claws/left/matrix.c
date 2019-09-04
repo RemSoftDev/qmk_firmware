@@ -275,8 +275,10 @@ void matrix_init(void) {
 #endif
     }
 
-    thisHand = isLeftHand ? 0 : (ROWS_PER_HAND);
-    thatHand = ROWS_PER_HAND - thisHand;
+    //thisHand = isLeftHand ? 0 : (ROWS_PER_HAND);
+    //thatHand = ROWS_PER_HAND - thisHand;
+    thisHand = 0;
+    thatHand = 0;
 
     // initialize key pins
     init_pins();

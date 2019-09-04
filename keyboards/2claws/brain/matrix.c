@@ -309,7 +309,7 @@ uint8_t _matrix_scan(void) {
 void mat_tst(uint16_t takt) {
 	static uint16_t count_mat = 0;
 	static bool is_tst = false;
-	uint16_t tmp;
+//	uint16_t tmp;
     if (timer_elapsed(count_mat) > takt) {
     	count_mat = timer_read();
 		if (is_tst) {

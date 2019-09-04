@@ -47,16 +47,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		   * `---------------------------------------------------------------------------------'
 		   * RGB_TOG, \
 		   * RESET, \
-		   */
+		//	[_QWERTY] = LAYOUT(
+		//			RGB_TOG, \
+		//			KC_F1,  KC_F2,    KC_F3,    KC_F4,   KC_F5,   KC_F6,                                                                              KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, \
+		//			KC_1,   KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, KC_E,    KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, \
+		//			KC_2,   KC_DEL,   KC_RBRC,  KC_W,    KC_E,    KC_R,    KC_T,    KC_B,    KC_RWIN,  KC_SLCK, KC_P,    KC_EQL,   KC_SLSH,  KC_0,    KC_9,    KC_8,    KC_7,    KC_6,    KC_HOME,  KC_END,\
+		//			KC_3,   KC_TAB,   KC_LBRC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_PDOT,  KC_BSLS, KC_P,    KC_NLCK,  KC_MINS,  KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_PSCR,   KC_INS,\
+		//			KC_4,   KC_LALT,  KC_APP,   KC_Q,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_RCTL, KC_NLCK, KC_F11,   KC_QUOT,  KC_SCLN, KC_L,    KC_K,    KC_J,    KC_H,    KC_PAUS,   KC_PAST,\
+		//			KC_5,   MO(_FN),  KC_P7,   KC_P8,    KC_LEFT, KC_UP,   KC_RGHT, KC_DOWN,           KC_ENT,  KC_CAPS,           KC_P9,    KC_SLSH, KC_DOT,  KC_COMM, KC_M,    KC_N,    KC_RCTL,    KC_PMNS
+	*/
 	[_QWERTY] = LAYOUT(
 			RGB_TOG, \
-			KC_F1,  KC_F2,    KC_F3,    KC_F4,   KC_F5,   KC_F6,                                                                              KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, \
-			KC_1,   KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, KC_E,    KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, \
-			KC_2,   KC_DEL,   KC_RBRC,  KC_W,    KC_E,    KC_R,    KC_T,    KC_B,    KC_RWIN,  KC_SLCK, KC_P,    KC_EQL,   KC_SLSH,  KC_0,    KC_9,    KC_8,    KC_7,    KC_6,    KC_HOME,  KC_END,\
-			KC_3,   KC_TAB,   KC_LBRC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_PDOT,  KC_BSLS, KC_P,    KC_NLCK,  KC_MINS,  KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_PSCR,   KC_INS,\
-			KC_4,   KC_LALT,  KC_APP,   KC_Q,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_RCTL, KC_NLCK, KC_F11,   KC_QUOT,  KC_SCLN, KC_L,    KC_K,    KC_J,    KC_H,    KC_PAUS,   KC_PAST,\
-			KC_5,   MO(_FN),  KC_P7,   KC_P8,    KC_LEFT, KC_UP,   KC_RGHT, KC_DOWN,           KC_ENT,  KC_CAPS,           KC_P9,    KC_SLSH, KC_DOT,  KC_COMM, KC_M,    KC_N,    KC_RCTL,    KC_PMNS
+			KC_F1,  KC_F2,    KC_F1,    KC_F1,   KC_F5,   KC_F6,                                                                              KC_2,    KC_3,    KC_4,    KC_5,    KC_F1,  KC_F1, \
+			KC_1,   KC_F1,   KC_F1,   KC_F1,    KC_F1,    KC_3,    KC_4,    KC_5,    KC_F1,  KC_F1, KC_E,    KC_F1,   KC_F1,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_F1,  KC_F1, \
+			KC_2,   KC_F1,   KC_F1,  KC_F1,    KC_F1,    KC_R,    KC_T,    KC_B,    KC_F1,  KC_F1, KC_P,    KC_F1,   KC_F1,  KC_0,    KC_9,    KC_8,    KC_7,    KC_6,    KC_F1,  KC_F1,\
+			KC_3,   KC_F1,   KC_F1,  KC_F1,    KC_F1,    KC_D,    KC_F,    KC_G,    KC_F1,  KC_F1, KC_P,    KC_F1,  KC_F1,  KC_P,    KC_F1,    KC_I,    KC_U,    KC_Y,    KC_F1,   KC_F1,\
+			KC_4,   KC_F1,  KC_F1,   KC_F1,    KC_F1,    KC_X,    KC_C,    KC_V,    KC_B,     KC_F1, KC_F1, KC_F1,   KC_F1,  KC_F1, KC_F1,    KC_K,    KC_J,    KC_H,    KC_F1,   KC_F1,\
+			KC_5,   KC_F1,  KC_F1,   KC_F1,    KC_F1, KC_F1,   KC_F1, KC_F1,           KC_F1,  KC_F1,           KC_F1,    KC_F1, KC_F1,  KC_F1, KC_M,    KC_N,    KC_F1,    KC_F1
 		),
+
 	[_FN] = LAYOUT(
 			KC_TRNS, \
 			KC_TRNS,   KC_TRNS,   KC_F3,    KC_F4,   KC_F5,   KC_F6,                                                                               KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,   KC_PGUP, \
