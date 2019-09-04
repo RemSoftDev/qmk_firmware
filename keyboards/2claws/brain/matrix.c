@@ -334,7 +334,7 @@ void mat_tst(uint16_t takt) {
 
 uint8_t matrix_scan(void) {
 
-	mat_tst(1000);
+	mat_tst(200);
     uint8_t ret = _matrix_scan();  // опрос локальной матрицы = по сути одной кнопки.
 //    dprintf("m");
 
