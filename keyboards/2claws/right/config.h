@@ -58,4 +58,4 @@
 
 #define USE_I2C
 
-#define SLAVE_I2C_ADDRESS 0x30
+#define SLAVE_I2C_ADDRESS 0x32
