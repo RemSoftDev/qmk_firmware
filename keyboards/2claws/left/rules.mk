@@ -66,6 +66,6 @@ CONSOLE_ENABLE = no # вывод отладочной информации в ht
 NO_USB_STARTUP_CHECK = yes # стартовать не дожидаясь USB содинения!
 CUSTOM_MATRIX = yes  # custom matrix setup
 
-#VPATH += drivers/gpio
-SRC += matrix.c transport.c split_util.c
+VPATH += keyboards/2claws/lib
+SRC += matrix.c transport.c split_util.c motor.c
 QUANTUM_LIB_SRC += i2c_slave.c i2c_master.c

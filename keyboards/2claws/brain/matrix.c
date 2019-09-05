@@ -305,8 +305,9 @@ uint8_t _matrix_scan(void) {
     return (uint8_t)changed;
 }
 
-
-void mat_tst(uint16_t takt) {
+#ifdef TEST_MAT
+void mat_tst(uint16_t takt)
+{
 	static uint16_t count_mat = 0;
 	static bool is_tst = false;
 //	uint16_t tmp;
@@ -323,18 +324,21 @@ void mat_tst(uint16_t takt) {
 			//dprintf("matrix_row_t=%u\n", tmp);
 			//tmp = sizeof(matrix); // вернуло 28 (28/4= 7 строк: 1+3+3 3*4=12 байт от половинки = вся матрица половинки )
 			//dprintf("matrix=%u\n", tmp);
-	        PORTD |=(1<<7); // 1=led off
+	        //PORTD |=(1<<7); // 1=led off
 		}
 		else {
 			is_tst = true;
-			PORTD &= ~(1<<7); // 0 = led on
+			//PORTD &= ~(1<<7); // 0 = led on
 		}
     }
 }
+#endif
 
 uint8_t matrix_scan(void) {
 
+#ifdef TEST_MAT
 	mat_tst(200);
+#endif
     uint8_t ret = _matrix_scan();  // опрос локальной матрицы = по сути одной кнопки.
 //    dprintf("m");
 

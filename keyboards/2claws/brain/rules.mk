@@ -68,8 +68,11 @@ NO_USB_STARTUP_CHECK = yes
 #SPLIT_TRANSPORT = custom 	# это отменяет добавленный выше quantum/split_common каталог;) но... quantum/split_common/split_util.c остался(
 CUSTOM_MATRIX = yes			# нужно самому реализовать matrix_init() and matrix_scan().
 
+
+VPATH += keyboards/2claws/lib
 SRC += matrix.c \
     split_util.c \
+    motor.c \
     transport.c
 
 QUANTUM_LIB_SRC += i2c_slave.c \

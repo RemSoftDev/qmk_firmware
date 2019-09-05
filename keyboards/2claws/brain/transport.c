@@ -4,6 +4,7 @@
 #include "config.h"
 #include "matrix.h"
 #include "quantum.h"
+#include "motor.h"
 
 //#define ROWS_PER_HAND (MATRIX_ROWS / 2)
 //#define ROWS_PER_HAND (3) //tt проверка откуда мусор в I2C - таки да!
@@ -30,7 +31,8 @@ static pin_t encoders_pad[] = ENCODERS_PAD_A;
 
 typedef struct _I2C_slave_buffer_t {
     matrix_row_t smatrix[ROWS_PER_HAND];
-    uint8_t      backlight_level;
+     uint8_t      backlight_level;
+     uint8_t      motor_state; // битовое поле сотояния моторов
 #    if defined(RGBLIGHT_ENABLE) && defined(RGBLIGHT_SPLIT)
     rgblight_syncinfo_t rgblight_sync;
 #    endif
@@ -45,13 +47,14 @@ static I2C_slave_buffer_t *const i2c_buffer = (I2C_slave_buffer_t *)i2c_slave_re
 #    define I2C_RGB_START offsetof(I2C_slave_buffer_t, rgblight_sync)
 #    define I2C_KEYMAP_START offsetof(I2C_slave_buffer_t, smatrix)
 #    define I2C_ENCODER_START offsetof(I2C_slave_buffer_t, encoder_state)
+#    define I2C_MOTOR_START offsetof(I2C_slave_buffer_t, motor_state)
 
 #    define TIMEOUT 100 // по уму должно быть зависимо от размера пакета и скорости
-
+/*
 #    ifndef SLAVE_I2C_ADDRESS
 #        define SLAVE_I2C_ADDRESS 0x32
 #    endif
-
+*/
 // Get rows from other half over i2c
 bool transport_master(matrix_row_t matrix[], uint8_t slave_i2c_addr) {
 
@@ -93,6 +96,9 @@ bool transport_master(matrix_row_t matrix[], uint8_t slave_i2c_addr) {
 
 #   endif
 
+	// обновлять постоянно = +2 байта на одну пловинку
+	uint8_t motor_state = get_motors_state(slave_i2c_addr);
+	i2c_writeReg(slave_i2c_addr, I2C_MOTOR_START, (void *)&motor_state, sizeof(motor_state), TIMEOUT);
 
     // write backlight info
 #    ifdef BACKLIGHT_ENABLE
@@ -125,6 +131,8 @@ bool transport_master(matrix_row_t matrix[], uint8_t slave_i2c_addr) {
 void transport_slave(matrix_row_t matrix[]) {
     // Copy matrix to I2C buffer
     memcpy((void *)i2c_buffer->smatrix, (void *)matrix, sizeof(i2c_buffer->smatrix));
+
+    set_motors_state(i2c_buffer->motor_state); // забираю требуемое состояние моторов из буфера
 
 // Read Backlight Info
 #    ifdef BACKLIGHT_ENABLE

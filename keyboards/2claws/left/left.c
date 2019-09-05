@@ -1,4 +1,5 @@
 #include "left.h"
+#include "motor.h"
 
 // мультиплексор на управление светодиодами локально
 void hvb_init_local(void) {
@@ -12,67 +13,8 @@ void hvb_init_extern(void) {
 	PORTE |= (1<<2); // 1 = rgb led extern control
 }
 
-// настройка портов управления моторами
-void motor_init_ports(void) {
-	DDRD |= (1<<7) | (1<<6) | (1<<5) | (1<<4); // OUT
-	DDRE |= (1<<6); // OUT
-	
-	//all motor off
-	PORTD &= ~( (1<<7) | (1<<6) | (1<<5) | (1<<4) ); // 0 = motor off
-	PORTE &= ~(1<<6); // 0
-}
 
-void motor_on(void) {
-	PORTD |= (1<<7) | (1<<6) | (1<<5) | (1<<4);
-	PORTE |= (1<<6);
-}
-
-void motor_off(void) {
-	PORTD &= ~( (1<<7) | (1<<6) | (1<<5) | (1<<4) );
-	PORTE &= ~(1<<6); 
-}
-
-// M1
-void motor1_on(void) {
-	PORTE |= (1<<6);
-}
-
-void motor1_off(void) {
-	PORTE &= ~(1<<6); 
-}
-
-void motor2_on(void) {
-	PORTD |= (1<<7);
-}
-
-void motor2_off(void) {
-	PORTD &= ~(1<<7);
-}
-
-void motor3_on(void) {
-	PORTD |= (1<<6);
-}
-
-void motor3_off(void) {
-	PORTD &= ~(1<<6);
-}
-
-void motor4_on(void) {
-	PORTD |= (1<<5);
-}
-
-void motor4_off(void) {
-	PORTD &= ~(1<<5);
-}
-
-void motor5_on(void) {
-	PORTD |= (1<<4);
-}
-
-void motor5_off(void) {
-	PORTD &= ~(1<<4);
-}
-
+/*
 // для проверки моторов
 void motor_chek(void) {
 static uint8_t state = 1;
@@ -122,6 +64,8 @@ static uint8_t state = 1;
  state++;
 	  
 }
+*/
+
 /*
 // для проверки rgb led
 void rgb_chek(void) {
@@ -163,9 +107,10 @@ void matrix_init_kb(void) {
 //    led_init_ports();
 //    matrix_init_user();
 //    rgblight_enable_noeeprom();
-	motor_init_ports();
+//	motor_init_ports();
 //	hvb_init_local();
 	hvb_init_extern();
+	motors_init();
 //    rgblight_mode_noeeprom(RGBLIGHT_MODE_RGB_TEST);
 //rgblight_setrgb(0x00, 0x00, 0xFF);
 //	rgblight_mode_noeeprom(3);

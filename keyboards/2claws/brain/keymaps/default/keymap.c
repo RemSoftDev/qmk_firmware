@@ -16,6 +16,8 @@
 
 #include QMK_KEYBOARD_H
 
+#include "motor.h"
+
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
@@ -57,22 +59,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		//			KC_5,   MO(_FN),  KC_P7,   KC_P8,    KC_LEFT, KC_UP,   KC_RGHT, KC_DOWN,           KC_ENT,  KC_CAPS,           KC_P9,    KC_SLSH, KC_DOT,  KC_COMM, KC_M,    KC_N,    KC_RCTL,    KC_PMNS
 	*/
 	[_QWERTY] = LAYOUT(
-RGB_TOG, \
-\
-	KC_F1,   KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,                                        \
-	KC_P1,   KC_PAST,  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS,  KC_INS,  \
-	KC_P2,   KC_PSLS,  KC_P9,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_PSCR,  KC_NLCK, \
-	KC_P3,   KC_APP,   KC_P8,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_UP,    KC_PPLS, \
-	KC_P4,   KC_LCTL,  KC_P7,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_PENT,  KC_END,  \
-	KC_LCTL, KC_LALT,  KC_P6,   KC_P5,   KC_SPC,  KC_ESC,  KC_TAB,  KC_CAPS,           KC_PDOT, \
-\
-								   								 KC_F7,    KC_F8,   KC_F9,    KC_F10,    KC_F11,   KC_F12,  \
-							KC_HOME, KC_SLCK,  KC_6,    KC_7,    KC_8,     KC_9,    KC_0,     KC_MINS,   KC_EQL,   KC_NUBS,  \
-							KC_PGUP, KC_BRK,   KC_Y,   KC_U,    KC_I,     KC_O,    KC_P,     KC_LBRC,   KC_RBRC,  KC_F13, \
-							KC_P3,   KC_PMNS,   KC_H,   KC_J,    KC_K,     KC_L,    KC_SCLN,  KC_PCMM,   KC_NUHS,  KC_F14, \
-							KC_P4,   KC_PPLS,  KC_N,   KC_M,    KC_COMM,  KC_DOT,  KC_BSLS,  KC_DEL,    KC_SLSH,  KC_F15,  \
-							KC_DOWN,           KC_LALT, KC_LEFT, KC_UP,    KC_RGHT, KC_COMM,  KC_PGUP,   KC_RALT,  MO(_FN)
+			RGB_TOG, \
+			KC_F1,  KC_F2,    KC_F1,    KC_F1,   KC_F5,   KC_F6,                                                                              KC_2,    KC_3,    KC_4,    KC_5,    KC_F1,  KC_F1, \
+			KC_1,   KC_F1,   KC_F1,   KC_F1,    KC_F1,    KC_3,    KC_4,    KC_5,    KC_F1,  KC_F1, KC_E,    KC_F1,   KC_F1,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_F1,  KC_F1, \
+			KC_2,   KC_F1,   KC_F1,  KC_F1,    KC_F1,    KC_R,    KC_T,    KC_B,    KC_F1,  KC_F1, KC_P,    KC_F1,   KC_F1,  KC_0,    KC_9,    KC_8,    KC_7,    KC_6,    KC_F1,  KC_F1,\
+			KC_3,   KC_F1,   KC_F1,  KC_F1,    KC_F1,    KC_D,    KC_F,    KC_G,    KC_F1,  KC_F1, KC_P,    KC_F1,  KC_F1,  KC_P,    KC_F1,    KC_I,    KC_U,    KC_Y,    KC_F1,   KC_F1,\
+			KC_4,   KC_F1,  KC_F1,   KC_F1,    KC_F1,    KC_X,    KC_C,    KC_V,    KC_B,     KC_F1, KC_F1, KC_F1,   KC_F1,  KC_F1, KC_F1,    KC_K,    KC_J,    KC_H,    KC_F1,   KC_F1,\
+			KC_5,   KC_F1,  KC_F1,   KC_F1,    KC_F1, KC_F1,   KC_F1, KC_F1,           KC_F1,  KC_F1,           KC_F1,    KC_F1, KC_F1,  KC_F1, KC_M,    KC_N,    KC_F1,    KC_F1
 		),
+
 	[_FN] = LAYOUT(
 			KC_TRNS, \
 			KC_TRNS,   KC_TRNS,   KC_F3,    KC_F4,   KC_F5,   KC_F6,                                                                               KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,   KC_PGUP, \
@@ -146,7 +141,6 @@ void D1_blink(uint16_t takt) {
     } 
 }
 
-
 // в самом начале инициалицации
 void keyboard_pre_init_user(void) {
   // Call the keyboard pre init code.
@@ -154,6 +148,8 @@ void keyboard_pre_init_user(void) {
     D1_init_ports();
 	ext_led_on();
 	sel_to_port1();
+
+	slaves_motors_init();
 
   // Set our LED pins as output
 //  setPinOutput(B0);
@@ -231,6 +227,63 @@ static uint8_t state = 1;
 	  
 }
 
+// для проверки удаленны моторов
+void slaves_motors_chek(void) {
+static uint8_t state = 1;
+ switch (state) {
+    case 1:
+    	slave_motor_on(SLAVE_I2C_ADDRESS, 1);
+      break;
+	case 2:
+		slave_motor_off(SLAVE_I2C_ADDRESS, 1);
+		slave_motor_on(SLAVE_I2C_ADDRESS, 2);
+      break;
+	case 3:
+		slave_motor_off(SLAVE_I2C_ADDRESS, 2);
+		slave_motor_on(SLAVE_I2C_ADDRESS, 3);
+      break;
+	case 4:
+		slave_motor_off(SLAVE_I2C_ADDRESS, 3);
+		slave_motor_on(SLAVE_I2C_ADDRESS, 4);
+      break;
+	case 5:
+		slave_motor_off(SLAVE_I2C_ADDRESS, 4);
+		slave_motor_on(SLAVE_I2C_ADDRESS, 5);
+      break;
+	case 6:
+		slave_motor_off(SLAVE_I2C_ADDRESS, 5);
+      break;
+
+	case 7:
+    	slave_motor_on(SLAVE_I2C_ADDRESS+2, 1);
+      break;
+	case 8:
+		slave_motor_off(SLAVE_I2C_ADDRESS+2, 1);
+		slave_motor_on(SLAVE_I2C_ADDRESS+2, 2);
+      break;
+	case 9:
+		slave_motor_off(SLAVE_I2C_ADDRESS+2, 2);
+		slave_motor_on(SLAVE_I2C_ADDRESS+2, 3);
+      break;
+	case 10:
+		slave_motor_off(SLAVE_I2C_ADDRESS+2, 3);
+		slave_motor_on(SLAVE_I2C_ADDRESS+2, 4);
+      break;
+	case 11:
+		slave_motor_off(SLAVE_I2C_ADDRESS+2, 4);
+		slave_motor_on(SLAVE_I2C_ADDRESS+2, 5);
+      break;
+	case 12:
+		slave_motor_off(SLAVE_I2C_ADDRESS+2, 5);
+      break;
+
+	default:
+		state = 0;
+	  break;
+ }
+ state++;
+}
+
 // SSD1306 OLED driver logic
 #ifdef OLED_DRIVER_ENABLE
 
@@ -306,10 +359,10 @@ uint16_t test_timer =0;
 void matrix_scan_user(void) {     //# The very important timer. 
 
 //	_delay_ms(20); // гипотеза что слишком частій опрос слева вешает его
-//D1_blink(300);
-    if (timer_elapsed(test_timer) > 50) {
+	D1_blink(1000);
+    if (timer_elapsed(test_timer) > 2000) {
 		test_timer = timer_read();
-		
+		slaves_motors_chek();
 //		rgb_chek();
 //		motor_chek();
     }
