@@ -371,12 +371,12 @@ void oled_task_user(void) {
 	
 //	D1_blink(1000);
 //  if (is_keyboard_master()) {
-	if (false) {
+	if (true) {
     render_status();
   } else {
 //	D1_blink(1000);
     render_logo();
-    oled_scroll_left();
+//    oled_scroll_left();
   }
 }
 

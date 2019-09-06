@@ -72,7 +72,7 @@
 #define OLED_DISPLAY_WIDTH 128
 #define OLED_DISPLAY_HEIGHT 64
 #define OLED_MATRIX_SIZE 1024
-//#define OLED_DISABLE_TIMEOUT // шоб нетух єкран без нажатий
+#define OLED_DISABLE_TIMEOUT // шоб нетух єкран без нажатий (видит нажатия только своей платы!)
 
 //sets the I2C clock rate speed for keyboards using I2C. The default is `400000L`, except for keyboards using `split_common`, where the default is `100000L`.
 #define F_SCL 100000L
@@ -82,6 +82,7 @@
 #define N_SLAVES_I2C 2 // количество поддчиненных клавиатур
 #define SLAVE_I2C_ADDRESS 0x30 // адрес первой подчиненой клавиатуры, у сдеуюющей буде адрес на 2 больше
 
+// вывод в https://www.pjrc.com/teensy/hid_listen.html
 #define TEST_I2C // каждые 10000 запровсов по I2C выводит сколько небыло ответов - реализация в transport_master();
 #define TEST_MAT // выводит общую матрицу
 
