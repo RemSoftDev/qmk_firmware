@@ -80,9 +80,6 @@ bool transport_master(matrix_row_t matrix[], uint8_t slave_i2c_addr) {
 	}
 	if(pak_cnt_i2c==2){
 		dprintf("i2c1=%u\n", slave_i2c_addr);
-		dprintf("I2C_KEYMAP_START=%u\n", I2C_KEYMAP_START);
-		dprintf("I2C_BACKLIGHT_START=%u\n", I2C_BACKLIGHT_START);
-		dprintf("sizeof(i2c_buffer->smatrix)=%u\n", sizeof(i2c_buffer->smatrix));
 	}
 
 	if(pak_cnt_i2c==10000){

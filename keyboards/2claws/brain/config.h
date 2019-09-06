@@ -40,6 +40,8 @@
 /* Set 0 if debouncing isn't needed */
 #define DEBOUNCING_DELAY 5
 
+//#define TAP_CODE_DELAY 50 //Sets the delay between register_code and unregister_code, if you're having issues with it registering properly (common on VUSB boards). The value is in milliseconds.
+
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
 
@@ -59,8 +61,17 @@
 #define RGBLIGHT_HUE_STEP 8
 #define RGBLIGHT_SAT_STEP 8
 #define RGBLIGHT_VAL_STEP 8
-
 #define RGBLIGHT_LIMIT_VAL 64
+
+#define DRIVER_LED_TOTAL 120 // єквивалент RGBLED_NUM 120
+//#define RGB_MATRIX_KEYPRESSES // reacts to keypresses
+//#define RGB_MATRIX_KEYRELEASES // reacts to keyreleases (instead of keypresses)
+//#define RGB_DISABLE_AFTER_TIMEOUT 0 // number of ticks to wait until disabling effects
+//#define RGB_DISABLE_WHEN_USB_SUSPENDED false // turn off effects when suspended
+#define RGB_MATRIX_LED_PROCESS_LIMIT (DRIVER_LED_TOTAL + 4) / 5 // limits the number of LEDs to process in an animation per task run (increases keyboard responsiveness)
+#define RGB_MATRIX_LED_FLUSH_LIMIT 16 // limits in milliseconds how frequently an animation will update the LEDs. 16 (16ms) is equivalent to limiting to 60fps (increases keyboard responsiveness)
+#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 32 // limits maximum brightness of LEDs to 200 out of 255. If not defined maximum brightness is set to 255
+//#define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_CYCLE_LEFT_RIGHT // Sets the default mode, if none has been set
 
 // sets the maximum power (in mA) over USB for the device (default: 500)
 #define USB_MAX_POWER_CONSUMPTION 500
@@ -83,8 +94,8 @@
 #define SLAVE_I2C_ADDRESS 0x30 // адрес первой подчиненой клавиатуры, у сдеуюющей буде адрес на 2 больше
 
 // вывод в https://www.pjrc.com/teensy/hid_listen.html
-#define TEST_I2C // каждые 10000 запровсов по I2C выводит сколько небыло ответов - реализация в transport_master();
-#define TEST_MAT // выводит общую матрицу
+//#define TEST_I2C // каждые 10000 запровсов по I2C выводит сколько небыло ответов - реализация в transport_master();
+//#define TEST_MAT // выводит общую матрицу
 
 // Master half is defined to be the right half
 // #define MASTER_RIGHT // ПОБОЧНО!ПРОЄЦИРУЕТ DIRECT_PINS НА K300 В МАТРИЦЕ

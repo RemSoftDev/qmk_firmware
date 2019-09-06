@@ -16,7 +16,11 @@
 
 #include QMK_KEYBOARD_H
 
+#include <stdint.h>
+#include <stdbool.h>
+
 #include "motor.h"
+#include "debug.h"
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
@@ -29,37 +33,15 @@ enum layer_number {
     _ADJ
 };
 
+enum custom_keycodes {	// перечисление макросов
+  HWTEST = SAFE_RANGE,
+  THING
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-		  /* Keymap BASE: (Base Layer) Default Layer
-		   * ,-------------------------------------------------------.     ,-------------------.
-		   * |Esc| F1| F2| F3| F4| | F5| F6| F7| F8| | F9|F10|F11|F12|     |Ins |Home|PgUp|PrSc|
-		   * `-------------------------------------------------------'     |-------------------|
-		   *                                                               |Del |End |PgDn|ScrL|
-		   * ,-----------------------------------------------------------. |-------------------|
-		   * | ~ | 1 |  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|Backsp | |NumL| /  | *  |Paus|
-		   * |-----------------------------------------------------------| |-------------------|
-		   * |Tab  |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|  \  | | 7  | 8  | 9  | -  |
-		   * |-----------------------------------------------------------| |-------------------|
-		   * |CAPS   |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|Return | | 4  | 5  | 6  | +  |
-		   * |-----------------------------------------------------------' |-------------------|
-		   * |Shift   |  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /|Shift  | Up | 1  | 2  | 3  | Ent|
-		   * |--------------------------------------------------------'----`--------------|    |
-		   * |Ctrl|Gui |Alt |      Space           |Alt |Gui|Ctr|Left |Down|Rght| 0  | .  |    |
-		   * `---------------------------------------------------------------------------------'
-		   * RGB_TOG, \
-		   * RESET, \
-		//	[_QWERTY] = LAYOUT(
-		//			RGB_TOG, \
-		//			KC_F1,  KC_F2,    KC_F3,    KC_F4,   KC_F5,   KC_F6,                                                                              KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, \
-		//			KC_1,   KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, KC_E,    KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, \
-		//			KC_2,   KC_DEL,   KC_RBRC,  KC_W,    KC_E,    KC_R,    KC_T,    KC_B,    KC_RWIN,  KC_SLCK, KC_P,    KC_EQL,   KC_SLSH,  KC_0,    KC_9,    KC_8,    KC_7,    KC_6,    KC_HOME,  KC_END,\
-		//			KC_3,   KC_TAB,   KC_LBRC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_PDOT,  KC_BSLS, KC_P,    KC_NLCK,  KC_MINS,  KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_PSCR,   KC_INS,\
-		//			KC_4,   KC_LALT,  KC_APP,   KC_Q,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_RCTL, KC_NLCK, KC_F11,   KC_QUOT,  KC_SCLN, KC_L,    KC_K,    KC_J,    KC_H,    KC_PAUS,   KC_PAST,\
-		//			KC_5,   MO(_FN),  KC_P7,   KC_P8,    KC_LEFT, KC_UP,   KC_RGHT, KC_DOWN,           KC_ENT,  KC_CAPS,           KC_P9,    KC_SLSH, KC_DOT,  KC_COMM, KC_M,    KC_N,    KC_RCTL,    KC_PMNS
-	*/
 	[_QWERTY] = LAYOUT(
-RGB_TOG, \
+//RGB_TOG
+HWTEST, \
 \
 	KC_F1,   KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,                                        \
 	KC_P1,   KC_PAST,  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS,  KC_INS,  \
@@ -85,6 +67,55 @@ RGB_TOG, \
 			KC_TRNS,   KC_TRNS,   _______,  KC_P8,   KC_LEFT, KC_UP,   KC_RGHT, KC_DOWN,            KC_ENT, KC_CAPS,            KC_P9,    KC_SLSH, KC_DOT,  KC_COMM, KC_M,    KC_N,    KC_RCTL,   KC_PMNS
 	),
 };
+
+led_config_t g_led_config = { {
+  // Key Matrix to LED Index
+		{ NO_LED },
+		{ 11, 12, 13, 14, 15, 16, NO_LED, NO_LED, NO_LED, NO_LED },
+		{ 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 },
+		{ 27, 28, 29, 30, 31, 32, 33, 34, 35, 36 },
+		{ 37, 38, 39, 40, 41, 42, 43, 44, 45, 46 },
+		{ 47, 48, 49, 50, 51, 52, 53, 54, 55, 56 },
+		{ 57, 58, 59, 60, 61, 62, 63, 64, NO_LED, 65 },
+	\
+	    { NO_LED, NO_LED, NO_LED, NO_LED, 66, 67, 68, 69, 70, 71 },
+	    { 72, 73, 74, 75, 76, 77, 78, 79, 80, 81 },
+	    { 82, 83, 84, 85, 86, 87, 88, 89, 90, 91 },
+	    { 92, 93, 94, 95, 96, 97, 98, 99, 100, 101 },
+	    { 102, 103, 104, 105, 106, 107, 108, 109, 110, 111 },
+	    { 112, NO_LED, 113, 114, 115, 116, 117, 118, 119, 120 }
+}, {
+  // LED Index to Physical Position
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 }
+}, {
+  // LED Index to Flag
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+} };
+
+bool is_hwtest;
+
 
 // настройка порта управления светодиодом D1
 void D1_init_ports(void) {
@@ -219,12 +250,23 @@ void matrix_init_user(void) {
 
 // вызввается после того как все встроенные модули проинициализировались
 void keyboard_post_init_user(void) {
+	debug_enable = true; // нужно для работы dprintf
+	debug_keyboard = true;
   // Call the post init code.
 //  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
 //  rgblight_sethsv_noeeprom(180, 255, 255); // sets the color to teal/cyan without saving
 //  rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3); // sets mode to Fast breathing without saving
+//    setrgb(0, 0, 0, (LED_TYPE *)&led[0]);
+//    setrgb(0, 0, 0, (LED_TYPE *)&led[1]);
+//    rgblight_set();
+//	rgb_matrix_set_color_all(0,0,0);
+//	rgb_matrix_set_color(1,25,0,0);
+//	rgb_matrix_set_color(2,0,25,0);
+//	rgb_matrix_set_color(3,0,0,25);
+//	rgb_matrix_update_pwm_buffers();
 }
 
+/*
 // для проверки rgb led
 void rgb_chek(void) {
 static uint8_t state = 1;
@@ -254,6 +296,22 @@ static uint8_t state = 1;
  }
  state++;
 	  
+}
+*/
+// для проверки rgb матрицы
+// каждый  вызов зажигает следующий светодиод
+void rgb_chek_matrix(void) {
+
+	static uint8_t state_led = 0;
+
+	dprintf("state_led =%d\n", state_led);
+	rgb_matrix_set_color_all(0,0,0);
+	rgb_matrix_set_color(state_led,100,100,100);
+	rgb_matrix_update_pwm_buffers();
+	state_led++;
+	if (state_led>=DRIVER_LED_TOTAL){
+		state_led=0;
+	}
 }
 
 // для проверки удаленны моторов
@@ -391,7 +449,7 @@ void matrix_scan_user(void) {     //# The very important timer.
 //	D1_blink(1000);
     if (timer_elapsed(test_timer) > 2000) {
 		test_timer = timer_read();
-		slaves_motors_chek();
+//		slaves_motors_chek();
 //		rgb_chek();
 //		motor_chek();
     }
@@ -406,3 +464,36 @@ void matrix_scan_user(void) {     //# The very important timer.
 }
 */
 
+void rgb_matrix_indicators_user(void){
+
+//	static uint16_t rgb_timer=0;
+	static bool is_rgb_hwtest;
+
+    //if (timer_elapsed(rgb_timer) > 2000) {
+    //	rgb_timer = timer_read();
+	if (is_rgb_hwtest != is_hwtest) {
+		is_rgb_hwtest = is_hwtest;
+    	rgb_chek_matrix();
+    }
+}
+
+
+// сюда попадаем по событию нажата или отжата клавиша
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+  case HWTEST: //
+      if (record->event.pressed) {
+    	  D1_on();
+    	  is_hwtest = !is_hwtest;
+      } else { // when keycode is released
+    	  D1_off();
+      }
+      break;
+	  case THING: //
+		  	 ;
+      break;
+
+
+  }
+  return true;
+};
