@@ -316,21 +316,8 @@ uint8_t _matrix_scan(void) {
 uint8_t matrix_scan(void) {
     uint8_t ret = _matrix_scan();
 
-    if (is_keyboard_master()) {
-        static uint8_t error_count;
+    if (is_usb_connected()) {
 
-        if (!transport_master(matrix + thatHand)) {
-            error_count++;
-
-            if (error_count > ERROR_DISCONNECT_COUNT) {
-                // reset other half if disconnected
-                for (int i = 0; i < ROWS_PER_HAND; ++i) {
-                    matrix[thatHand + i] = 0;
-                }
-            }
-        } else {
-            error_count = 0;
-        }
 
         matrix_scan_quantum();
     } else {

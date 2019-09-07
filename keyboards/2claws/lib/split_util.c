@@ -32,20 +32,11 @@ __attribute__((weak)) bool is_keyboard_left(void) {
 }
 
 __attribute__((weak)) bool is_keyboard_master(void) {
-#ifdef __AVR__
-    static enum { UNKNOWN, MASTER, SLAVE } usbstate = UNKNOWN;
 
-    // only check once, as this is called often
-    if (usbstate == UNKNOWN) {
-        USBCON |= (1 << OTGPADE);  // enables VBUS pad
-        wait_us(5);
-
-        usbstate = (USBSTA & (1 << VBUS)) ? MASTER : SLAVE;  // checks state of VBUS
-    }
-
-    return (usbstate == MASTER);
+#ifdef N_SLAVES_I2C
+	return true;
 #else
-    return true;
+	return false; //tt левая и правая = слейвы
 #endif
 }
 
