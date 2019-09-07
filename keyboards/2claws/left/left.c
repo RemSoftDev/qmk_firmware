@@ -1,11 +1,11 @@
 #include "left.h"
 #include "motor.h"
+#include "split_util.h"
 
 // мультиплексор на управление светодиодами локально
 void hvb_init_local(void) {
 	DDRE |= (1<<2); // OUT
 	PORTE &= ~(1<<2); // 0 = rgb led local control
-	//PORTE |= (1<<2); // 1 = rgb led extern control
 }
 // мультиплексор на управление светодиодами из платы мозгов
 void hvb_init_extern(void) {
@@ -17,7 +17,7 @@ void hvb_init_extern(void) {
 // для проверки rgb led
 void rgb_chek(void) {
 static uint8_t state = 1;
-//dprintf("%d string\n", state);
+dprintf("%d string\n", state);
  switch (state) {
     case 1:	
 		rgblight_setrgb(0x00, 0x00, 0x00);
@@ -52,26 +52,21 @@ void matrix_init_kb(void) {
     // put your keyboard start-up code here
     // runs once when the firmware starts up
 //    led_init_ports();
-//    matrix_init_user();
-//    rgblight_enable_noeeprom();
+
+//  rgblight_enable_noeeprom();
 //	motor_init_ports();
-//	hvb_init_local();
-	hvb_init_extern();
+//	hvb_init_local(); isUsbConnected = true;
+
 	motors_init();
+//	motor1_on();
+//	motor2_on();
 //    rgblight_mode_noeeprom(RGBLIGHT_MODE_RGB_TEST);
 //rgblight_setrgb(0x00, 0x00, 0xFF);
 //	rgblight_mode_noeeprom(3);
 _delay_ms(10);
 
-/*
-while (1){
+//while (1){ _delay_ms(2000); motor_chek(); rgb_chek(); }
 
-_delay_ms(2000);
-motor_chek();
-rgb_chek();
-
-}
-*/
 
 //rgblight_sethsv_noeeprom_white();
 //rgblight_sethsv_noeeprom_white();
@@ -85,8 +80,47 @@ rgb_chek();
 //rgblight_setrgb(0x00, 0x00, 0xFF);
 //    rgblight_mode_noeeprom(RGBLIGHT_EFFECT_BREATHING);
 //	rgblight_mode(RGBLIGHT_MODE_RGB_TEST);
+matrix_init_user();
 }
 
+
+// вызввается после того как все встроенные модули проинициализировались
+void keyboard_post_init_kb(void) {
+	debug_enable = true; // нужно для работы dprintf
+	debug_keyboard = true;
+
+	uint16_t usb_timer = timer_read();
+	while (timer_elapsed(usb_timer) < 5000) {
+		if (USB_DeviceState != DEVICE_STATE_Configured) {
+//#if defined(INTERRUPT_CONTROL_ENDPOINT)
+//		         ;
+//#else
+		         USB_USBTask();
+//#endif
+		}
+		else{
+			isUsbConnected = true;
+			break;
+		}
+	}
+
+//	isUsbConnected = false;
+	if (isUsbConnected == true){
+		dprint("USB_DeviceState == DEVICE_STATE_Configured\n");
+		hvb_init_local();
+		wait_ms(1000);
+		motor1_on();
+		wait_ms(1000);
+		motor1_off();
+	}
+	else{
+		dprint("USB_DeviceState != DEVICE_STATE_Configured\n");
+		hvb_init_extern();
+		keyboard_slave_setup();
+	}
+
+	keyboard_post_init_user();
+}
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.

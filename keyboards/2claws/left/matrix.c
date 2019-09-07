@@ -292,10 +292,7 @@ uint8_t _matrix_scan(void) {
 uint8_t matrix_scan(void) {
     uint8_t ret = _matrix_scan();
 
-    //if (is_usb_connected()) {
-    if (0) {
-
-
+    if (isUsbConnected) {
         matrix_scan_quantum();
     } else {
         transport_slave(matrix + thisHand);

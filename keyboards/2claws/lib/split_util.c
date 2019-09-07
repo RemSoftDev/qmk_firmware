@@ -16,6 +16,7 @@
 #endif
 
 volatile bool isLeftHand = true;
+volatile bool isUsbConnected = false;
 
 __attribute__((weak)) bool is_keyboard_left(void) {
 
@@ -46,7 +47,7 @@ static void keyboard_master_setup(void) {
     transport_master_init();
 }
 
-static void keyboard_slave_setup(void) { transport_slave_init(); }
+void keyboard_slave_setup(void) { transport_slave_init(); }
 
 // this code runs before the usb and keyboard is initialized
 void matrix_setup(void) {
@@ -64,6 +65,6 @@ void matrix_setup(void) {
     if (is_keyboard_master() && is_keyboard_left()) {
         keyboard_master_setup();
     } else {
-       keyboard_slave_setup(); // transport_slave_init(); = вызову когда убедюсь что нет связи по USB
+       //keyboard_slave_setup(); // transport_slave_init(); = вызову когда убедюсь что нет связи по USB
     }
 }

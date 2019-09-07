@@ -26,6 +26,16 @@ typedef union {
     };
 } motors_config_t;
 
+void motor1_on(void);
+void motor1_off(void);
+void motor2_on(void);
+void motor2_off(void);
+void motor3_on(void);
+void motor3_off(void);
+void motor4_on(void);
+void motor4_off(void);
+void motor5_on(void);
+void motor5_off(void);
 void motors_init(void);
 void motor_chek(void);
 void slaves_motors_init(void);
