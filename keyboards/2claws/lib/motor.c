@@ -6,7 +6,7 @@
  */
 
 #include "motor.h"
-
+#include "debug.h"
 
 #ifdef N_SLAVES_I2C // если обьявлены рабы значит это мастер
 
@@ -159,6 +159,57 @@ void motor5_on(void) {
 void motor5_off(void) {
 	PORTD &= ~(1<<4);
 }
+
+// для проверки моторов
+void motor_chek(void) {
+static uint8_t state = 1;
+
+ switch (state) {
+    case 1:
+		dprint("motor1_on\n");
+		motor1_on();
+      break;
+	case 2:
+		dprint("motor2_on\n");
+		motor2_on();
+		motor1_off();
+      break;
+	case 3:
+		dprint("motor3_on\n");
+		motor3_on();
+		motor2_off();
+      break;
+	case 4:
+		dprint("motor4_on\n");
+		motor4_on();
+		motor3_off();
+      break;
+	case 5:
+		dprint("motor5_on\n");
+		motor5_on();
+		motor4_off();
+      break;
+	case 6:
+		dprint("motor_off\n");
+		motor5_off();
+      break;
+	case 7:
+		dprint("motor_on\n");
+		motor_on();
+      break;
+	case 8:
+		dprint("motor_off\n");
+		motor_off();
+      break;
+
+	default:
+		state = 0;
+	  break;
+ }
+ state++;
+
+}
+
 
 motors_config_t motors_config_old;
 void motors_init(void)

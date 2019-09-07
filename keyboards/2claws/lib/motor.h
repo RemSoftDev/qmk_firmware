@@ -27,6 +27,7 @@ typedef union {
 } motors_config_t;
 
 void motors_init(void);
+void motor_chek(void);
 void slaves_motors_init(void);
 uint8_t get_motors_state(uint8_t slave_i2c_addr);
 void set_motors_state(uint8_t raw);

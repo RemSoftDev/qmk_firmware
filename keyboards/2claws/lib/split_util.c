@@ -18,26 +18,23 @@
 volatile bool isLeftHand = true;
 
 __attribute__((weak)) bool is_keyboard_left(void) {
-#if defined(SPLIT_HAND_PIN)
-    // Test pin SPLIT_HAND_PIN for High/Low, if low it's right hand
-    setPinInput(SPLIT_HAND_PIN);
-    return readPin(SPLIT_HAND_PIN);
-#elif defined(EE_HANDS)
-    return eeprom_read_byte(EECONFIG_HANDEDNESS);
-#elif defined(MASTER_RIGHT)
-    return !is_keyboard_master();
-#endif
-
-    return is_keyboard_master();
-}
-
-__attribute__((weak)) bool is_keyboard_master(void) {
 
 #ifdef N_SLAVES_I2C
 	return true;
 #else
-	return false; //tt левая и правая = слейвы
+	return false; //tt левая и правая = слейвы в понимании qmk правые по дефолту
 #endif
+
+}
+
+// имеет два смысла: 1мастер шины i2c; 2слейв не отдает данные в usb
+__attribute__((weak)) bool is_keyboard_master(void) {
+
+//#ifdef N_SLAVES_I2C
+	return true;
+//#else
+//	return false; //tt левая и правая = слейвы
+//#endif
 }
 
 static void keyboard_master_setup(void) {
@@ -64,9 +61,9 @@ void matrix_setup(void) {
     }
 #endif
 
-    if (is_keyboard_master()) {
+    if (is_keyboard_master() && is_keyboard_left()) {
         keyboard_master_setup();
     } else {
-        keyboard_slave_setup();
+       keyboard_slave_setup(); // transport_slave_init(); = вызову когда убедюсь что нет связи по USB
     }
 }
