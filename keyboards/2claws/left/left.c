@@ -88,12 +88,6 @@ matrix_init_user();
 void keyboard_pre_init_kb(void) {
   // Call the keyboard pre init code.
 	motors_init();
-	//isUsbConnected = false;
-	//hvb_init_local();
-	//hvb_init_extern();  // баг- вынужденный т.к. конфликт инициализации I2C и RGBLIGHT
-						// нужно забирать реализациию себе или выделить им монопольные пины
-
-//	keyboard_pre_init_user();
 }
 
 // вызввается после того как все встроенные модули проинициализировались
@@ -101,44 +95,7 @@ void keyboard_post_init_kb(void) {
 	debug_enable = true; // нужно для работы dprintf
 	debug_keyboard = true;
 	isUsbConnected = true;
-//	isUsbConnected = true; //
-//	hvb_init_local();
-/*
-	uint16_t usb_timer = timer_read();
-	while (timer_elapsed(usb_timer) < USB_WAITING_TIME) {
-		if (USB_DeviceState != DEVICE_STATE_Configured) {
-//#if defined(INTERRUPT_CONTROL_ENDPOINT)
-//		         ;
-//#else
-		         USB_USBTask();
-//#endif
-		}
-		else{
-			isUsbConnected = true;
-			break;
-		}
-	}
-
-//	isUsbConnected = false;
-	if (isUsbConnected == true){
-		dprint("USB_DeviceState == DEVICE_STATE_Configured\n");
-		hvb_init_local();
-		// rgb нужно инициальизировать тут
-//		wait_ms(1000);
-//		motor1_on();
-//		wait_ms(1000);
-//		motor1_off();
-	}
-	else{
-		dprint("USB_DeviceState != DEVICE_STATE_Configured\n");
-		hvb_init_extern();
-		keyboard_slave_setup();
-	}
-*/
-//	_delay_ms(10);
-//	keyboard_slave_setup();
-
-//	keyboard_post_init_user();
+	rgblight_setrgb(0x00, 0x00, 0x00);
 }
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
@@ -170,32 +127,33 @@ void reconfig_connection (void) {
 //	isUsbConnected
 //	static bool is_Usb_mode = true;
 
+/*	if (UDADDR & _BV(ADDEN)){ // истина когда USB установлен реальный адрес (есть связь с хостом)
+		motor1_off();
+	}
+	else {
+		motor1_on();
+	}
+	*/
 	bool is_i2c_activ = i2c_activity_check();
 
 	//нужно переконфигуриться на i2c
-	if (is_i2c_activ && isUsbConnected){
+	if ( (is_i2c_activ || !(UDADDR & _BV(ADDEN)) ) && isUsbConnected ){
 		isUsbConnected=false;
 		motor1_off();
-
-		//DDRE |= (1<<2); // OUT
-		//PORTE &= ~(1<<2); // 0 = rgb led local control
-
-		dprint("USB_DeviceState != DEVICE_STATE_Configured\n");
+		rgblight_setrgb(0x00, 0x00, 0x00);
+		_delay_ms(10);
 		hvb_init_extern();
 		keyboard_slave_setup();
 	}
 	else {
 		// нужно переконфигуриться на USB
-		//if ( (USB_DeviceState == DEVICE_STATE_Configured) && (!is_i2c_activ) && (!isUsbConnected) ){
-		//if ( (!is_i2c_activ) && (!isUsbConnected) ){
-		if ( 0 ){
+		if ( (UDADDR & _BV(ADDEN)) && (!is_i2c_activ) && (!isUsbConnected) ){
 			isUsbConnected=true;
 			motor1_on();
-
+			rgblight_setrgb(0x00, 0x00, 0x00);
+			_delay_ms(10);
 			hvb_init_local();
 			i2c_slave_stop(); // ?
-//			DDRD |= (1<<0); // OUT
-			dprint("USB_DeviceState != DEVICE_STATE_Configured\n");
 		}
 	}
 }
