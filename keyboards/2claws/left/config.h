@@ -35,7 +35,7 @@
 #define LOCKING_RESYNC_ENABLE
 
 /* ws2812 RGB LED */
-#define RGB_DI_PIN D0
+#define RGB_DI_PIN D3 //сменил с D0 тк был конфликт I2C
 #define RGBLED_NUM 55
 #define RGBLIGHT_HUE_STEP 8
 #define RGBLIGHT_SAT_STEP 8
