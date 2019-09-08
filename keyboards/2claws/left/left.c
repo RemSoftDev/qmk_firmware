@@ -88,18 +88,22 @@ matrix_init_user();
 void keyboard_pre_init_kb(void) {
   // Call the keyboard pre init code.
 	motors_init();
+	//isUsbConnected = false;
 	//hvb_init_local();
-	hvb_init_extern();  // баг- вынужденный т.к. конфликт инициализации I2C и RGBLIGHT
+	//hvb_init_extern();  // баг- вынужденный т.к. конфликт инициализации I2C и RGBLIGHT
 						// нужно забирать реализациию себе или выделить им монопольные пины
 
-	keyboard_pre_init_user();
+//	keyboard_pre_init_user();
 }
 
 // вызввается после того как все встроенные модули проинициализировались
 void keyboard_post_init_kb(void) {
 	debug_enable = true; // нужно для работы dprintf
 	debug_keyboard = true;
-
+	isUsbConnected = true;
+//	isUsbConnected = true; //
+//	hvb_init_local();
+/*
 	uint16_t usb_timer = timer_read();
 	while (timer_elapsed(usb_timer) < USB_WAITING_TIME) {
 		if (USB_DeviceState != DEVICE_STATE_Configured) {
@@ -130,8 +134,11 @@ void keyboard_post_init_kb(void) {
 		hvb_init_extern();
 		keyboard_slave_setup();
 	}
+*/
+//	_delay_ms(10);
+//	keyboard_slave_setup();
 
-	keyboard_post_init_user();
+//	keyboard_post_init_user();
 }
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
@@ -165,11 +172,31 @@ void reconfig_connection (void) {
 
 	bool is_i2c_activ = i2c_activity_check();
 
-	if (is_i2c_activ){
+	//нужно переконфигуриться на i2c
+	if (is_i2c_activ && isUsbConnected){
+		isUsbConnected=false;
 		motor1_off();
+
+		//DDRE |= (1<<2); // OUT
+		//PORTE &= ~(1<<2); // 0 = rgb led local control
+
+		dprint("USB_DeviceState != DEVICE_STATE_Configured\n");
+		hvb_init_extern();
+		keyboard_slave_setup();
 	}
 	else {
-		motor1_on();
+		// нужно переконфигуриться на USB
+		//if ( (USB_DeviceState == DEVICE_STATE_Configured) && (!is_i2c_activ) && (!isUsbConnected) ){
+		//if ( (!is_i2c_activ) && (!isUsbConnected) ){
+		if ( 0 ){
+			isUsbConnected=true;
+			motor1_on();
+
+			hvb_init_local();
+			i2c_slave_stop(); // ?
+//			DDRD |= (1<<0); // OUT
+			dprint("USB_DeviceState != DEVICE_STATE_Configured\n");
+		}
 	}
 }
 
