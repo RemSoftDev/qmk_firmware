@@ -67,5 +67,5 @@ NO_USB_STARTUP_CHECK = yes # стартовать не дожидаясь USB с
 CUSTOM_MATRIX = yes  # custom matrix setup
 
 VPATH += keyboards/2claws/lib
-SRC += matrix.c transport.c split_util.c motor.c
-QUANTUM_LIB_SRC += i2c_slave.c i2c_master.c
+SRC += matrix.c transport.c split_util.c motor.c i2c_slave.c i2c_master.c
+#QUANTUM_LIB_SRC += i2c_slave.c i2c_master.c
