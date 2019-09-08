@@ -44,7 +44,7 @@
 #define RGBLIGHT_LIMIT_VAL 64
 #define USB_MAX_POWER_CONSUMPTION 400
 
-#define USB_WAITING_TIME 7000 // waiting time ms
+#define USB_WAITING_TIME 1000 // waiting time ms 9000=ок
 
 #define OLED_DISPLAY_ADDRESS 0x3C
 #define OLED_IC OLED_IC_SSD1306
@@ -60,5 +60,6 @@
 #define USE_I2C
 
 #define SLAVE_I2C_ADDRESS 0x30
+#define N_NO_MASTER_I2C 20 // количество кругов главного цыкла без запросов от мастераI2C после которого принимается решение перейти на USB порт (20 = примерно 0.1сек)
 
 //#define N_SLAVES_I2C 2

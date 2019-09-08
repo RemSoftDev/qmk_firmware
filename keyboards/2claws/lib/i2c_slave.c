@@ -8,11 +8,14 @@
 #include <stdbool.h>
 
 #include "i2c_slave.h"
+#include "split_util.h"
 
 volatile uint8_t i2c_slave_reg[I2C_SLAVE_REG_COUNT];
 
 static volatile uint8_t buffer_address;
 static volatile bool slave_has_register_set = false;
+static volatile uint8_t isr_i2c_cnt;
+
 
 void i2c_slave_init(uint8_t address){
     // load address into TWI address register
@@ -57,6 +60,7 @@ ISR(TWI_vect){
             // This device is a slave transmitter and master has requested data
             TWDR = i2c_slave_reg[buffer_address];
             buffer_address++;
+            isr_i2c_cnt++;
             break;
 
         case TW_BUS_ERROR:
@@ -69,3 +73,26 @@ ISR(TWI_vect){
     // Reset i2c state machine to be ready for next interrupt
     TWCR |= (1 << TWIE) | (1 << TWINT) | (ack << TWEA) | (1 << TWEN);
 }
+
+// вызывать в гавном цыкле
+inline bool i2c_activity_check(void){
+	static bool activ = false;
+	static uint8_t n_fake_call = N_NO_MASTER_I2C;
+	static uint8_t old_isr_i2c_cnt;
+
+	if (old_isr_i2c_cnt==isr_i2c_cnt) {
+		if(n_fake_call<N_NO_MASTER_I2C){
+			n_fake_call++;
+		}
+		else {
+		    if(n_fake_call==N_NO_MASTER_I2C) activ = false;
+		}
+	}
+	else{
+		old_isr_i2c_cnt=isr_i2c_cnt;
+		n_fake_call=0;
+		activ = true;
+	}
+	return activ;
+}
+

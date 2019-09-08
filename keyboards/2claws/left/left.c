@@ -1,6 +1,7 @@
 #include "left.h"
 #include "motor.h"
 #include "split_util.h"
+#include "i2c_slave.h"
 
 // мультиплексор на управление светодиодами локально
 void hvb_init_local(void) {
@@ -154,16 +155,38 @@ static uint16_t test_timer = 0;        // таймер
 		test_timer = timer_read();
 		
 		rgb_chek();
-		motor_chek();
+		//motor_chek();
     }
  }
- 
+
+void reconfig_connection (void) {
+//	isUsbConnected
+//	static bool is_Usb_mode = true;
+
+	bool is_i2c_activ = i2c_activity_check();
+
+	if (is_i2c_activ){
+		motor1_off();
+	}
+	else {
+		motor1_on();
+	}
+}
+
 
 void matrix_scan_kb(void) {
 // put your looping keyboard code here
 // runs every cycle (a lot)
 
+	reconfig_connection();
+
     matrix_scan_user();
+}
+
+void matrix_slave_scan_user(void) {
+
+	reconfig_connection();
+
 }
 
 
