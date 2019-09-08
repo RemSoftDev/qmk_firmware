@@ -57,7 +57,7 @@ void matrix_init_kb(void) {
 //	motor_init_ports();
 //	hvb_init_local(); isUsbConnected = true;
 
-	motors_init();
+//	motors_init();
 //	motor1_on();
 //	motor2_on();
 //    rgblight_mode_noeeprom(RGBLIGHT_MODE_RGB_TEST);
@@ -83,6 +83,16 @@ _delay_ms(10);
 matrix_init_user();
 }
 
+// в самом начале инициалицации
+void keyboard_pre_init_kb(void) {
+  // Call the keyboard pre init code.
+	motors_init();
+	//hvb_init_local();
+	hvb_init_extern();  // баг- вынужденный т.к. конфликт инициализации I2C и RGBLIGHT
+						// нужно забирать реализациию себе или выделить им монопольные пины
+
+	keyboard_pre_init_user();
+}
 
 // вызввается после того как все встроенные модули проинициализировались
 void keyboard_post_init_kb(void) {
@@ -90,7 +100,7 @@ void keyboard_post_init_kb(void) {
 	debug_keyboard = true;
 
 	uint16_t usb_timer = timer_read();
-	while (timer_elapsed(usb_timer) < 5000) {
+	while (timer_elapsed(usb_timer) < USB_WAITING_TIME) {
 		if (USB_DeviceState != DEVICE_STATE_Configured) {
 //#if defined(INTERRUPT_CONTROL_ENDPOINT)
 //		         ;
@@ -108,10 +118,11 @@ void keyboard_post_init_kb(void) {
 	if (isUsbConnected == true){
 		dprint("USB_DeviceState == DEVICE_STATE_Configured\n");
 		hvb_init_local();
-		wait_ms(1000);
-		motor1_on();
-		wait_ms(1000);
-		motor1_off();
+		// rgb нужно инициальизировать тут
+//		wait_ms(1000);
+//		motor1_on();
+//		wait_ms(1000);
+//		motor1_off();
 	}
 	else{
 		dprint("USB_DeviceState != DEVICE_STATE_Configured\n");
@@ -145,16 +156,14 @@ static uint16_t test_timer = 0;        // таймер
 		rgb_chek();
 		motor_chek();
     }
-
  }
  
-/*
+
 void matrix_scan_kb(void) {
 // put your looping keyboard code here
-    // runs every cycle (a lot)
+// runs every cycle (a lot)
 
     matrix_scan_user();
 }
-*/
 
 
