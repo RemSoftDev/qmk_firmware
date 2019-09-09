@@ -37,7 +37,6 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_QWERTY] = LAYOUT(
-//RGB_TOG
 HWTEST, \
 \
 	KC_F1,   KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,                                        \
@@ -66,21 +65,21 @@ HWTEST, \
 };
 
 led_config_t g_led_config = { {
-  // Key Matrix to LED Index
+  // Key Matrix to LED Index https://beta.docs.qmk.fm/features/feature_rgb_matrix
 		{ NO_LED },
-		{ 11, 12, 13, 14, 15, 16, NO_LED, NO_LED, NO_LED, NO_LED },
-		{ 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 },
-		{ 27, 28, 29, 30, 31, 32, 33, 34, 35, 36 },
-		{ 37, 38, 39, 40, 41, 42, 43, 44, 45, 46 },
-		{ 47, 48, 49, 50, 51, 52, 53, 54, 55, 56 },
-		{ 57, 58, 59, 60, 61, 62, 63, 64, NO_LED, 65 },
+		{ 64, 63, 62, 61, 60, 59, NO_LED, NO_LED, NO_LED, NO_LED },
+		{ 58, 57, 56, 55, 54, 53, 52, 51, 50, 49 },
+		{ 48, 47, 46, 45, 44, 43, 42, 41, 40, 39 },
+		{ 38, 37, 36, 35, 34, 33, 32, 31, 30, 29 },
+		{ 28, 27, 26, 25, 24, 23, 22, 21, 20, 19 },
+		{ 18, 17, 16, 15, 14, 13, 12, 11, NO_LED, 10 },
 	\
-	    { NO_LED, NO_LED, NO_LED, NO_LED, 66, 67, 68, 69, 70, 71 },
-	    { 72, 73, 74, 75, 76, 77, 78, 79, 80, 81 },
-	    { 82, 83, 84, 85, 86, 87, 88, 89, 90, 91 },
-	    { 92, 93, 94, 95, 96, 97, 98, 99, 100, 101 },
-	    { 102, 103, 104, 105, 106, 107, 108, 109, 110, 111 },
-	    { 112, NO_LED, 113, 114, 115, 116, 117, 118, 119, 120 }
+	    { NO_LED, NO_LED, NO_LED, NO_LED, 70, 69, 68, 67, 66, 65 },
+	    { 80, 79, 78, 77, 76, 75, 74, 73, 72, 71 },
+	    { 90, 89, 88, 87, 86, 85, 84, 83, 82, 81 },
+	    { 100, 99, 98, 97, 96, 95, 94, 93, 92, 91 },
+	    { 110, 109, 108, 107, 106, 105, 104, 103, 102, 101 },
+	    { 119, NO_LED, 118, 117, 116, 115, 114, 113, 112, 111 }
 }, {
   // LED Index to Physical Position
   { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
@@ -156,7 +155,6 @@ void sel_to_port2(void) {
 	PORTD |= (1<<5); // 1 = на LED2_IN
 }
 
-
 // мигает светикоом с заданsv тактом (в милисекундах)
 void D1_blink(uint16_t takt) {
 	static uint16_t d1_timer = 0;
@@ -172,7 +170,6 @@ void D1_blink(uint16_t takt) {
 			is_d1 = true;
 			D1_on();
 		}
-
     } 
 }
 
@@ -196,7 +193,6 @@ void slave_motor_blink(uint16_t takt) {
     }
 }
 
-
 // в самом начале инициалицации
 void keyboard_pre_init_user(void) {
   // Call the keyboard pre init code.
@@ -210,31 +206,7 @@ void keyboard_pre_init_user(void) {
 
 // в середине инициализации
 void matrix_init_user(void) {
-//void matrix_init_kb(void) {
-    // put your keyboard start-up code here
-    // runs once when the firmware starts up
-//	    rgblight_enable_noeeprom();
-//	    rgblight_enable();
-//	oled_init(OLED_ROTATION_0);
 
-//    D1_init_ports();
-
-//    rgblight_enable_noeeprom();
-//	motor_init_ports();
-//	hvb_init_local();
-//	hvb_init_extern();
-//    rgblight_mode_noeeprom(RGBLIGHT_MODE_RGB_TEST);
-//rgblight_setrgb(0x00, 0x00, 0xFF);
-//	rgblight_mode_noeeprom(3);
-/*	_delay_ms(1000);
-	D1_off();
-	_delay_ms(1000);
-	D1_on();
-	_delay_ms(1000);
-	D1_off();
-	_delay_ms(1000);
-	D1_on();
-	*/
 }
 
 // вызввается после того как все встроенные модули проинициализировались
@@ -242,17 +214,9 @@ void keyboard_post_init_user(void) {
 	debug_enable = true; // нужно для работы dprintf
 	debug_keyboard = true;
   // Call the post init code.
-//  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
-//  rgblight_sethsv_noeeprom(180, 255, 255); // sets the color to teal/cyan without saving
-//  rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3); // sets mode to Fast breathing without saving
-//    setrgb(0, 0, 0, (LED_TYPE *)&led[0]);
-//    setrgb(0, 0, 0, (LED_TYPE *)&led[1]);
-//    rgblight_set();
-//	rgb_matrix_set_color_all(0,0,0);
-//	rgb_matrix_set_color(1,25,0,0);
-//	rgb_matrix_set_color(2,0,25,0);
-//	rgb_matrix_set_color(3,0,0,25);
-//	rgb_matrix_update_pwm_buffers();
+    rgblight_sethsv_noeeprom(180, 255, 255); // sets the color to teal/cyan without saving
+	rgblight_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE_SIMPLE); // sets mode to Fast breathing without saving
+	rgblight_enable_noeeprom(); // enables Rgb, without saving settings
 }
 
 
@@ -260,12 +224,18 @@ void keyboard_post_init_user(void) {
 // каждый  вызов зажигает следующий светодиод
 void rgb_chek_matrix(void) {
 
-	static uint8_t state_led = 0;
+	static uint8_t state_led = DRIVER_LED_TOTAL;
+
+	if (state_led==DRIVER_LED_TOTAL){
+		rgblight_disable_noeeprom();
+	}
+	else {
+		rgb_matrix_set_color_all(0,0,0);
+		rgb_matrix_set_color(state_led,100,100,100);
+		rgb_matrix_update_pwm_buffers();
+	}
 
 	dprintf("state_led =%d\n", state_led);
-	rgb_matrix_set_color_all(0,0,0);
-	rgb_matrix_set_color(state_led,100,100,100);
-	rgb_matrix_update_pwm_buffers();
 	state_led++;
 	if (state_led>=DRIVER_LED_TOTAL){
 		state_led=0;
