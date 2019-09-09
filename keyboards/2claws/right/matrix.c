@@ -251,30 +251,6 @@ void matrix_init(void) {
     debug_matrix = true;
     debug_mouse  = true;
 
-    // Set pinout for right half if pinout for that half is defined
-    if (!isLeftHand) {
-#ifdef DIRECT_PINS_RIGHT
-        const pin_t direct_pins_right[MATRIX_ROWS][MATRIX_COLS] = DIRECT_PINS_RIGHT;
-        for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
-            for (uint8_t j = 0; j < MATRIX_COLS; j++) {
-                direct_pins[i][j] = direct_pins_right[i][j];
-            }
-        }
-#endif
-#ifdef MATRIX_ROW_PINS_RIGHT
-        const pin_t row_pins_right[MATRIX_ROWS] = MATRIX_ROW_PINS_RIGHT;
-        for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
-            row_pins[i] = row_pins_right[i];
-        }
-#endif
-#ifdef MATRIX_COL_PINS_RIGHT
-        const pin_t col_pins_right[MATRIX_COLS] = MATRIX_COL_PINS_RIGHT;
-        for (uint8_t i = 0; i < MATRIX_COLS; i++) {
-            col_pins[i] = col_pins_right[i];
-        }
-#endif
-    }
-
     //thisHand = isLeftHand ? 0 : (ROWS_PER_HAND);
     //thatHand = ROWS_PER_HAND - thisHand;
     thisHand = 0;
@@ -316,22 +292,7 @@ uint8_t _matrix_scan(void) {
 uint8_t matrix_scan(void) {
     uint8_t ret = _matrix_scan();
 
-    if (is_keyboard_master()) {
-        static uint8_t error_count;
-
-        if (!transport_master(matrix + thatHand)) {
-            error_count++;
-
-            if (error_count > ERROR_DISCONNECT_COUNT) {
-                // reset other half if disconnected
-                for (int i = 0; i < ROWS_PER_HAND; ++i) {
-                    matrix[thatHand + i] = 0;
-                }
-            }
-        } else {
-            error_count = 0;
-        }
-
+    if (isUsbConnected) {
         matrix_scan_quantum();
     } else {
         transport_slave(matrix + thisHand);
