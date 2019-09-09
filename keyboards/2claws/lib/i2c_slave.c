@@ -8,7 +8,11 @@
 #include <stdbool.h>
 
 #include "i2c_slave.h"
-#include "split_util.h"
+
+#ifndef N_NO_MASTER_I2C
+	#define N_NO_MASTER_I2C 200
+#endif
+
 
 volatile uint8_t i2c_slave_reg[I2C_SLAVE_REG_COUNT];
 
@@ -74,7 +78,7 @@ ISR(TWI_vect){
     TWCR |= (1 << TWIE) | (1 << TWINT) | (ack << TWEA) | (1 << TWEN);
 }
 
-// вызывать в гавном цыкле
+// вызывать в главном цикле
 inline bool i2c_activity_check(void){
 	static bool activ = false;
 	static uint8_t n_fake_call = N_NO_MASTER_I2C;

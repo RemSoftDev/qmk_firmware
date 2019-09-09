@@ -21,10 +21,6 @@
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
 
-/* number of backlight levels */
-
-#define BACKLIGHT_LEVELS 0
-
 /* Set 0 if debouncing isn't needed */
 #define DEBOUNCING_DELAY 5
 
@@ -44,22 +40,11 @@
 #define RGBLIGHT_LIMIT_VAL 64
 #define USB_MAX_POWER_CONSUMPTION 400
 
-#define USB_WAITING_TIME 1000 // waiting time ms 9000=ок
-
-#define OLED_DISPLAY_ADDRESS 0x3C
-#define OLED_IC OLED_IC_SSD1306
-//#define OLED_IC OLED_IC_SH1106
-#define OLED_DISPLAY_128X64
-#define OLED_DISPLAY_WIDTH 128
-#define OLED_DISPLAY_HEIGHT 64
-#define OLED_MATRIX_SIZE 1024
-
 //sets the I2C clock rate speed for keyboards using I2C. The default is `400000L`, except for keyboards using `split_common`, where the default is `100000L`.
 #define F_SCL 100000L
 
 #define USE_I2C
 
-#define SLAVE_I2C_ADDRESS 0x30
+#define SLAVE_I2C_ADDRESS 0x30 // 0x30 - left 0x32 -right
 #define N_NO_MASTER_I2C 200 // количество кругов главного цыкла без запросов от мастераI2C после которого принимается решение перейти на USB порт (20 = примерно 0.1сек)
 
-//#define N_SLAVES_I2C 2

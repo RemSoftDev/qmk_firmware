@@ -36,6 +36,7 @@ void motor4_on(void);
 void motor4_off(void);
 void motor5_on(void);
 void motor5_off(void);
+void motor_off(void);
 void motors_init(void);
 void motor_chek(void);
 void slaves_motors_init(void);
