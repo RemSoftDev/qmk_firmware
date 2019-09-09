@@ -1,4 +1,4 @@
-/* Copyright 2018 Jack Humbert
+/* Copyright 2019
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,13 +29,10 @@
 enum layer_number {
     _QWERTY = 0,
     _FN,
-	_COLEMAK,
-    _ADJ
 };
 
-enum custom_keycodes {	// перечисление макросов
+enum custom_keycodes {
   HWTEST = SAFE_RANGE,
-  THING
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -196,7 +193,6 @@ void slave_motor_blink(uint16_t takt) {
 			//D1_on();
 			slave_motor_on(0x30, 1);//slave_motor_off(uint8_t slave_i2c_addr, uint8_t motor_number)
 		}
-
     }
 }
 
@@ -210,13 +206,6 @@ void keyboard_pre_init_user(void) {
 	sel_to_port1();
 
 	slaves_motors_init();
-
-  // Set our LED pins as output
-//  setPinOutput(B0);
-//  setPinOutput(B1);
-//  setPinOutput(B2);
-//  setPinOutput(B3);
-//  setPinOutput(B4);
 }
 
 // в середине инициализации
@@ -266,38 +255,7 @@ void keyboard_post_init_user(void) {
 //	rgb_matrix_update_pwm_buffers();
 }
 
-/*
-// для проверки rgb led
-void rgb_chek(void) {
-static uint8_t state = 1;
-//dprintf("%d string\n", state);
- switch (state) {
-    case 1:	
-		rgblight_setrgb(0x00, 0x00, 0x00);
-      break;
-	case 2: 
-		rgblight_setrgb(0x00, 0x00, 0x1F);
-      break;
-	case 3: 
-		rgblight_setrgb(0x00, 0x1F, 0x00);
-      break;
-	case 4: 
-		rgblight_setrgb(0x1F, 0x00, 0x00);
-      break;	  
-	case 5: 
-		// РАЗМЕЩЕНО последним чтобы была возможность успеть нажать ресет до того как выполнение кода сюда доберется
-		// ВКЛЮЧЕНИЕ ВСЕХ СВЕТОДИОДОВ НА (0xFF, 0xFF, 0xFF); ПРИВОДИТ К ПРОСАДКЕ НАПРЯЖЕНИЯ ПИТАНИЯ И ЗАВИСАНИЮ
-		rgblight_setrgb(0x1F, 0x1F, 0x1F);
-      break;
 
-	default:
-		state = 0;
-	  break;
- }
- state++;
-	  
-}
-*/
 // для проверки rgb матрицы
 // каждый  вызов зажигает следующий светодиод
 void rgb_chek_matrix(void) {
@@ -374,15 +332,6 @@ static uint8_t state = 1;
 // SSD1306 OLED driver logic
 #ifdef OLED_DRIVER_ENABLE
 
-static void render_logo(void) {
-  static const char PROGMEM rgbkb_logo[] = {
-    0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94,
-    0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,0xb0,0xb1,0xb2,0xb3,0xb4,
-    0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,0xd0,0xd1,0xd2,0xd3,0xd4,0};
-
-  oled_write_P(rgbkb_logo, false);
-}
-
 static void render_status(void) {
   // Render to mode icon
   static const char PROGMEM mode_logo[4][4] = {
@@ -405,14 +354,8 @@ static void render_status(void) {
     case _QWERTY:
       oled_write_ln_P(PSTR("QWERTY"), false);
       break;
-    case _COLEMAK:
-      oled_write_ln_P(PSTR("Colemak"), false);
-      break;
     case _FN:
       oled_write_ln_P(PSTR("Function"), false);
-      break;
-    case _ADJ:
-      oled_write_ln_P(PSTR("Adjust"), false);
       break;
     default:
       oled_write_ln_P(PSTR("Undefined"), false);
@@ -426,51 +369,28 @@ static void render_status(void) {
 }
 
 void oled_task_user(void) {
-	
-//	D1_blink(1000);
-//  if (is_keyboard_master()) {
-	if (true) {
-    render_status();
-  } else {
-//	D1_blink(1000);
-    render_logo();
-//    oled_scroll_left();
-  }
+
+	render_status();
 }
 
 #endif
 
-uint16_t test_timer =0;
-
 // эта функция вызывается в главном цикле
 void matrix_scan_user(void) {     //# The very important timer. 
 
-//	_delay_ms(20); // гипотеза что слишком частій опрос слева вешает его
-//	D1_blink(1000);
-    if (timer_elapsed(test_timer) > 2000) {
-		test_timer = timer_read();
-//		slaves_motors_chek();
-//		rgb_chek();
-//		motor_chek();
+	static bool is_matrix_hwtest;
+	D1_blink(1000); // мигает то прошивка независла
+
+	if (is_matrix_hwtest != is_hwtest) {
+		is_matrix_hwtest = is_hwtest;
+		slaves_motors_chek();
     }
  }
  
-/* 
- void matrix_scan_kb(void) {
-    // put your looping keyboard code here
-    // runs every cycle (a lot)
-
-    matrix_scan_user();
-}
-*/
-
 void rgb_matrix_indicators_user(void){
 
-//	static uint16_t rgb_timer=0;
 	static bool is_rgb_hwtest;
 
-    //if (timer_elapsed(rgb_timer) > 2000) {
-    //	rgb_timer = timer_read();
 	if (is_rgb_hwtest != is_hwtest) {
 		is_rgb_hwtest = is_hwtest;
     	rgb_chek_matrix();
@@ -483,17 +403,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
   case HWTEST: //
       if (record->event.pressed) {
-    	  D1_on();
     	  is_hwtest = !is_hwtest;
       } else { // when keycode is released
-    	  D1_off();
+    	;
       }
       break;
-	  case THING: //
-		  	 ;
-      break;
-
-
   }
   return true;
 };

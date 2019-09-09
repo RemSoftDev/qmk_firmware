@@ -19,7 +19,7 @@
 // следующие ряды от раба с наименьшим адресом I2C и так далее
 
 /* key matrix pins */
-// MCU = at90usb1286
+// нет собственной марицы
 //#define MATRIX_ROW_PINS { A0, A1, A2, A3 }
 //#define MATRIX_COL_PINS { C1, C2, C3, C4, C5, C6 }
 #define UNUSED_PINS
@@ -32,10 +32,6 @@
 //00  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  19 MATRIX_COLS=20
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
-
-/* number of backlight levels */
-
-#define BACKLIGHT_LEVELS 0
 
 /* Set 0 if debouncing isn't needed */
 #define DEBOUNCING_DELAY 5
@@ -78,7 +74,6 @@
 
 #define OLED_DISPLAY_ADDRESS 0x3C
 #define OLED_IC OLED_IC_SSD1306
-//#define OLED_IC OLED_IC_SH1106
 #define OLED_DISPLAY_128X64
 #define OLED_DISPLAY_WIDTH 128
 #define OLED_DISPLAY_HEIGHT 64
@@ -96,10 +91,4 @@
 // вывод в https://www.pjrc.com/teensy/hid_listen.html
 //#define TEST_I2C // каждые 10000 запровсов по I2C выводит сколько небыло ответов - реализация в transport_master();
 //#define TEST_MAT // выводит общую матрицу
-
-// Master half is defined to be the right half
-// #define MASTER_RIGHT // ПОБОЧНО!ПРОЄЦИРУЕТ DIRECT_PINS НА K300 В МАТРИЦЕ
-
-
-
 
