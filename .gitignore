@@ -71,3 +71,6 @@ secrets.tar
 id_rsa_*
 /.vs
 .vscode
+
+# python things
+__pycache__
