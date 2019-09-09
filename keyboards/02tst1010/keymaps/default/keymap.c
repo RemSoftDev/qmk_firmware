@@ -75,20 +75,20 @@ void long_press(keyrecord_t *record, uint16_t single_press_val, char long_press_
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case EML_1:
-      if (record->event.pressed) {SEND_STRING("oleksandr.dubyna@accenture.com");} break;
-    case EML_2:
-      if (record->event.pressed) {SEND_STRING("oleksandr.dubyna@avanade.com");} break;
-    case EML_3:
       if (record->event.pressed) {SEND_STRING("struggleendlessly@hotmail.com");} break;
-    case EML_4:
+    case EML_2:
       if (record->event.pressed) {SEND_STRING("se8se@hotmail.com");} break;
+    case EML_3:
+      if (record->event.pressed) {SEND_STRING("oleksand.dubyna");} break;
+    case EML_4:
+      if (record->event.pressed) {SEND_STRING("321");} break;
 
     case PSWD_1:
       if (record->event.pressed) {SEND_STRING("1qaz!QAZ");} break;
     case PSWD_2:
       if (record->event.pressed) {SEND_STRING("2wsx@WSX");} break;
     case PSWD_3:
-      if (record->event.pressed) {SEND_STRING("4rfv0p;/)P:?");} break;
+      if (record->event.pressed) {SEND_STRING("");} break;
     case PSWD_4:
       if (record->event.pressed) {SEND_STRING("1976319");} break;
 
@@ -121,11 +121,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* 3 */	 TO(_FN_PSWD),  TD(TD_ALT_ENTER),TD(TD_SHIFT_CAPS),   KC_Q,    KC_Z,    KC_X,  KC_C,     KC_V,    KC_NO,     KC_ESCAPE, \
 /* 4 */	 TO(_FN_DEV),   KC_TAB,          TD(TD_F2_PLUS_ENTER),KC_F5,   KC_LEFT, KC_UP, KC_RIGHT, KC_DOWN, KC_NO,     KC_BSPACE, \
 /*		    0					1			2			3		4			 5		  6	    	7			8		9		*/
-/* 5 */	 KC_AUDIO_VOL_UP,  	  KC_EQUAL,    KC_BSLASH,  KC_0,    KC_9,      KC_8,    KC_7,     KC_6,     KC_HOME,   KC_END, \
+/* 5 */	 KC_AUDIO_VOL_UP,  	  KC_EQUAL,    KC_BSLASH,  KC_0,    KC_9,      KC_8,    KC_7,     KC_6,     KC_END,    KC_HOME, \
 /* 6 */	 KC_AUDIO_VOL_DOWN,   TG(_FN_NUM), KC_MINS,    KC_P,    KC_O,      KC_I,    KC_U,     KC_Y,     KC_ENTER,  TD(TD_PAUSE_WINL), \
 /* 7 */	 KC_MEDIA_NEXT_TRACK, KC_RCTRL,    KC_QUOT,    KC_SCLN, KC_L,      KC_K,    KC_J,     KC_H,     KC_SPACE,  KC_RWIN, \
 /* 8 */	 KC_MEDIA_PREV_TRACK, KC_ENTER,    KC_RSHIFT,  KC_SLSH, KC_DOT,    KC_COMM, KC_M,     KC_N,     KC_NO,     KC_ESCAPE, \
-/* 9 */	 KC_MEDIA_PLAY_PAUSE, KC_DELETE,   KC_F2,      KC_F5,   KC_RIGHT,  KC_UP,   KC_LEFT,  KC_DOWN,  KC_NO,     KC_BSPACE \
+/* 9 */	 KC_MEDIA_PLAY_PAUSE, KC_DELETE,   KC_RWIN,    KC_RALT, KC_RIGHT,  KC_UP,   KC_LEFT,  KC_DOWN,  KC_NO,     KC_BSPACE \
 	),
 	[_FN_NUM] = LAYOUT(
 /*		 0		    1	    	2			3			4		 5			6		7			8		9		*/
