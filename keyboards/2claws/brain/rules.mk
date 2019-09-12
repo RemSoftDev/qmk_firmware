@@ -66,7 +66,8 @@ NO_USB_STARTUP_CHECK = yes
 #SPLIT_KEYBOARD = yes       # это разделенная клавиатура ( quantum/split_common добавляет каталог )
 #SPLIT_TRANSPORT = custom 	# это отменяет добавленный выше quantum/split_common каталог;) но... quantum/split_common/split_util.c остался(
 CUSTOM_MATRIX = yes			# нужно самому реализовать matrix_init() and matrix_scan().
-
+#ENCODER_ENABLE = yes        # Enable rotary encoder
+RAW_ENABLE = yes            # Enable RAW HID communication to PC
 
 VPATH += keyboards/2claws/lib
 SRC += matrix.c \
