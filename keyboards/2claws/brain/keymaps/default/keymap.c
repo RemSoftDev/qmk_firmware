@@ -26,32 +26,133 @@
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
+#define _BASE 0
+#define _FN_NUM 1
+#define _FN_EML 2
+#define _FN_PSWD 3
+#define _FN_DEV 4
+#define _FN_CSGO 5
+#define _FN_F 6
+
+//Tap Dance Declarations
+enum {
+  TD_PSCREEN_CAD,
+  TD_PAUSE_WINL,
+  TD_SHIFT_CAPS,
+  TD_ALT_ENTER,
+  TD_F2_PLUS_ENTER
+};
+
+void F2_PLUS_ENTER(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    tap_code(KC_F2);
+  } else {
+    SEND_STRING("+"SS_TAP(X_ENTER));
+  }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [TD_PSCREEN_CAD]   = ACTION_TAP_DANCE_DOUBLE(KC_PSCREEN, LCTL(LALT(KC_DEL))),
+    [TD_PAUSE_WINL]    = ACTION_TAP_DANCE_DOUBLE(KC_PAUSE, LWIN(KC_L)),
+    [TD_SHIFT_CAPS]    = ACTION_TAP_DANCE_DOUBLE(KC_LSHIFT, KC_CAPSLOCK),
+    [TD_ALT_ENTER]     = ACTION_TAP_DANCE_DOUBLE(KC_LALT, KC_ENTER),
+    [TD_F2_PLUS_ENTER] = ACTION_TAP_DANCE_FN (F2_PLUS_ENTER)
+};
+
+enum custom_keycodes {
+  
+  EML_1 = SAFE_RANGE,
+  EML_2,
+  EML_3,
+  EML_4,
+  PSWD_1,
+  PSWD_2,
+  PSWD_3,
+  PSWD_4,
+  HWTEST,
+  CAD__PS };
+
+bool     long_press_was     = false;
+bool     long_press_is      = false;
+uint16_t long_press_value   = KC_NO;
+uint16_t single_press_value = KC_NO;
+uint16_t long_press_timer   = 0;
+
+void long_press(keyrecord_t *record, uint16_t single_press_val, char long_press_val) {
+  if (record->event.pressed) {
+    single_press_value = single_press_val;
+    long_press_value   = long_press_val;
+
+    long_press_is    = true;
+    long_press_timer = timer_read();
+  } else {
+    long_press_is = false;
+    if (long_press_was == false) {
+      tap_code(single_press_value);
+    }
+
+    long_press_was     = false;
+    long_press_timer   = 0;
+    long_press_value   = KC_NO;
+    single_press_value = KC_NO;
+  }
+}
+// сюда попадаем по событию нажата или отжата клавиша
+bool is_hwtest;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case EML_1:
+      if (record->event.pressed) {SEND_STRING("struggleendlessly@hotmail.com");} break;
+    case EML_2:
+      if (record->event.pressed) {SEND_STRING("se8se@hotmail.com");} break;
+    case EML_3:
+      if (record->event.pressed) {SEND_STRING("oleksand.dubyna");} break;
+    case EML_4:
+      if (record->event.pressed) {SEND_STRING("321");} break;
+
+    case PSWD_1:
+      if (record->event.pressed) {SEND_STRING("1qaz!QAZ");} break;
+    case PSWD_2:
+      if (record->event.pressed) {SEND_STRING("2wsx@WSX");} break;
+    case PSWD_3:
+      if (record->event.pressed) {SEND_STRING("");} break;
+    case PSWD_4:
+      if (record->event.pressed) {SEND_STRING("1976319");} break;
+	case HWTEST: if (record->event.pressed) {is_hwtest = !is_hwtest;}break;
+/* SS_LCTRL(SS_LALT(SS_TAP(X_DELETE))) */
+    case CAD__PS:
+      long_press(record,  KC_1, KC_1);
+      break;
+  }
+
+  return true;
+};
+
 enum layer_number {
     _QWERTY = 0,
     _FN,
 };
 
-enum custom_keycodes {
-  HWTEST = SAFE_RANGE,
-};
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+
 	[_QWERTY] = LAYOUT(
-HWTEST, \
-\
-	KC_F1,   KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,                                        \
-	KC_P1,   KC_PAST,  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS,  KC_INS,  \
-	KC_P2,   KC_PSLS,  KC_P9,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_PSCR,  KC_NLCK, \
-	KC_P3,   KC_APP,   KC_P8,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_UP,    KC_PPLS, \
-	KC_P4,   KC_LCTL,  KC_P7,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_PENT,  KC_END,  \
-	KC_LCTL, KC_LALT,  KC_P6,   KC_P5,   KC_SPC,  KC_ESC,  KC_TAB,  KC_CAPS,           KC_PDOT, \
-\
-								   								 KC_F7,    KC_F8,   KC_F9,    KC_F10,    KC_F11,   KC_F12,  \
-							KC_HOME, KC_SLCK,  KC_6,    KC_7,    KC_8,     KC_9,    KC_0,     KC_MINS,   KC_EQL,   KC_NUBS,  \
-							KC_PGUP, KC_BRK,   KC_Y,   KC_U,    KC_I,     KC_O,    KC_P,     KC_LBRC,   KC_RBRC,  KC_F13, \
-							KC_P3,   KC_PMNS,   KC_H,   KC_J,    KC_K,     KC_L,    KC_SCLN,  KC_PCMM,   KC_NUHS,  KC_F14, \
-							KC_P4,   KC_PPLS,  KC_N,   KC_M,    KC_COMM,  KC_DOT,  KC_BSLS,  KC_DEL,    KC_SLSH,  KC_F15,  \
-							KC_DOWN,           KC_LALT, KC_LEFT, KC_UP,    KC_RGHT, KC_COMM,  KC_PGUP,   KC_RALT,  MO(_FN)
+
+		    HWTEST, \
+/*		 	0				1	    	    2			        3		4		 5		6		    7			8			9		*/
+/* 0 */	 KC_F1,         KC_F2,            KC_F3,                KC_F4,   KC_F5,   KC_F6,
+/* 0 */	 TO(_FN_F),     KC_NO,            KC_GRAVE,             KC_1,    KC_2,    KC_3,    KC_4,      KC_5,     KC_PGUP,   KC_PGDOWN, \
+/* 1 */	 TO(_FN_CSGO),  TG(_FN_NUM),      KC_RBRACKET,          KC_W,    KC_E,    KC_R,    KC_T,      KC_B,     KC_ENTER,  TD(TD_PSCREEN_CAD), \
+/* 2 */	 TO(_FN_EML),   KC_LCTRL,         KC_LBRACKET,          KC_A,    KC_S,    KC_D,    KC_F,      KC_G,     KC_LWIN,   KC_ESCAPE, \
+/* 3 */	 TO(_FN_PSWD),  TD(TD_ALT_ENTER), TD(TD_SHIFT_CAPS),    KC_Q,    KC_Z,    KC_X,    KC_C,      KC_V,     KC_SPACE,  KC_BSPACE, \
+/* 4 */	 TO(_FN_DEV),   KC_TAB,           TD(TD_F2_PLUS_ENTER), KC_F5,   KC_LEFT, KC_UP,   KC_RIGHT,  KC_SPACE,            KC_DOWN, \
+/*		    0					1			2			3		4			 5		  6	    	7			8		9		*/
+								   							 KC_F7,   KC_F8,    KC_F9,    KC_F10,     KC_F11,       KC_F12,  \
+/* 5 */	 KC_HOME,  	          KC_END,    KC_6,     KC_7,     KC_8,    KC_9,     KC_0,     KC_BSLASH,  KC_EQUAL,     KC_AUDIO_VOL_UP,\
+/* 6 */	 TD(TD_PAUSE_WINL),   KC_ENTER,  KC_Y,     KC_U,     KC_I,    KC_O,     KC_P,     KC_MINS,    TG(_FN_NUM),  KC_AUDIO_VOL_DOWN,   \
+/* 7 */	 KC_ESCAPE,           KC_RWIN,   KC_H,     KC_J,     KC_K,    KC_L,     KC_SCLN,  KC_QUOT,    KC_SPACE,     KC_MEDIA_NEXT_TRACK, \
+/* 8 */	 KC_BSPACE,           KC_SPACE,  KC_N,     KC_M,     KC_COMM, KC_DOT,   KC_SLSH,  KC_RSHIFT,  KC_ENTER,     KC_MEDIA_PREV_TRACK,\
+/* 9 */	 KC_DOWN,                        KC_SPACE, KC_LEFT,  KC_UP,   KC_RIGHT, KC_UP,    KC_RCTRL,   KC_RALT,      KC_MEDIA_PLAY_PAUSE
 		),
 	[_FN] = LAYOUT(
 			KC_TRNS, \
@@ -109,8 +210,6 @@ led_config_t g_led_config = { {
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 } };
-
-bool is_hwtest;
 
 
 // настройка порта управления светодиодом D1
@@ -355,6 +454,15 @@ void matrix_scan_user(void) {     //# The very important timer.
 		is_matrix_hwtest = is_hwtest;
 		slaves_motors_chek();
     }
+
+	  if (long_press_is) {
+    if (timer_elapsed(long_press_timer) > 300) {
+      char my_str[4] = "ok.";
+send_string(my_str);
+      long_press_is  = false;
+      long_press_was = true;
+    }
+  }
  }
  
 void rgb_matrix_indicators_user(void){
@@ -368,16 +476,4 @@ void rgb_matrix_indicators_user(void){
 }
 
 
-// сюда попадаем по событию нажата или отжата клавиша
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-  case HWTEST: //
-      if (record->event.pressed) {
-    	  is_hwtest = !is_hwtest;
-      } else { // when keycode is released
-    	;
-      }
-      break;
-  }
-  return true;
-};
+
