@@ -222,6 +222,7 @@ void keyboard_post_init_user(void) {
 
 // для проверки rgb матрицы
 // каждый  вызов зажигает следующий светодиод
+/*
 void rgb_chek_matrix(void) {
 
 	static uint8_t state_led = DRIVER_LED_TOTAL;
@@ -241,7 +242,7 @@ void rgb_chek_matrix(void) {
 		state_led=0;
 	}
 }
-
+*/
 // для проверки удаленны моторов
 void slaves_motors_chek(void) {
 static uint8_t state = 1;
@@ -363,7 +364,7 @@ void rgb_matrix_indicators_user(void){
 
 	if (is_rgb_hwtest != is_hwtest) {
 		is_rgb_hwtest = is_hwtest;
-    	rgb_chek_matrix();
+    	//rgb_chek_matrix();
     }
 }
 
