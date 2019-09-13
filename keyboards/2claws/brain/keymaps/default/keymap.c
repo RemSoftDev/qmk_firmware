@@ -312,7 +312,7 @@ void keyboard_post_init_user(void) {
 	debug_enable = true; // нужно для работы dprintf
 	debug_keyboard = true;
   // Call the post init code.
-    rgblight_sethsv_noeeprom(180, 255, 255); // sets the color to teal/cyan without saving
+    rgblight_sethsv_noeeprom(100, 255, 100); // sets the color to teal/cyan without saving
 	rgblight_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE_SIMPLE); // sets mode to Fast breathing without saving
 	rgblight_enable_noeeprom(); // enables Rgb, without saving settings
 }
