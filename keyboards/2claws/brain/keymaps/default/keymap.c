@@ -60,7 +60,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 };
 
 enum custom_keycodes {
-  
+
   EML_1 = SAFE_RANGE,
   EML_2,
   EML_3,
@@ -135,26 +135,25 @@ enum layer_number {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
-	[_QWERTY] = LAYOUT(
-
-		    HWTEST, \
-/*		 	0				1	    	    2			        3		4		 5		6		    7			8			9		*/
-/* 0 */	 KC_F1,         KC_F2,            KC_F3,                KC_F4,   KC_F5,   KC_F6,
+	[_BASE] = LAYOUT(
+/* brain key */	 HWTEST, \
+/*		 	0				1	    	    2			        3		   4		 5		6		    7			8			9		*/
+/* f */	 KC_F1,         KC_F2,            KC_F3,                KC_F4,   KC_F5,   KC_F6,
 /* 0 */	 TO(_FN_F),     KC_NO,            KC_GRAVE,             KC_1,    KC_2,    KC_3,    KC_4,      KC_5,     KC_PGUP,   KC_PGDOWN, \
 /* 1 */	 TO(_FN_CSGO),  TG(_FN_NUM),      KC_RBRACKET,          KC_W,    KC_E,    KC_R,    KC_T,      KC_B,     KC_ENTER,  TD(TD_PSCREEN_CAD), \
 /* 2 */	 TO(_FN_EML),   KC_LCTRL,         KC_LBRACKET,          KC_A,    KC_S,    KC_D,    KC_F,      KC_G,     KC_LWIN,   KC_ESCAPE, \
 /* 3 */	 TO(_FN_PSWD),  TD(TD_ALT_ENTER), TD(TD_SHIFT_CAPS),    KC_Q,    KC_Z,    KC_X,    KC_C,      KC_V,     KC_SPACE,  KC_BSPACE, \
 /* 4 */	 TO(_FN_DEV),   KC_TAB,           TD(TD_F2_PLUS_ENTER), KC_F5,   KC_LEFT, KC_UP,   KC_RIGHT,  KC_SPACE,            KC_DOWN, \
-/*		    0					1			2			3		4			 5		  6	    	7			8		9		*/
-								   							 KC_F7,   KC_F8,    KC_F9,    KC_F10,     KC_F11,       KC_F12,  \
-/* 5 */	 KC_HOME,  	          KC_END,    KC_6,     KC_7,     KC_8,    KC_9,     KC_0,     KC_BSLASH,  KC_EQUAL,     KC_AUDIO_VOL_UP,\
-/* 6 */	 TD(TD_PAUSE_WINL),   KC_ENTER,  KC_Y,     KC_U,     KC_I,    KC_O,     KC_P,     KC_MINS,    TG(_FN_NUM),  KC_AUDIO_VOL_DOWN,   \
-/* 7 */	 KC_ESCAPE,           KC_RWIN,   KC_H,     KC_J,     KC_K,    KC_L,     KC_SCLN,  KC_QUOT,    KC_SPACE,     KC_MEDIA_NEXT_TRACK, \
-/* 8 */	 KC_BSPACE,           KC_SPACE,  KC_N,     KC_M,     KC_COMM, KC_DOT,   KC_SLSH,  KC_RSHIFT,  KC_ENTER,     KC_MEDIA_PREV_TRACK,\
-/* 9 */	 KC_DOWN,                        KC_SPACE, KC_LEFT,  KC_UP,   KC_RIGHT, KC_UP,    KC_RCTRL,   KC_RALT,      KC_MEDIA_PLAY_PAUSE
+/*		    0					1			2		3	    	4		 5		  6	    	7			8	        	9		*/
+/* f */							   							 KC_F7,   KC_F8,    KC_F9,    KC_F10,     KC_F11,       KC_F12, \
+/* 5 */	 KC_HOME,  	          KC_END,    KC_6,     KC_7,     KC_8,    KC_9,     KC_0,     KC_BSLASH,  KC_EQUAL,     KC_AUDIO_VOL_UP, \
+/* 6 */	 TD(TD_PAUSE_WINL),   KC_ENTER,  KC_Y,     KC_U,     KC_I,    KC_O,     KC_P,     KC_MINS,    TG(_FN_NUM),  KC_AUDIO_VOL_DOWN, \
+/* 7 */	 KC_ESCAPE,           KC_RWIN,   KC_H,     KC_J,     KC_K,    KC_L,     KC_SCLN,  KC_QUOT,    KC_RCTRL,     KC_MEDIA_NEXT_TRACK, \
+/* 8 */	 KC_BSPACE,           KC_SPACE,  KC_N,     KC_M,     KC_COMM, KC_DOT,   KC_SLSH,  KC_RSHIFT,  KC_ENTER,     KC_MEDIA_PREV_TRACK, \
+/* 9 */	 KC_DOWN,                        KC_SPACE, KC_LEFT,  KC_UP,   KC_RIGHT, KC_RALT,  KC_RWIN,    KC_DELETE,    KC_MEDIA_PLAY_PAUSE
 		),
-	[_FN] = LAYOUT(
+
+	[_FN_NUM] = LAYOUT(
 			KC_TRNS, \
 			KC_TRNS,   KC_TRNS,   KC_F3,    KC_F4,   KC_F5,   KC_F6,                                                                               KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,   KC_PGUP, \
 			KC_TRNS,   KC_TRNS,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, KC_E,     KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,   KC_PGUP, \
@@ -224,7 +223,7 @@ void D1_on(void) {
 }
 
 void D1_off(void) {
-	PORTD |=(1<<7); 
+	PORTD |=(1<<7);
 }
 
 
@@ -269,7 +268,7 @@ void D1_blink(uint16_t takt) {
 			is_d1 = true;
 			D1_on();
 		}
-    } 
+    }
 }
 
 
@@ -445,7 +444,7 @@ void oled_task_user(void) {
 #endif
 
 // эта функция вызывается в главном цикле
-void matrix_scan_user(void) {     //# The very important timer. 
+void matrix_scan_user(void) {     //# The very important timer.
 
 	static bool is_matrix_hwtest;
 	D1_blink(1000); // мигает то прошивка независла
@@ -464,7 +463,7 @@ send_string(my_str);
     }
   }
  }
- 
+
 void rgb_matrix_indicators_user(void){
 
 	static bool is_rgb_hwtest;
