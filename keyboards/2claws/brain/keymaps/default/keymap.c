@@ -107,24 +107,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case EML_3:
       if (record->event.pressed) {SEND_STRING("oleksand.dubyna");} break;
     case EML_4:
-      if (record->event.pressed) {SEND_STRING("321");} break;
+      if (record->event.pressed) {SEND_STRING("oleksandr.IT@jibjibstudio.com");} break;
     case EML_5:
-      if (record->event.pressed) {SEND_STRING("321");} break;
+      if (record->event.pressed) {SEND_STRING("oleksandr.d@genolis.com.au");} break;
     case EML_6:
-      if (record->event.pressed) {SEND_STRING("321");} break;
+      if (record->event.pressed) {SEND_STRING("oleksandr.dubyna@cigen.me");} break;
 
     case PSWD_1:
       if (record->event.pressed) {SEND_STRING("1qaz!QAZ");} break;
     case PSWD_2:
       if (record->event.pressed) {SEND_STRING("2wsx@WSX");} break;
     case PSWD_3:
-      if (record->event.pressed) {SEND_STRING("");} break;
+      if (record->event.pressed) {SEND_STRING("3rdx#RDX");} break;
     case PSWD_4:
       if (record->event.pressed) {SEND_STRING("1976319");} break;
     case PSWD_5:
-      if (record->event.pressed) {SEND_STRING("1976319");} break;
+      if (record->event.pressed) {SEND_STRING("1waq!WAQ");} break;
     case PSWD_6:
-      if (record->event.pressed) {SEND_STRING("1976319");} break;
+      if (record->event.pressed) {SEND_STRING("welcome19");} break;
 	case HWTEST: if (record->event.pressed) {is_hwtest = !is_hwtest;}break;
 /* SS_LCTRL(SS_LALT(SS_TAP(X_DELETE))) */
     case CAD__PS:
