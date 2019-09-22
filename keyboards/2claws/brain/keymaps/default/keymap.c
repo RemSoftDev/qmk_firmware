@@ -139,7 +139,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* brain key */	 HWTEST, \
 /*		 	0				1	    	    2			        3		   4		 5		6		    7			8			9		*/
 /* f */	 KC_F1,         KC_F2,            KC_F3,                KC_F4,   KC_F5,   KC_F6,
-/* 0 */	 TO(_FN_F),     KC_NO,            KC_GRAVE,             KC_1,    KC_2,    KC_3,    KC_4,      KC_5,     KC_PGUP,   KC_PGDOWN, \
+/* 0 */	 TO(_FN_F),     KC_W,            KC_GRAVE,             KC_1,    KC_2,    KC_3,    KC_4,      KC_5,     KC_PGUP,   KC_PGDOWN, \
 /* 1 */	 TO(_FN_CSGO),  TG(_FN_NUM),      KC_RBRACKET,          KC_W,    KC_E,    KC_R,    KC_T,      KC_B,     KC_ENTER,  TD(TD_PSCREEN_CAD), \
 /* 2 */	 TO(_FN_EML),   KC_LCTRL,         KC_LBRACKET,          KC_A,    KC_S,    KC_D,    KC_F,      KC_G,     KC_LWIN,   KC_ESCAPE, \
 /* 3 */	 TO(_FN_PSWD),  TD(TD_ALT_ENTER), TD(TD_SHIFT_CAPS),    KC_Q,    KC_Z,    KC_X,    KC_C,      KC_V,     KC_SPACE,  KC_BSPACE, \
@@ -154,13 +154,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		),
 
 	[_FN_NUM] = LAYOUT(
-			KC_TRNS, \
-			KC_TRNS,   KC_TRNS,   KC_F3,    KC_F4,   KC_F5,   KC_F6,                                                                               KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,   KC_PGUP, \
-			KC_TRNS,   KC_TRNS,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,  KC_PGUP, KC_E,     KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PGDN,   KC_PGUP, \
-			KC_TRNS,   KC_TRNS,   KC_RBRC,  KC_W,    KC_E,    KC_R,    KC_T,    KC_B,    KC_RWIN,  KC_SLCK, KC_P,     KC_EQL,   KC_SLSH,  KC_0,    KC_9,    KC_8,    KC_7,    KC_6,    KC_HOME,   KC_END,\
-			KC_TRNS,   KC_TRNS,   KC_LBRC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_PDOT,  KC_BSLS, KC_P,     KC_NLCK,  KC_MINS,  KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_PSCR,   KC_INS,\
-			KC_TRNS,   KC_TRNS,   KC_APP,   KC_Q,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_RCTL, KC_NLCK,  KC_F11,   KC_QUOT,  KC_SCLN, KC_L,    KC_K,    KC_J,    KC_H,    KC_PAUS,   KC_PAST,\
-			KC_TRNS,   KC_TRNS,   _______,  KC_P8,   KC_LEFT, KC_UP,   KC_RGHT, KC_DOWN,            KC_ENT, KC_CAPS,            KC_P9,    KC_SLSH, KC_DOT,  KC_COMM, KC_M,    KC_N,    KC_RCTL,   KC_PMNS
+/* brain key */	 HWTEST, \
+/*		 	0	    	1	        2		   3		      4		   5	    	6		  7			8			9		*/
+/* f */	 KC_TRNS,  KC_TRNS,       KC_TRNS,   KC_TRNS,      KC_TRNS,  KC_TRNS,
+/* 0 */	 KC_TRNS,  KC_NUMLOCK,    KC_TRNS,   KC_TRNS,      KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 1 */	 KC_TRNS,  TG(_FN_NUM),   KC_PSLS,   KC_KP_MINUS,  KC_KP_9,  KC_KP_8,   KC_KP_7,   KC_KP_0,  KC_TRNS,  KC_TRNS, \
+/* 2 */	 KC_TRNS,  KC_TRNS,       KC_PAST,   KC_KP_PLUS,   KC_KP_6,  KC_KP_5,   KC_KP_4,   KC_KP_0,  KC_TRNS,  KC_TRNS, \
+/* 3 */	 KC_TRNS,  KC_TRNS,       KC_TRNS,   KC_KP_DOT,    KC_KP_3,  KC_KP_2,   KC_KP_1,   KC_KP_0,  KC_TRNS,  KC_TRNS, \
+/* 4 */	 KC_TRNS,  KC_TRNS,       KC_TRNS,   KC_TRNS,      KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,            KC_TRNS, \
+/*		    0			1		2		  3	    	4	       5		  6	          	7			8	        	9		*/
+/* f */							   			      KC_TRNS,  KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 5 */	 KC_TRNS,  	KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_NUMLOCK,   KC_TRNS, \
+/* 6 */	 KC_TRNS,   KC_TRNS,  KC_KP_0,  KC_KP_7,  KC_KP_8,  KC_KP_9,   KC_KP_MINUS,  KC_PSLS,    TG(_FN_NUM),  KC_TRNS, \
+/* 7 */	 KC_TRNS,   KC_TRNS,  KC_KP_0,  KC_KP_4,  KC_KP_5,  KC_KP_6,   KC_KP_PLUS,   KC_PAST,    KC_TRNS,      KC_TRNS, \
+/* 8 */	 KC_TRNS,   KC_TRNS,  KC_KP_0,  KC_KP_1,  KC_KP_2,  KC_KP_3,   KC_KP_DOT,    KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 9 */	 KC_TRNS,             KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS
 	),
 };
 
@@ -422,8 +430,8 @@ static void render_status(void) {
     case _QWERTY:
       oled_write_ln_P(PSTR("QWERTY"), false);
       break;
-    case _FN:
-      oled_write_ln_P(PSTR("Function"), false);
+    case _FN_NUM:
+      oled_write_ln_P(PSTR("_FN_NUM"), false);
       break;
     default:
       oled_write_ln_P(PSTR("Undefined"), false);
