@@ -22,17 +22,12 @@
 #include "motor.h"
 #include "debug.h"
 
-// Each layer gets a name for readability, which is then used in the keymap matrix below.
-// The underscores don't mean anything - you can have a layer called STUFF or any other name.
-// Layer names don't all need to be of the same length, obviously, and you can also skip them
-// entirely and just use numbers.
 #define _BASE 0
 #define _FN_NUM 1
 #define _FN_EML 2
 #define _FN_PSWD 3
 #define _FN_DEV 4
 #define _FN_CSGO 5
-#define _FN_F 6
 
 //Tap Dance Declarations
 enum {
@@ -60,15 +55,18 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 };
 
 enum custom_keycodes {
-
   EML_1 = SAFE_RANGE,
   EML_2,
   EML_3,
   EML_4,
+  EML_5,
+  EML_6,
   PSWD_1,
   PSWD_2,
   PSWD_3,
   PSWD_4,
+  PSWD_5,
+  PSWD_6,
   HWTEST,
   CAD__PS };
 
@@ -110,6 +108,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {SEND_STRING("oleksand.dubyna");} break;
     case EML_4:
       if (record->event.pressed) {SEND_STRING("321");} break;
+    case EML_5:
+      if (record->event.pressed) {SEND_STRING("321");} break;
+    case EML_6:
+      if (record->event.pressed) {SEND_STRING("321");} break;
 
     case PSWD_1:
       if (record->event.pressed) {SEND_STRING("1qaz!QAZ");} break;
@@ -118,6 +120,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case PSWD_3:
       if (record->event.pressed) {SEND_STRING("");} break;
     case PSWD_4:
+      if (record->event.pressed) {SEND_STRING("1976319");} break;
+    case PSWD_5:
+      if (record->event.pressed) {SEND_STRING("1976319");} break;
+    case PSWD_6:
       if (record->event.pressed) {SEND_STRING("1976319");} break;
 	case HWTEST: if (record->event.pressed) {is_hwtest = !is_hwtest;}break;
 /* SS_LCTRL(SS_LALT(SS_TAP(X_DELETE))) */
@@ -139,7 +145,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* brain key */	 HWTEST, \
 /*		 	0				1	    	    2			        3		   4		 5		6		    7			8			9		*/
 /* f */	 KC_F1,         KC_F2,            KC_F3,                KC_F4,   KC_F5,   KC_F6,
-/* 0 */	 TO(_FN_F),     KC_W,            KC_GRAVE,             KC_1,    KC_2,    KC_3,    KC_4,      KC_5,     KC_PGUP,   KC_PGDOWN, \
+/* 0 */	 KC_NO,         KC_NO,            KC_GRAVE,             KC_1,    KC_2,    KC_3,    KC_4,      KC_5,     KC_PGUP,   KC_PGDOWN, \
 /* 1 */	 TO(_FN_CSGO),  TG(_FN_NUM),      KC_RBRACKET,          KC_W,    KC_E,    KC_R,    KC_T,      KC_B,     KC_ENTER,  TD(TD_PSCREEN_CAD), \
 /* 2 */	 TO(_FN_EML),   KC_LCTRL,         KC_LBRACKET,          KC_A,    KC_S,    KC_D,    KC_F,      KC_G,     KC_LWIN,   KC_ESCAPE, \
 /* 3 */	 TO(_FN_PSWD),  TD(TD_ALT_ENTER), TD(TD_SHIFT_CAPS),    KC_Q,    KC_Z,    KC_X,    KC_C,      KC_V,     KC_SPACE,  KC_BSPACE, \
@@ -154,7 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		),
 
 	[_FN_NUM] = LAYOUT(
-/* brain key */	 HWTEST, \
+/* brain key */	 KC_TRNS, \
 /*		 	0	    	1	        2		   3		      4		   5	    	6		  7			8			9		*/
 /* f */	 KC_TRNS,  KC_TRNS,       KC_TRNS,   KC_TRNS,      KC_TRNS,  KC_TRNS,
 /* 0 */	 KC_TRNS,  KC_NUMLOCK,    KC_TRNS,   KC_TRNS,      KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
@@ -170,24 +176,92 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* 8 */	 KC_TRNS,   KC_TRNS,  KC_KP_0,  KC_KP_1,  KC_KP_2,  KC_KP_3,   KC_KP_DOT,    KC_TRNS,    KC_TRNS,      KC_TRNS, \
 /* 9 */	 KC_TRNS,             KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS
 	),
+    [_FN_EML] = LAYOUT(
+/* brain key */	 KC_TRNS, \
+/*		 	0	    	1	        2		   3		      4		   5	    	6		  7			8			9		*/
+/* f */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,
+/* 0 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 1 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 2 */	 TO(_BASE), KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 3 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 4 */	 KC_TRNS,   KC_TRNS,   EML_1,    EML_2,      EML_3,    EML_4,     EML_5,     KC_TRNS,            EML_6, \
+/*		    0			1		2		  3	    	4	       5		  6	          	7			8	        	9		*/
+/* f */							   			      KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 5 */	 KC_TRNS,  	KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 6 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 7 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 8 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 9 */	 KC_TRNS,             KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS
+	),
+	[_FN_PSWD] = LAYOUT(
+/* brain key */	 KC_TRNS, \
+/*		 	0	    	1	        2		   3		      4		   5	    	6		  7			8			9		*/
+/* f */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,
+/* 0 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 1 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 2 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 3 */	 TO(_BASE), KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 4 */	 KC_TRNS,   KC_TRNS,   PSWD_1,    PSWD_2,    PSWD_3,   PSWD_4,    PSWD_5,    KC_TRNS,            PSWD_6, \
+/*		    0			1		2		  3	    	4	       5		  6	          	7			8	        	9		*/
+/* f */							   			      KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 5 */	 KC_TRNS,  	KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 6 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 7 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 8 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 9 */	 KC_TRNS,             KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS
+	),
+    [_FN_DEV] = LAYOUT(
+/* brain key */	 KC_TRNS, \
+/*		 	0	    	1	        2		   3		      4		   5	    	6		  7			8			9		*/
+/* f */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,
+/* 0 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 1 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 2 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 3 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 4 */	 TO(_BASE), KC_TRNS,   PSWD_1,    PSWD_2,    PSWD_3,   PSWD_4,    PSWD_5,    KC_TRNS,            PSWD_6, \
+/*		    0			1		2		  3	    	4	       5		  6	          	7			8	        	9		*/
+/* f */							   			      KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 5 */	 KC_TRNS,  	KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 6 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 7 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 8 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 9 */	 KC_TRNS,             KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS
+	),
+    [_FN_CSGO] = LAYOUT(
+/* brain key */	 KC_TRNS, \
+/*		 	0	    	1	        2		   3		      4		   5	    	6		  7			8			9		*/
+/* f */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,
+/* 0 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 1 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 2 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 3 */	 KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS, \
+/* 4 */	 TO(_BASE), KC_TRNS,   PSWD_1,    PSWD_2,    PSWD_3,   PSWD_4,    PSWD_5,    KC_TRNS,            PSWD_6, \
+/*		    0			1		2		  3	    	4	       5		  6	          	7			8	        	9		*/
+/* f */							   			      KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 5 */	 KC_TRNS,  	KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 6 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 7 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 8 */	 KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS, \
+/* 9 */	 KC_TRNS,             KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,   KC_TRNS,    KC_TRNS,      KC_TRNS
+	),
 };
 
 led_config_t g_led_config = { {
   // Key Matrix to LED Index https://beta.docs.qmk.fm/features/feature_rgb_matrix
-		{ NO_LED },
-		{ 64, 63, 62, 61, 60, 59, NO_LED, NO_LED, NO_LED, NO_LED },
-		{ 58, 57, 56, 55, 54, 53, 52, 51, 50, 49 },
-		{ 48, 47, 46, 45, 44, 43, 42, 41, 40, 39 },
-		{ 38, 37, 36, 35, 34, 33, 32, 31, 30, 29 },
-		{ 28, 27, 26, 25, 24, 23, 22, 21, 20, 19 },
-		{ 18, 17, 16, 15, 14, 13, 12, 11, NO_LED, 10 },
-	\
-	    { NO_LED, NO_LED, NO_LED, NO_LED, 70, 69, 68, 67, 66, 65 },
-	    { 80, 79, 78, 77, 76, 75, 74, 73, 72, 71 },
-	    { 90, 89, 88, 87, 86, 85, 84, 83, 82, 81 },
-	    { 100, 99, 98, 97, 96, 95, 94, 93, 92, 91 },
-	    { 110, 109, 108, 107, 106, 105, 104, 103, 102, 101 },
-	    { 119, NO_LED, 118, 117, 116, 115, 114, 113, 112, 111 }
+    { NO_LED },
+    { 64, 63, 62, 61, 60, 59, NO_LED, NO_LED, NO_LED, NO_LED },
+    { 58, 57, 56, 55, 54, 53, 52, 51, 50, 49 },
+    { 48, 47, 46, 45, 44, 43, 42, 41, 40, 39 },
+    { 38, 37, 36, 35, 34, 33, 32, 31, 30, 29 },
+    { 28, 27, 26, 25, 24, 23, 22, 21, 20, 19 },
+    { 18, 17, 16, 15, 14, 13, 12, 11, NO_LED, 10 },
+\
+    { NO_LED, NO_LED, NO_LED, NO_LED, 70, 69, 68, 67, 66, 65 },
+    { 80, 79, 78, 77, 76, 75, 74, 73, 72, 71 },
+    { 90, 89, 88, 87, 86, 85, 84, 83, 82, 81 },
+    { 100, 99, 98, 97, 96, 95, 94, 93, 92, 91 },
+    { 110, 109, 108, 107, 106, 105, 104, 103, 102, 101 },
+    { 119, NO_LED, 118, 117, 116, 115, 114, 113, 112, 111 }
 }, {
   // LED Index to Physical Position
   { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, {  0,  0 }, {  0,  0 },
@@ -427,11 +501,23 @@ static void render_status(void) {
   // Define layers here, Have not worked out how to have text displayed for each layer. Copy down the number you see and add a case for it below
   oled_write_P(PSTR("Layer: "), false);
   switch (biton32(layer_state)) {
-    case _QWERTY:
-      oled_write_ln_P(PSTR("QWERTY"), false);
+    case _BASE:
+      oled_write_ln_P(PSTR("_BASE"), false);
       break;
     case _FN_NUM:
       oled_write_ln_P(PSTR("_FN_NUM"), false);
+      break;
+    case _FN_EML:
+      oled_write_ln_P(PSTR("_FN_EML"), false);
+      break;
+    case _FN_PSWD:
+      oled_write_ln_P(PSTR("_FN_PSWD"), false);
+      break;
+    case _FN_DEV:
+      oled_write_ln_P(PSTR("_FN_DEV"), false);
+      break;
+    case _FN_CSGO:
+      oled_write_ln_P(PSTR("_FN_CSGO"), false);
       break;
     default:
       oled_write_ln_P(PSTR("Undefined"), false);
