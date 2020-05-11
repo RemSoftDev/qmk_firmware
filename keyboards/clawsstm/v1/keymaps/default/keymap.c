@@ -8,7 +8,7 @@
 #define _FN1 1
 
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {	
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT(
 // https://beta.docs.qmk.fm/features/keycodes_basic
  #ifdef LEFT_CLAW
@@ -28,12 +28,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		   MO(_FN1),   KC_MUTE,  KC_HOME,   KC_PAUSE,    KC_RIGHT, KC_UP,   KC_LEFT, KC_DOWN, KC_NO,    KC_NO \
 	),
 #else // right CLAW
-		   KC_F12,    KC_F11,     KC_F10,     KC_F9,    KC_F8,    KC_F7,    KC_NO,   KC_NO,   KC_NO,    KC_NO,   \
+		   KC_F12,    KC_F11,     KC_F10,     KC_F9,    KC_F8,    KC_F7,    KC_KP_0,   KC_NO,   KC_NO,    KC_NO,   \
 		   KC_BSPACE,   KC_EQL,   KC_MINS,   KC_0,    KC_9,    KC_8,    KC_7,    KC_6,   KC_PGUP,  KC_PGDN,   \
 		   KC_DELETE,   KC_RBRC,   KC_LBRC,  KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_ENT,  RSFT(KC_QUOTE), \
 		   KC_PAUSE,   KC_ENT,   KC_QUOT,  KC_SCLN,    KC_L,    KC_K,    KC_J,    KC_H,    KC_DELETE,   KC_RWIN, \
 		   KC_PSCR,   KC_VOLU,  KC_RSFT,   KC_SLSH,    KC_DOT,    KC_COMM,    KC_M,    KC_N,    KC_SPC,    KC_RSFT, \
-		   MO(_FN1),   KC_VOLD,  KC_HOME,   KC_END,    KC_RIGHT, KC_UP,   KC_LEFT, KC_DOWN, KC_NO,    KC_NO \
+		   MO(_FN1),   KC_VOLD,  KC_HOME,   KC_END,    KC_RIGHT, KC_UP,   KC_LEFT, KC_DOWN, KC_KP_9,    KC_KP_8 \
 		),
 	[_FN1] = LAYOUT(
 		   RESET, RGB_TOG, RGB_MOD,     RGB_MODE_PLAIN,    RGB_MODE_RGBTEST,    RGB_VAI,    KC_NO,   KC_NO,   KC_NO,    KC_NO,   \
@@ -41,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		   MOTOR2,   KC_PDOT,   KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_ENT,  KC_DEL, \
 		   MOTOR3,   KC_MS_WH_UP,   KC_CAPS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_DELETE,   KC_BSLS, \
 		   RGB_MODE_RGBTEST,   KC_MS_WH_DOWN,  KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MS_BTN1, KC_MS_BTN2, \
-		   MO(_FN1),   KC_LCTRL,  KC_LCTRL,   KC_LALT,   KC_LALT, KC_UP,   KC_SPC, KC_DOWN, KC_NO,    KC_NO \
+		   MO(_FN1),   KC_LCTRL,  KC_LCTRL,   KC_LALT,   KC_LALT, KC_UP,   KC_SPC, KC_DOWN, KC_KP_9,    KC_KP_8 \
 	),
 #endif
 };
