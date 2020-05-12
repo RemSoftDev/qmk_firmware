@@ -2,11 +2,14 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "led_ok.h"
+#include "led.h"
 #include "wait.h"
 
+#include "ch.h"
+#include "hal.h"
+
 // настройка порта управления светодиодом LD57
-void led_ok_init_ports(void) {
+void led_init_ports(void) {
   palSetLineMode(LED_OK, PAL_MODE_OUTPUT_PUSHPULL);
   palClearLine(LED_OK);
 }
@@ -37,3 +40,24 @@ void led_ok_blink(uint16_t takt_ms) {
 		}
     }
 }
+
+//LED thread
+static THD_WORKING_AREA(waThread1, 128);
+static THD_FUNCTION(Thread1, arg) {
+
+    led_init_ports();
+  (void)arg;
+  chRegSetThreadName("ThreadLED");
+  while (true) {
+     led_ok_off();
+    chThdSleepMilliseconds(1500);
+     led_ok_on();
+    chThdSleepMilliseconds(1500);
+  }
+}
+
+void led_star_thread(void) {
+  chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO + 1, Thread1, NULL);
+//  chThdCreateStatic(waThread1, sizeof(waThread1), IDLEPRIO, Thread1, NULL); //неработает
+}
+

@@ -256,10 +256,6 @@
 #define MOT2                  PAL_LINE(GPIOA, GPIOA_MOT2)
 #define MOT3                  PAL_LINE(GPIOC, GPIOC_MOT3)
 
-#define SPI3_SCK              PAL_LINE(GPIOC, GPIOC_SPI3_SCK)
-#define SPI3_MISO             PAL_LINE(GPIOC, GPIOC_SPI3_MISO)
-#define SPI3_MOSI             PAL_LINE(GPIOC, GPIOC_SPI3_MOSI)
-
 #define OLED_N_RESET          PAL_LINE(GPIOA, GPIOA_OLED_N_RESET)
 #define OLED_N_CS             PAL_LINE(GPIOA, GPIOA_OLED_N_CS)
 #define OLED_DC               PAL_LINE(GPIOB, GPIOB_OLED_DC)

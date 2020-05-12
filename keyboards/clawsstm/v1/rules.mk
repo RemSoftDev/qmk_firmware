@@ -55,4 +55,7 @@ WS2812_DRIVER = bitbang
 ENCODER_ENABLE = yes
 
 # project specific files
-SRC += led_ok.c\
+SRC += led/led.c\
+       display/display.c\
+       display/ssd1331.c\
+
