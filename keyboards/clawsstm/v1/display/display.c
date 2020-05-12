@@ -1,6 +1,8 @@
 //
 #include <stdint.h>
 #include <stdbool.h>
+//#include <stdio.h>
+//#include <stdlib.h>
 
 #include "display.h"
 #include "wait.h"
@@ -115,21 +117,41 @@
 #include "fonts/Font_64_Segment_16_Num.h"
 #include "fonts/Font_64_Segment_7_Num.h"
 
+
+void test (void);
 // thread
 static THD_WORKING_AREA(oledThread1, 128);
 static THD_FUNCTION(funThread1, arg) {
 
   SSD1331_Init();
-
+chThdSleepMilliseconds(1);
+SSD1331_Frame(0, 0, 95, 63, BLUE, BLACK);
+chThdSleepMilliseconds(100);
   (void)arg;
   chRegSetThreadName("ThreadDisplay");
   while (true) {
-    display_demo();
+    test();
+    //display_demo();
   }
 }
 
 void display_star_thread(void) {
   chThdCreateStatic(oledThread1, sizeof(oledThread1), NORMALPRIO + 1, funThread1, NULL);
+}
+
+
+void test(void) {
+  static int16_t temp = 0;
+  static char textbuff[16];
+
+    temp++;
+    //sprintf(textbuff, "%d", temp);
+    itoa(temp, textbuff, 10);
+    LCD_Font(3, 15, textbuff, _9_Mono, 1, WHITE);
+    chThdSleepMilliseconds(99);
+    //SSD1331_Frame(0, 0, 95, 63, BLUE, BLACK);chThdSleepMilliseconds(1);
+    LCD_Font(3, 15, textbuff, _9_Mono, 1, BLACK);//chThdSleepMilliseconds(1);
+    //printf
 }
 
 void display_demo(void) {

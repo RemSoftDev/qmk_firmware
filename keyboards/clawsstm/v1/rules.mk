@@ -58,4 +58,6 @@ ENCODER_ENABLE = yes
 SRC += led/led.c\
        display/display.c\
        display/ssd1331.c\
-
+#	   $(CHIBIOS)/os/various/syscalls.c\
+# https://github.com/qmk/qmk_firmware/issues/7059
+# sprintf вешает QMK
