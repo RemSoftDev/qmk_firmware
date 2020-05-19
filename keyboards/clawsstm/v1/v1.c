@@ -5,8 +5,12 @@
 #include "v1.h"
 #include "rgblight.h"
 
-#include "led/led.h"
-#include "display/display.h"
+#include "ch.h"
+#include "hal.h"
+
+#include "led.h"
+#include "display.h"
+#include "adc_internal.h"
 
 void matrix_scan_kb(void) { matrix_scan_user(); }
 
@@ -20,6 +24,7 @@ void matrix_init_kb(void) {
   matrix_init_user();
 }
 __attribute__((weak))
+
 void matrix_init_user(void) {
 
     //palSetPadMode(GPIOC, 13, PAL_MODE_OUTPUT_PUSHPULL); // LED
@@ -47,6 +52,8 @@ void matrix_init_user(void) {
 
     led_star_thread();
 
+    ADCinternal_star_thread();
+
     display_star_thread();
 
     palSetLineMode(STROB_PORT, PAL_MODE_OUTPUT_PUSHPULL);
@@ -55,9 +62,9 @@ void matrix_init_user(void) {
     palSetLineMode(SEL_PORT, PAL_MODE_OUTPUT_PUSHPULL);
     palClearLine(SEL_PORT); // БОКОВОЙ
     //palSetLine(SEL_PORT); // ВЕРХНИЙ
-    led_ok_on();led_ok_on();led_ok_off();led_ok_on();
+    chThdSleepMicroseconds(1);
     palSetLine(STROB_PORT);
-    led_ok_on();led_ok_on();led_ok_off();led_ok_on();
+    chThdSleepMicroseconds(1);
     palClearLine(STROB_PORT);
 }
 

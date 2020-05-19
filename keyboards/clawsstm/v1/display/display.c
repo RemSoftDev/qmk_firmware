@@ -13,7 +13,6 @@
 
 #include "ssd1331.h"
 
-
 #include "fonts/_images.h"
 
 #include "fonts/Font_3_Tiny.h"
@@ -117,21 +116,59 @@
 #include "fonts/Font_64_Segment_16_Num.h"
 #include "fonts/Font_64_Segment_7_Num.h"
 
+bool is_display_init=FALSE;
 
-void test (void);
+void display_print_adc(adcint_t *adc){
+
+  if(!is_display_init) return;
+
+  static int16_t temp = 0;
+  char textbuff[16];
+
+  chThdSleepMilliseconds(100);
+  if (adc->is_adc_sampl){
+    SSD1331_Frame(0, 0, 95, 63, BLUE, BLACK);chThdSleepMilliseconds(2);
+    temp++;
+
+    itoa(temp, textbuff, 10);
+    LCD_Font(3, 15, textbuff, _8_Myke, 1, WHITE);
+    itoa(adc->x_raw, textbuff, 10);
+    LCD_Font(3, 35, textbuff, _8_Retro, 1, WHITE);
+    itoa(adc->y_raw, textbuff, 10);
+    LCD_Font(3, 55, textbuff, _8_Retro, 1, WHITE);
+
+    itoa(adc->volt5_raw, textbuff, 10);
+    itoa(adc->voltage_usb, textbuff, 10);
+    LCD_Font(47, 15, textbuff, _8_Retro, 1, WHITE);
+
+    itoa(adc->voltref_raw, textbuff, 10);
+    itoa(adc->voltage_3v3, textbuff, 10);
+    LCD_Font(47, 35, textbuff, _8_Retro, 1, WHITE);
+
+    itoa(adc->temp_raw, textbuff, 10);
+    itoa(adc->temp_core, textbuff, 10);
+    LCD_Font(47, 55, textbuff, _8_Retro, 1, WHITE);
+
+    adc->is_adc_sampl=false;
+  }
+}
+
 // thread
 static THD_WORKING_AREA(oledThread1, 128);
 static THD_FUNCTION(funThread1, arg) {
-
-  SSD1331_Init();
-chThdSleepMilliseconds(1);
-SSD1331_Frame(0, 0, 95, 63, BLUE, BLACK);
-chThdSleepMilliseconds(100);
   (void)arg;
   chRegSetThreadName("ThreadDisplay");
+
+  SSD1331_Init();
+  chThdSleepMilliseconds(1);
+  SSD1331_Frame(0, 0, 95, 63, BLUE, BLACK);
+  chThdSleepMilliseconds(1);
+  is_display_init = TRUE;
   while (true) {
-    test();
+
+    //test();
     //display_demo();
+    chThdSleepMilliseconds(10);
   }
 }
 
@@ -148,7 +185,7 @@ void test(void) {
     //sprintf(textbuff, "%d", temp);
     itoa(temp, textbuff, 10);
     LCD_Font(3, 15, textbuff, _9_Mono, 1, WHITE);
-    chThdSleepMilliseconds(99);
+    chThdSleepMilliseconds(1000);
     //SSD1331_Frame(0, 0, 95, 63, BLUE, BLACK);chThdSleepMilliseconds(1);
     LCD_Font(3, 15, textbuff, _9_Mono, 1, BLACK);//chThdSleepMilliseconds(1);
     //printf

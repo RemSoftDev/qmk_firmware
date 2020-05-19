@@ -104,8 +104,14 @@
 
 #include "quantum.h"
 
+#include "adc_internal.h"
+
+void display_print_adc (adcint_t *adc);
+
+void test (void);
+
 void display_demo(void);
 
 void display_star_thread(void);
 
-#endif /* _DISPLAY */
+#endif /* _DISPLAY_H */

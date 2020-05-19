@@ -11,9 +11,19 @@
 // define if left board
 //#define LEFT_CLAW
 
+// в роли опорного выступает питающее напряжение спу
+#define ADC_REF_MV       3300
+#define ADC_MAX_VL       0xFFF
+#define ADC_1V2_MV       1502       // 3300mV/4095==1210mV/x -> x=1502
+
+#define JOYSTIK_BLIND    10     // (процент) зона нечуствителтности в центальном положении
+
+#define R_DEL_UP      10000     // Ом сопротивление верхнего плеча делителя
+#define R_DEL_DW      15000     // Ом сопротивление нижнего плеча делителя
+
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x60BE
-#define PRODUCT_ID      0x00BE
+#define PRODUCT_ID      0x00B0
 #define DEVICE_VER      0x0001
 
 /*   at most 32 characters or the ugly hack in usb_main.c borks */
@@ -34,7 +44,7 @@
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
 // on scheme              R1  R2  R3  R4  R5  R6
-#define MATRIX_ROW_PINS { A0, A1, A4, A6, C4, C5 }
+#define MATRIX_ROW_PINS { A0, A1, A4, A6, C4, B2 }
 // on scheme              C1  C2  C3  C4  C5   C6  C7   C8  C9  C10
 #define MATRIX_COL_PINS { C0, C1, C2, C3, C13, D2, A15, B9, B4, B5 }
 
