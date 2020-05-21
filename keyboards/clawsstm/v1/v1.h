@@ -6,6 +6,8 @@
 
 #include "quantum.h"
 
+void motor_init_port (void);
+
 enum my_keycodes {
   MOTOR1 = SAFE_RANGE,
   MOTOR2,

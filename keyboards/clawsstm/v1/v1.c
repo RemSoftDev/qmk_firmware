@@ -11,13 +11,14 @@
 #include "led.h"
 #include "display.h"
 #include "adc_internal.h"
+#include "connection.h"
 
 void matrix_scan_kb(void) { matrix_scan_user(); }
 
 void encoder_update_user(uint8_t index, bool clockwise);
 
 void encoder_update_kb(uint8_t index, bool clockwise) {
-    encoder_update_user(index, clockwise);
+  encoder_update_user(index, clockwise);
 }
 
 void matrix_init_kb(void) {
@@ -27,45 +28,15 @@ __attribute__((weak))
 
 void matrix_init_user(void) {
 
-    //palSetPadMode(GPIOC, 13, PAL_MODE_OUTPUT_PUSHPULL); // LED
-    palSetLineMode(MON_TX, PAL_MODE_RESET);
-    palSetLineMode(MON_RX, PAL_MODE_RESET);
-    palSetLineMode(TX1, PAL_MODE_RESET);
-    palSetLineMode(RX1, PAL_MODE_RESET);
-    palSetLineMode(TX6, PAL_MODE_RESET);
-    palSetLineMode(RX6, PAL_MODE_RESET);
- //   palSetLineMode(N_OE_PORT, PAL_MODE_OUTPUT_PUSHPULL);
- //   palClearLine(N_OE_PORT);
+  motor_init_port();
 
- //   palSetLineMode(SEL_INTERF, PAL_MODE_OUTPUT_PUSHPULL);
- //   palClearLine(SEL_INTERF);
+  connection_star_thread();
 
- //   palSetLineMode(SEL_PORT, PAL_MODE_OUTPUT_PUSHPULL);
- //   palClearLine(SEL_PORT);
+  led_star_thread();
 
-    palSetLineMode(MOT1, PAL_MODE_OUTPUT_PUSHPULL);
-    palClearLine(MOT1);
-    palSetLineMode(MOT2, PAL_MODE_OUTPUT_PUSHPULL);
-    palClearLine(MOT2);
-    palSetLineMode(MOT3, PAL_MODE_OUTPUT_PUSHPULL);
-    palClearLine(MOT3);
+  ADCinternal_star_thread();
 
-    led_star_thread();
-
-    ADCinternal_star_thread();
-
-    display_star_thread();
-
-    palSetLineMode(STROB_PORT, PAL_MODE_OUTPUT_PUSHPULL);
-    palClearLine(STROB_PORT);
-
-    palSetLineMode(SEL_PORT, PAL_MODE_OUTPUT_PUSHPULL);
-    palClearLine(SEL_PORT); // БОКОВОЙ
-    //palSetLine(SEL_PORT); // ВЕРХНИЙ
-    chThdSleepMicroseconds(1);
-    palSetLine(STROB_PORT);
-    chThdSleepMicroseconds(1);
-    palClearLine(STROB_PORT);
+  display_star_thread();
 }
 
 void keyboard_post_init_user(void) {
@@ -136,3 +107,12 @@ void encoder_update_user(uint8_t index, bool clockwise) {
     }
 }
 
+
+void motor_init_port (void){
+  palSetLineMode(MOT1, PAL_MODE_OUTPUT_PUSHPULL);
+  palClearLine(MOT1);
+  palSetLineMode(MOT2, PAL_MODE_OUTPUT_PUSHPULL);
+  palClearLine(MOT2);
+  palSetLineMode(MOT3, PAL_MODE_OUTPUT_PUSHPULL);
+  palClearLine(MOT3);
+}

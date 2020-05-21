@@ -59,7 +59,8 @@ KEYBOARD_SHARED_EP = yes
 # project specific files
 VPATH += keyboards/clawsstm/v1/led\
 		keyboards/clawsstm/v1/display\
-		keyboards/clawsstm/v1/adc_internal
+		keyboards/clawsstm/v1/adc_internal\
+		keyboards/clawsstm/v1/connection
 SRC += led/led.c\
        display/display.c\
        display/ssd1331.c\
@@ -67,6 +68,7 @@ SRC += led/led.c\
 	   adc_internal/joystick.c\
 	   adc_internal/thermometer_int.c\
 	   adc_internal/voltage.c\
+	   connection/connection.c\
 #	   $(CHIBIOS)/os/various/syscalls.c\
 # https://github.com/qmk/qmk_firmware/issues/7059
 # sprintf вешает QMK

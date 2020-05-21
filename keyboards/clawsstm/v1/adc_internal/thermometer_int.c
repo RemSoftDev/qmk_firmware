@@ -1,8 +1,6 @@
 #include"thermometer_int.h"
 #include "config.h"
 
-//volatile float temperature_int;
-
 void work_temperature(adcint_t *adc){
   float temp;
   temp = adc->temp_raw;

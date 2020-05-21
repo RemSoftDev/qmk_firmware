@@ -33,7 +33,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		   KC_DELETE,   KC_RBRC,   KC_LBRC,  KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_ENT,  RSFT(KC_QUOTE), \
 		   KC_PAUSE,   KC_ENT,   KC_QUOT,  KC_SCLN,    KC_L,    KC_K,    KC_J,    KC_H,    KC_DELETE,   KC_RWIN, \
 		   KC_PSCR,   KC_VOLU,  KC_RSFT,   KC_SLSH,    KC_DOT,    KC_COMM,    KC_M,    KC_N,    KC_SPC,    KC_RSFT, \
-		   MO(_FN1),   KC_VOLD,  KC_HOME,   KC_END,    KC_RIGHT, KC_UP,   KC_LEFT, KC_DOWN, KC_KP_9,    KC_KP_8 \
+		   MO(_FN1),   KC_VOLD,  KC_HOME,   KC_END,    KC_RIGHT, KC_UP,   KC_LEFT, KC_DOWN, KC_KP_9,    RESET \
 		),
 	[_FN1] = LAYOUT(
 		   RESET, RGB_TOG, RGB_MOD,     RGB_MODE_PLAIN,    RGB_MODE_RGBTEST,    RGB_VAI,    KC_NO,   KC_NO,   KC_NO,    KC_NO,   \
