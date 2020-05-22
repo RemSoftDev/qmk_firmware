@@ -49,8 +49,9 @@ UNICODE_ENABLE = no         # Unicode
 RGB_MATRIX_ENABLE = no
 
 RGBLIGHT_ENABLE = yes       # Enable WS2812 RGB underlight.
-WS2812_DRIVER = bitbang
-#RGBLIGHT_CUSTOM_DRIVER = yes
+RGBLIGHT_CUSTOM_DRIVER = yes
+
+#WS2812_DRIVER = bitbang
 
 ENCODER_ENABLE = yes
 
@@ -60,7 +61,8 @@ KEYBOARD_SHARED_EP = yes
 VPATH += keyboards/clawsstm/v1/led\
 		keyboards/clawsstm/v1/display\
 		keyboards/clawsstm/v1/adc_internal\
-		keyboards/clawsstm/v1/connection
+		keyboards/clawsstm/v1/connection\
+		keyboards/clawsstm/v1/rgbled
 SRC += led/led.c\
        display/display.c\
        display/ssd1331.c\
@@ -69,6 +71,7 @@ SRC += led/led.c\
 	   adc_internal/thermometer_int.c\
 	   adc_internal/voltage.c\
 	   connection/connection.c\
+	   rgbled/ws2812_pwm.c
 #	   $(CHIBIOS)/os/various/syscalls.c\
 # https://github.com/qmk/qmk_firmware/issues/7059
 # sprintf вешает QMK

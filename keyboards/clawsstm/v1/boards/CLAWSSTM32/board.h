@@ -415,7 +415,7 @@
                                      PIN_MODE_INPUT(GPIOB_CM10) |         \
                                      PIN_MODE_INPUT(GPIOB_TX1) |        \
                                      PIN_MODE_INPUT(GPIOB_RX1) |           \
-                                     PIN_MODE_OUTPUT(GPIOB_CPU_WS2812) |        \
+                                     PIN_MODE_ALTERNATE(GPIOB_CPU_WS2812) |        \
                                      PIN_MODE_INPUT(GPIOB_CM8) |        \
                                      PIN_MODE_INPUT(GPIOB_PIN10) |         \
                                      PIN_MODE_INPUT(GPIOB_PIN11) |          \
@@ -463,7 +463,7 @@
                                      PIN_PUPDR_PULLUP(GPIOB_CM10) |         \
                                      PIN_PUPDR_FLOATING(GPIOB_TX1) |        \
                                      PIN_PUPDR_FLOATING(GPIOB_RX1) |           \
-                                     PIN_PUPDR_PULLDOWN(GPIOB_CPU_WS2812) |        \
+                                     PIN_PUPDR_PULLUP(GPIOB_CPU_WS2812) |        \
                                      PIN_PUPDR_PULLUP(GPIOB_CM8) |        \
                                      PIN_PUPDR_FLOATING(GPIOB_PIN10) |         \
                                      PIN_PUPDR_FLOATING(GPIOB_PIN11) |          \
@@ -479,7 +479,7 @@
                                      PIN_ODR_HIGH(GPIOB_CM9) |         \
                                      PIN_ODR_HIGH(GPIOB_TX1) |        \
                                      PIN_ODR_HIGH(GPIOB_RX1) |           \
-                                     PIN_ODR_LOW(GPIOB_CPU_WS2812) |        \
+                                     PIN_ODR_HIGH(GPIOB_CPU_WS2812) |        \
                                      PIN_ODR_HIGH(GPIOB_CM8) |        \
                                      PIN_ODR_HIGH(GPIOB_PIN10) |         \
                                      PIN_ODR_HIGH(GPIOB_PIN11) |          \
@@ -495,7 +495,7 @@
                                      PIN_AFIO_AF(GPIOB_CM9, 0U) |        \
                                      PIN_AFIO_AF(GPIOB_TX1, 0U) |       \
                                      PIN_AFIO_AF(GPIOB_RX1, 0U))
-#define VAL_GPIOB_AFRH              (PIN_AFIO_AF(GPIOB_CPU_WS2812, 0U) |       \
+#define VAL_GPIOB_AFRH              (PIN_AFIO_AF(GPIOB_CPU_WS2812, 2U) |       \
                                      PIN_AFIO_AF(GPIOB_CM8, 0U) |       \
                                      PIN_AFIO_AF(GPIOB_PIN10, 0U) |        \
                                      PIN_AFIO_AF(GPIOB_PIN11, 0U) |         \
