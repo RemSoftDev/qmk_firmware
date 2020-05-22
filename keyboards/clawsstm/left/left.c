@@ -4,6 +4,7 @@
 
 #include "left.h"
 #include "rgblight.h"
+#include "ws2812_pwm.h"
 
 void matrix_scan_kb(void) { matrix_scan_user(); }
 
@@ -15,7 +16,7 @@ void matrix_init_user(void) {
 
     //palSetPadMode(GPIOC, 13, PAL_MODE_OUTPUT_PUSHPULL); // LED
     palSetPadMode(GPIOB, 02, PAL_MODE_OUTPUT_PUSHPULL); // EXT1
-    
+
     palSetLineMode(N_OE_PORT, PAL_MODE_OUTPUT_PUSHPULL);
     palClearLine(N_OE_PORT);
 
@@ -31,21 +32,26 @@ void matrix_init_user(void) {
     palClearLine(MOT2);
     palSetLineMode(MOT3, PAL_MODE_OUTPUT_PUSHPULL);
     palClearLine(MOT3);
+
+    ws2812_init();
 }
 
 void keyboard_post_init_user(void) {
   // Call the post init code.
-  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
-  rgblight_sethsv_noeeprom(128, 128, 128); // sets the color without saving
-  rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT); // sets mode to Fast breathing without saving
-  wait_ms(5);// command first attempt fails
-  rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+  rgblight_enable();
+  rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT); // sets mode
+  rgblight_setrgb(20,60,80);
 }
 
 
 __attribute__((weak))
 void matrix_scan_user(void) {
-
+  uint8_t led_kbrd_old = 0;
+  uint8_t led_kbrd = host_keyboard_leds();
+  if (led_kbrd_old != led_kbrd) {
+    led_kbrd_old = led_kbrd;
+    rgblight_set();
+  }
 }
 
 

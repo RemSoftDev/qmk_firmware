@@ -49,8 +49,9 @@ UNICODE_ENABLE = no         # Unicode
 RGB_MATRIX_ENABLE = no
 
 RGBLIGHT_ENABLE = yes       # Enable WS2812 RGB underlight.
-WS2812_DRIVER = bitbang
-#RGBLIGHT_CUSTOM_DRIVER = yes
+#WS2812_DRIVER = bitbang
+RGBLIGHT_CUSTOM_DRIVER = yes
 
 # project specific files
-#SRC += \
+VPATH += keyboards/clawsstm/v1/rgbled
+SRC += rgbled/ws2812_pwm.c
