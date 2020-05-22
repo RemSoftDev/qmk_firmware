@@ -23,7 +23,7 @@
  * of zeroes at the end. (50 bits)*(1.25 uS/bit) = 62.5 uS, which gives us some
  * slack in the timing requirements
  */
-#define WS2812_RESET_BIT_N (50)
+#define WS2812_RESET_BIT_N (96)  // при 50 проскакивали включение светодиода цветом соседа...
 #define WS2812_COLOR_BIT_N (RGBLED_NUM * 24)                   /**< Number of data bits */
 #define WS2812_BIT_N (WS2812_COLOR_BIT_N + WS2812_RESET_BIT_N) /**< Total number of bits in a frame */
 
