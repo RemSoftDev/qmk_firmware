@@ -31,8 +31,13 @@
 
 #ifdef LEFT_CLAW
 #define PRODUCT         v1_board_left_claw   //tt это видно пользователю когда винда нашла новое оборудование и пытается найти драйвер
+//#define WS_LED_CAPS_LOCK 1    // номер светодиода WS2812 отвечающего CAPSLOCK
 #else
 #define PRODUCT         v1_board_right_claw
+#define WS_LED_CAPS_LOCK 1
+#define WS_LED_CAPS_LOCK_R   100
+#define WS_LED_CAPS_LOCK_G   0
+#define WS_LED_CAPS_LOCK_B   100
 #endif
 
 #define DESCRIPTION     keyboard test hw

@@ -253,17 +253,26 @@ void ws2812_test_main(uint16_t sped){
 // вызывается QMK
 void rgblight_set(void) {
 
-  // поверх єфекта сотояние CAPSLOCK
+    // поверх єфекта сотояние CAPSLOCK
+#ifdef WS_LED_CAPS_LOCK
+LED_TYPE led_buff[RGBLED_NUM];
+
   if (IS_LED_ON(host_keyboard_leds(), USB_LED_CAPS_LOCK)) {
-    led[1].r = 64;
-    led[1].g = 0;
-    led[1].b = 64;
+    memcpy (led_buff,led,sizeof(led_buff));
+    led_buff[WS_LED_CAPS_LOCK].r = WS_LED_CAPS_LOCK_R;
+    led_buff[WS_LED_CAPS_LOCK].g = WS_LED_CAPS_LOCK_G;
+    led_buff[WS_LED_CAPS_LOCK].b = WS_LED_CAPS_LOCK_B;
+    ws2812_setleds(led_buff, RGBLED_NUM);
   }else{
-    led[1].r = 0;
-    led[1].g = 0;
-    led[1].b = 0;
+    ws2812_setleds(led, RGBLED_NUM);
+//    led[WS_LED_CAPS_LOCK].r = 0;
+//    led[WS_LED_CAPS_LOCK].g = 0;
+//    led[WS_LED_CAPS_LOCK].b = 0;
   }
+#else //#ifdef WS_LED_CAPS_LOCK
 
   ws2812_setleds(led, RGBLED_NUM);
+
+#endif //#ifdef WS_LED_CAPS_LOCK
 }
 
