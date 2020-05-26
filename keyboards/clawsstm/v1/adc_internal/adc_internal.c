@@ -48,6 +48,8 @@ static const ADCConversionGroup adc_group_conf = {
   ADC_CR2_SWSTART,                    /* CR2 */
   ADC_SMPR1_SMP_AN15(ADC_SAMPLE_144) | ADC_SMPR1_SMP_SENSOR(ADC_SAMPLE_144) | ADC_SMPR1_SMP_VREF(ADC_SAMPLE_144), /* SMPR1 */
   ADC_SMPR2_SMP_AN9(ADC_SAMPLE_144) | ADC_SMPR2_SMP_AN8(ADC_SAMPLE_144), /* SMPR2 */
+  0,
+  0,
   ADC_SQR1_NUM_CH(NUM_CHANNELS),         /* SQR1 */
   0,                                  /* SQR2 */
   // порядок опроса в семпле

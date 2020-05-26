@@ -115,11 +115,11 @@ void conn_test_usart_up(void) {
     int32_t len;
     uint8_t buff[32];
 
-    len = sdReadTimeout(&SD1, buff, sizeof(buff), MS2ST(100));
+    len = sdReadTimeout(&SD1, buff, sizeof(buff), OSAL_MS2I(100));
     chprintf(bs1, "> %03d -", cc++);
     chprintf(bs1, "len=%d -", len);
       if (len) {
-        sdWriteTimeout(&SD1, buff, len, MS2ST(100));
+        sdWriteTimeout(&SD1, buff, len, OSAL_MS2I(100));
         //chprintf(bs1, "%02x", buff[0]);
       } else {
         chnWrite(&SD1, (const uint8_t *)"NO? Hello USART1 ", 17);
@@ -143,11 +143,11 @@ void conn_test_usart_side(void) {
     int32_t len;
     uint8_t buff[32];
 
-    len = sdReadTimeout(&SD2, buff, sizeof(buff), MS2ST(100));
+    len = sdReadTimeout(&SD2, buff, sizeof(buff), OSAL_MS2I(100));
     chprintf(bs2, "> %03d -", cc++);
     chprintf(bs2, "len=%d -", len);
       if (len) {
-        sdWriteTimeout(&SD2, buff, len, MS2ST(100));
+        sdWriteTimeout(&SD2, buff, len, OSAL_MS2I(100));
       } else {
         chnWrite(&SD2, (const uint8_t *)"NO? Hello USART2 ", 17);
       }
@@ -177,11 +177,11 @@ void conn_test_usart_host(void) {
     int32_t len;
     uint8_t buff[32];
 
-    len = sdReadTimeout(&SD6, buff, sizeof(buff), MS2ST(100));
+    len = sdReadTimeout(&SD6, buff, sizeof(buff), OSAL_MS2I(100));
     chprintf(bs6, "> %03d -", cc++);
     chprintf(bs6, "len=%d -", len);
       if (len) {
-        sdWriteTimeout(&SD6, buff, len, MS2ST(100));
+        sdWriteTimeout(&SD6, buff, len, OSAL_MS2I(100));
       } else {
         chnWrite(&SD6, (const uint8_t *)"NO? Hello USART6 ", 17);
       }

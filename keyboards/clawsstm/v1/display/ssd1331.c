@@ -7,6 +7,7 @@
 //extern SPI_HandleTypeDef LCD_SPI;
 
 static const SPIConfig spiconfig = {
+  false,
   NULL,
   GPIOA,
   GPIOA_OLED_N_CS,
