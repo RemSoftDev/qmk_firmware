@@ -38,8 +38,9 @@ void matrix_init_user(void) {
 
 void keyboard_post_init_user(void) {
   // Call the post init code.
-  rgblight_enable();
-  rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT); // sets mode
+  rgblight_enable_noeeprom();
+  //rgblight_sethsv_noeeprom(HSV_WHITE);
+  rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
   rgblight_setrgb(20,60,80);
 }
 

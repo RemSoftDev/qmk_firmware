@@ -9,7 +9,7 @@
 #include "config_common.h"
 
 // define if left board
-//define LEFT_CLAW
+#define LEFT_CLAW
 
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x60BE
@@ -22,9 +22,11 @@
 #ifdef LEFT_CLAW
 #define PRODUCT         hwtest_left_claw   //tt это видно пользователю когда винда нашла новое оборудование и пытается найти драйвер
 #define WS_LED_CAPS_LOCK 25    // номер светодиода WS2812 отвечающего CAPSLOCK
+#define WS_LED_CAPS_LOCK_R   100
+#define WS_LED_CAPS_LOCK_G   0
+#define WS_LED_CAPS_LOCK_B   100
 #else
 #define PRODUCT         hwtest_right_claw
-#define WS_LED_CAPS_LOCK 51
 #endif
 
 #define DESCRIPTION     keyboard test hw
@@ -54,6 +56,8 @@
 #define WS2812_PWM_PAL_MODE 2
 #define WS2812_DMA_CHANNEL 2  // DMA Channel for TIMx_UP
 
+ #define RGBLIGHT_HUE_STEP 8
+ #define RGBLIGHT_SAT_STEP 8
 
 // tapping setting
 #define TAPPING_TERM 200

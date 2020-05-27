@@ -144,20 +144,19 @@ void ws2812_init(void) {
 
     // Configure DMA
     // dmaInit(); // Joe added this
-    dmaStreamAllocate(WS2812_DMA_STREAM,
-                      10,
-                      NULL,
-                      NULL);
-    dmaStreamSetPeripheral(WS2812_DMA_STREAM,
+    const stm32_dma_stream_t* dma = dmaStreamAlloc(STM32_DMA_STREAM_ID(1, 6), 10, NULL, NULL);
+    // if (dma == NULL) chSysHalt("DMA already in use");
+
+    dmaStreamSetPeripheral(dma,
                            &(WS2812_PWM_DRIVER.tim->CCR[WS2812_PWM_CHANNEL - 1]));
-    dmaStreamSetMemory0(WS2812_DMA_STREAM, ws2812_frame_buffer);
-    dmaStreamSetTransactionSize(WS2812_DMA_STREAM, WS2812_BIT_N);
-    dmaStreamSetMode(WS2812_DMA_STREAM,
+    dmaStreamSetMemory0(dma, ws2812_frame_buffer);
+    dmaStreamSetTransactionSize(dma, WS2812_BIT_N);
+    dmaStreamSetMode(dma,
                      STM32_DMA_CR_CHSEL(WS2812_DMA_CHANNEL) | STM32_DMA_CR_DIR_M2P | STM32_DMA_CR_PSIZE_WORD | STM32_DMA_CR_MSIZE_WORD | STM32_DMA_CR_MINC | STM32_DMA_CR_CIRC | STM32_DMA_CR_PL(3));
     // M2P: Memory 2 Periph; PL: Priority Level
 
     // Start DMA
-    dmaStreamEnable(WS2812_DMA_STREAM);
+    dmaStreamEnable(dma);
 
     // Configure PWM
     // NOTE: It's required that preload be enabled on the timer channel CCR register. This is currently enabled in the
@@ -252,18 +251,26 @@ void ws2812_test_main(uint16_t sped){
 
 // вызывается QMK
 void rgblight_set(void) {
+    // поверх єфекта сотояние CAPSLOCK
+#ifdef WS_LED_CAPS_LOCK
+LED_TYPE led_buff[RGBLED_NUM];
 
-  // поверх єфекта сотояние CAPSLOCK
   if (IS_LED_ON(host_keyboard_leds(), USB_LED_CAPS_LOCK)) {
-    led[WS_LED_CAPS_LOCK].r = 90;
-    led[WS_LED_CAPS_LOCK].g = 0;
-    led[WS_LED_CAPS_LOCK].b = 90;
+    memcpy (led_buff,led,sizeof(led_buff));
+    led_buff[WS_LED_CAPS_LOCK].r = WS_LED_CAPS_LOCK_R;
+    led_buff[WS_LED_CAPS_LOCK].g = WS_LED_CAPS_LOCK_G;
+    led_buff[WS_LED_CAPS_LOCK].b = WS_LED_CAPS_LOCK_B;
+    ws2812_setleds(led_buff, RGBLED_NUM);
   }else{
-    led[WS_LED_CAPS_LOCK].r = 0;
-    led[WS_LED_CAPS_LOCK].g = 0;
-    led[WS_LED_CAPS_LOCK].b = 0;
+    ws2812_setleds(led, RGBLED_NUM);
+//    led[WS_LED_CAPS_LOCK].r = 0;
+//    led[WS_LED_CAPS_LOCK].g = 0;
+//    led[WS_LED_CAPS_LOCK].b = 0;
   }
+#else //#ifdef WS_LED_CAPS_LOCK
 
   ws2812_setleds(led, RGBLED_NUM);
+
+#endif //#ifdef WS_LED_CAPS_LOCK
 }
 
