@@ -6,12 +6,13 @@
 
 //extern SPI_HandleTypeDef LCD_SPI;
 
+
 static const SPIConfig spiconfig = {
   false,
   NULL,
   GPIOA,
   GPIOA_OLED_N_CS,
-  SPI_CR1_BR,
+  SPI_CR1_BR_1, //SPI_CR1_BR_1 = 0x00000010 = 5.25 MHz=190nS>150ns=ssd1331 (at Peripherial Clock 42MHz for SPI2 SPI3)
   0
 };
 
