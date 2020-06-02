@@ -92,7 +92,7 @@ static THD_FUNCTION(funADCThread1, arg) {
       work_3v3_voltage(&adcint);
       work_joystik(&adcint);
 
-      display_print_adc(&adcint);
+      //display_print_adc(&adcint);
 
       adcint.is_adc_sampl = TRUE;
       adcint.cnt++;

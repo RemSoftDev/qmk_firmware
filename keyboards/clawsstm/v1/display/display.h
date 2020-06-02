@@ -114,4 +114,14 @@ void display_demo(void);
 
 void display_star_thread(void);
 
+void display_layer(layer_state_t state);
+void display_caps(uint8_t led_kbrd);
+
+extern mailbox_t display_mailbox;
+
+enum display_msg_t {
+    DISPLAY_TOGGLE_LAYER,
+    DISPLAY_TOGGLE_CAPS
+};
+
 #endif /* _DISPLAY_H */

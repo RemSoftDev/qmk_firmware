@@ -275,3 +275,13 @@ LED_TYPE led_buff[RGBLED_NUM];
 #endif //#ifdef WS_LED_CAPS_LOCK
 }
 
+void rgbled_layer(layer_state_t state){
+  switch (get_highest_layer(state)) {
+    case 0:  // нулевой слой
+      rgblight_setrgb(0x20,0x20,0x20);
+      break;
+    case 1:
+      rgblight_setrgb(0x80, 0x00, 0x00);
+      break;
+  }
+}

@@ -153,22 +153,67 @@ void display_print_adc(adcint_t *adc){
   }
 }
 
+#define DISPLAY_MAILBOX_NUM_MSGS 8
+static msg_t display_mailbox_queue[DISPLAY_MAILBOX_NUM_MSGS];
+mailbox_t display_mailbox;
+static uint8_t state_display_layer;
+
 // thread
 static THD_WORKING_AREA(oledThread1, 128);
 static THD_FUNCTION(funThread1, arg) {
   (void)arg;
   chRegSetThreadName("ThreadDisplay");
 
+  chMBObjectInit(&display_mailbox, display_mailbox_queue, DISPLAY_MAILBOX_NUM_MSGS);
+
   SSD1331_Init();
   chThdSleepMilliseconds(1);
   SSD1331_Frame(0, 0, 95, 63, BLUE, BLACK);
   chThdSleepMilliseconds(1);
   is_display_init = TRUE;
+
+  static uint8_t prev_state_layer;
+
+  msg_t msg;
+  char textbuff[8];
+
+  prev_state_layer=get_highest_layer(default_layer_state);
+
+  itoa(prev_state_layer, textbuff, 10);
+  LCD_Font(54, 36, textbuff, _16_Retro, 1, WHITE);
+
   while (true) {
 
+    if(chMBFetchTimeout(&display_mailbox, &msg, TIME_INFINITE) == MSG_OK){
+
+      switch (msg){
+        case DISPLAY_TOGGLE_CAPS:
+          if (IS_LED_ON(host_keyboard_leds(), USB_LED_CAPS_LOCK)){
+              LCD_Font(6, 36, "a", _16_Retro, 1, BLACK);  // закрашиваю предыдущий символ цветом фона
+              LCD_Font(6, 36, "A", _16_Retro, 1, WHITE);
+          }else{
+              LCD_Font(6, 36, "A", _16_Retro, 1, BLACK);
+              LCD_Font(6, 36, "a", _16_Retro, 1, WHITE);
+          }
+        break;
+
+        case DISPLAY_TOGGLE_LAYER:
+          if(prev_state_layer != state_display_layer){
+             itoa(prev_state_layer, textbuff, 10);
+             LCD_Font(54, 36, textbuff, _16_Retro, 1, BLACK);
+             prev_state_layer = state_display_layer;
+             itoa(prev_state_layer, textbuff, 10);
+             LCD_Font(54, 36, textbuff, _16_Retro, 1, WHITE);
+          }
+        break;
+      }
+
+    }else{  //ошибка в очереди
+        ;
+    }
     //test();
     //display_demo();
-    chThdSleepMilliseconds(10);
+    //chThdSleepMilliseconds(10);
   }
 }
 
@@ -235,3 +280,17 @@ void display_demo(void) {
     chThdSleepMilliseconds(1000);
 }
 
+void display_caps(uint8_t led_kbrd){
+  static uint8_t displayed_led_kbrd = 0;
+
+  if (displayed_led_kbrd != led_kbrd) {
+     if (chMBPostTimeout(&display_mailbox, (msg_t) DISPLAY_TOGGLE_CAPS, TIME_IMMEDIATE)==MSG_OK){
+       displayed_led_kbrd = led_kbrd;
+     }
+  }
+}
+
+void display_layer(layer_state_t state){
+  state_display_layer=get_highest_layer(state);
+  chMBPostTimeout(&display_mailbox, (msg_t) DISPLAY_TOGGLE_LAYER, TIME_INFINITE);
+}

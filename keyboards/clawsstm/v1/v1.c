@@ -47,7 +47,7 @@ void matrix_init_user(void) {
 
   display_star_thread();
 
-  security_star_thread();
+//  security_star_thread();
 
   ws2812_init();
 }
@@ -64,7 +64,7 @@ void matrix_scan_user(void) {
   static uint16_t tik = 0;
   uint16_t takt = 1000;
   static bool is_t = false;
-  uint8_t led_kbrd_old = 0;
+  static uint8_t led_kbrd_old = 0;
   //led_ok_blink(333);
   //ws2812_test_main(40);
 
@@ -74,6 +74,8 @@ void matrix_scan_user(void) {
     rgblight_set();
     // TODO print oled
   }
+
+  display_caps(led_kbrd);
 
   if(timer_elapsed(tik) > takt) {
     tik = timer_read();
@@ -130,4 +132,12 @@ void motor_init_port (void){
   palClearLine(MOT2);
   palSetLineMode(MOT3, PAL_MODE_OUTPUT_PUSHPULL);
   palClearLine(MOT3);
+}
+
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+
+  rgbled_layer(state);
+  display_layer(state);
+  return state;
 }
