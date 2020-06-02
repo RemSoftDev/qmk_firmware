@@ -23,7 +23,7 @@ static THD_FUNCTION(funConThread1, arg) {
 
   conn_init_ports();
 
-  conn_test_usart_up(); // USB сбоку и usart к рабу сверху
+  //conn_test_usart_up(); // USB сбоку и usart к рабу сверху
   //conn_test_usart_side(); // USB вверх usart в сторону
   //conn_test_usart_host(); // USB сбоку и через десять секунд там usart6
 

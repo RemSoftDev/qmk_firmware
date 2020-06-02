@@ -4,8 +4,6 @@
 #include "ch.h"
 #include "hal.h"
 
-//extern SPI_HandleTypeDef LCD_SPI;
-
 
 static const SPIConfig spiconfig = {
   false,

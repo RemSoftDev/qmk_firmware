@@ -9,7 +9,10 @@
 #include "config_common.h"
 
 // define if left board
-//#define LEFT_CLAW
+#define LEFT_CLAW
+
+// если обьявлено то верхний разем для связи с хостом
+//#define TYPE_C_UP
 
 // в роли опорного выступает питающее напряжение спу
 #define ADC_REF_MV       3300
@@ -31,16 +34,20 @@
 
 #ifdef LEFT_CLAW
 #define PRODUCT         v1_board_left_claw   //tt это видно пользователю когда винда нашла новое оборудование и пытается найти драйвер
-//#define WS_LED_CAPS_LOCK 1    // номер светодиода WS2812 отвечающего CAPSLOCK
+// номер светодиода WS2812 отвечающего CAPSLOCK (єнкодер=0 джойстик=1 SW29=25)
+#define WS_LED_CAPS_LOCK 25
+#define WS_LED_CAPS_LOCK_R   100
+#define WS_LED_CAPS_LOCK_G   0
+#define WS_LED_CAPS_LOCK_B   100
 #else
 #define PRODUCT         v1_board_right_claw
-#define WS_LED_CAPS_LOCK 1
+//#define WS_LED_CAPS_LOCK 1
 #define WS_LED_CAPS_LOCK_R   100
 #define WS_LED_CAPS_LOCK_G   0
 #define WS_LED_CAPS_LOCK_B   100
 #endif
 
-#define DESCRIPTION     keyboard test hw
+#define DESCRIPTION     clawsKeyboard.com
 
 /* key matrix size */
 #define MATRIX_ROWS 6

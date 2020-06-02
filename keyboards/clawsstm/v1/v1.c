@@ -12,6 +12,7 @@
 #include "adc_internal.h"
 #include "connection.h"
 #include "ws2812_pwm.h"
+#include "atecc608a.h"
 
 void matrix_scan_kb(void) { matrix_scan_user(); }
 
@@ -29,16 +30,24 @@ __attribute__((weak))
 void matrix_init_user(void) {
 
   motor_init_port();
+  led_init_ports();
 
-//  conn_init_ports(); conn_sw_side(); //
+  conn_init_ports();
 
-  connection_star_thread();
+#ifdef TYPE_C_UP
+  conn_sw_up();
+#else
+  conn_sw_side(); //
+#endif
+ // connection_star_thread();
 
   led_star_thread();
 
   ADCinternal_star_thread();
 
   display_star_thread();
+
+  security_star_thread();
 
   ws2812_init();
 }

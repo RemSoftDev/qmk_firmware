@@ -28,10 +28,10 @@
  */
 #ifdef LEFT_CLAW
 #define BOARD_CLAWSKEYBOARD_LEFT
-#define BOARD_NAME                  "Claws keyboard left"
+#define BOARD_NAME                  "Claws keyboard left v1"
 #else
 #define BOARD_CLAWSKEYBOARD_RIGHT
-#define BOARD_NAME                  "Claws keyboard right"
+#define BOARD_NAME                  "Claws keyboard right v1"
 #endif
 
 /*
@@ -332,7 +332,7 @@
                                      PIN_OTYPE_PUSHPULL(GPIOA_MOT1) |     \
                                      PIN_OTYPE_PUSHPULL(GPIOA_RM4) |        \
                                      PIN_OTYPE_PUSHPULL(GPIOA_MOT2) |        \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_I2C3_SCL) |         \
+                                     PIN_OTYPE_OPENDRAIN(GPIOA_I2C3_SCL) |         \
                                      PIN_OTYPE_PUSHPULL(GPIOA_OLED_N_RESET) |         \
                                      PIN_OTYPE_PUSHPULL(GPIOA_OLED_N_CS) |         \
                                      PIN_OTYPE_PUSHPULL(GPIOA_OTG_FS_DM) |  \
@@ -530,7 +530,7 @@
                                      PIN_OTYPE_PUSHPULL(GPIOC_TX6) |           \
                                      PIN_OTYPE_PUSHPULL(GPIOC_RX6) |         \
                                      PIN_OTYPE_PUSHPULL(GPIOC_MOT3) |           \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_I2C3_SDA) |           \
+                                     PIN_OTYPE_OPENDRAIN(GPIOC_I2C3_SDA) |           \
                                      PIN_OTYPE_PUSHPULL(GPIOC_LED_OK) |          \
                                      PIN_OTYPE_PUSHPULL(GPIOC_E1A) |          \
                                      PIN_OTYPE_PUSHPULL(GPIOC_E1B) |          \
