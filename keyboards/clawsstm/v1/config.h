@@ -39,13 +39,17 @@
 #define WS_LED_CAPS_LOCK_R   100
 #define WS_LED_CAPS_LOCK_G   0
 #define WS_LED_CAPS_LOCK_B   100
-#else
+// джойстик запаян
+//#define JOYSTIK
+#else  //#ifdef LEFT_CLAW
 #define PRODUCT         v1_board_right_claw
 //#define WS_LED_CAPS_LOCK 1
 #define WS_LED_CAPS_LOCK_R   100
 #define WS_LED_CAPS_LOCK_G   0
 #define WS_LED_CAPS_LOCK_B   100
-#endif
+
+#define JOYSTIK
+#endif //#ifdef LEFT_CLAW
 
 #define DESCRIPTION     clawsKeyboard.com
 

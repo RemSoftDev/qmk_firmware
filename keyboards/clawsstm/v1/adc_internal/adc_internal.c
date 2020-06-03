@@ -90,8 +90,9 @@ static THD_FUNCTION(funADCThread1, arg) {
       work_temperature(&adcint);
       work_usb_voltage(&adcint);
       work_3v3_voltage(&adcint);
+#ifdef  JOYSTIK
       work_joystik(&adcint);
-
+#endif
       //display_print_adc(&adcint);
 
       adcint.is_adc_sampl = TRUE;
