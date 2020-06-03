@@ -14,7 +14,36 @@
 #include "ws2812_pwm.h"
 #include "atecc608a.h"
 
-void matrix_scan_kb(void) { matrix_scan_user(); }
+void matrix_scan_kb(void) {
+
+  static uint16_t tik = 0;
+  uint16_t takt = 1000;
+  static bool is_t = false;
+  static uint8_t led_kbrd_old = 0;
+  //led_ok_blink(333);
+  //ws2812_test_main(40);
+
+  uint8_t led_kbrd = host_keyboard_leds();
+  if (led_kbrd_old != led_kbrd) {
+    led_kbrd_old = led_kbrd;
+    rgblight_set();
+    // TODO print oled
+  }
+
+  display_caps(led_kbrd);
+
+  if(timer_elapsed(tik) > takt) {
+    tik = timer_read();
+    is_t = !is_t;
+    if (is_t) {
+     // led_ok_off();
+    }
+    else {
+	 // led_ok_on();
+    }
+  }
+    matrix_scan_user();
+}
 
 void encoder_update_user(uint8_t index, bool clockwise);
 
@@ -61,32 +90,7 @@ void keyboard_post_init_user(void) {
 
 __attribute__((weak))
 void matrix_scan_user(void) {
-  static uint16_t tik = 0;
-  uint16_t takt = 1000;
-  static bool is_t = false;
-  static uint8_t led_kbrd_old = 0;
-  //led_ok_blink(333);
-  //ws2812_test_main(40);
-
-  uint8_t led_kbrd = host_keyboard_leds();
-  if (led_kbrd_old != led_kbrd) {
-    led_kbrd_old = led_kbrd;
-    rgblight_set();
-    // TODO print oled
-  }
-
-  display_caps(led_kbrd);
-
-  if(timer_elapsed(tik) > takt) {
-    tik = timer_read();
-    is_t = !is_t;
-    if (is_t) {
-     // led_ok_off();
-    }
-    else {
-	 // led_ok_on();
-    }
-  }
+;
 }
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
@@ -105,7 +109,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         break;
     }
   }
-  return true;
+  return process_record_user(keycode, record);
 }
 
 // https://docs.qmk.fm/#/feature_encoders
@@ -137,7 +141,7 @@ void motor_init_port (void){
 
 layer_state_t layer_state_set_user(layer_state_t state) {
 
-  rgbled_layer(state);
+  //rgbled_layer(state); // для динамических эффектов нужно дороаботать
   display_layer(state);
   return state;
 }

@@ -11,7 +11,8 @@ void motor_init_port (void);
 enum my_keycodes {
   MOTOR1 = SAFE_RANGE,
   MOTOR2,
-  MOTOR3
+  MOTOR3,
+  NEW_SAFE_RANGE
 };
 
 

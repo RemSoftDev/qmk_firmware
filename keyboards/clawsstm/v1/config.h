@@ -12,7 +12,7 @@
 #define LEFT_CLAW
 
 // если обьявлено то верхний разем для связи с хостом
-//#define TYPE_C_UP
+#define TYPE_C_UP
 
 // в роли опорного выступает питающее напряжение спу
 #define ADC_REF_MV       3300
