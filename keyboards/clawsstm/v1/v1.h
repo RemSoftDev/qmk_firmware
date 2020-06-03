@@ -12,6 +12,7 @@ enum my_keycodes {
   MOTOR1 = SAFE_RANGE,
   MOTOR2,
   MOTOR3,
+  DISPLAY_TEST,
   NEW_SAFE_RANGE
 };
 

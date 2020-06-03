@@ -157,6 +157,7 @@ void display_print_adc(adcint_t *adc){
 static msg_t display_mailbox_queue[DISPLAY_MAILBOX_NUM_MSGS];
 mailbox_t display_mailbox;
 static uint8_t state_display_layer;
+static uint32_t demo_retr = 0xFFFFFFFF;
 
 // thread
 static THD_WORKING_AREA(oledThread1, 128);
@@ -206,6 +207,13 @@ static THD_FUNCTION(funThread1, arg) {
              LCD_Font(54, 36, textbuff, _16_Retro, 1, WHITE);
           }
         break;
+        case DISPLAY_DEMO_MODE:
+          SSD1331_Frame(0, 0, 95, 63, BLUE, BLACK);chThdSleepMilliseconds(2);
+          display_demo();
+          SSD1331_Frame(0, 0, 95, 63, BLUE, BLACK);chThdSleepMilliseconds(2);
+          chMBPostTimeout(&display_mailbox, (msg_t) DISPLAY_TOGGLE_LAYER, TIME_IMMEDIATE);
+          chMBPostTimeout(&display_mailbox, (msg_t) DISPLAY_TOGGLE_CAPS, TIME_IMMEDIATE);
+        break;
       }
 
     }else{  //ошибка в очереди
@@ -237,6 +245,8 @@ void test(void) {
 }
 
 void display_demo(void) {
+ while (demo_retr){
+     demo_retr--;
    //  oled1331_14V_on();
     LCD_Circle(48, 32, 5, 0, 1, BLUE);
     LCD_Circle(48, 32, 10, 0, 1, YELLOW);
@@ -278,6 +288,7 @@ void display_demo(void) {
 	//SSD1331_enableScrolling(1);
 
     chThdSleepMilliseconds(1000);
+ }
 }
 
 void display_caps(uint8_t led_kbrd){
@@ -292,5 +303,10 @@ void display_caps(uint8_t led_kbrd){
 
 void display_layer(layer_state_t state){
   state_display_layer=get_highest_layer(state);
-  chMBPostTimeout(&display_mailbox, (msg_t) DISPLAY_TOGGLE_LAYER, TIME_INFINITE);
+  chMBPostTimeout(&display_mailbox, (msg_t) DISPLAY_TOGGLE_LAYER, TIME_IMMEDIATE);
 }
+
+void display_run_demo(uint32_t num_retr){
+    demo_retr = num_retr;
+    chMBPostTimeout(&display_mailbox, (msg_t) DISPLAY_DEMO_MODE, TIME_IMMEDIATE);
+};

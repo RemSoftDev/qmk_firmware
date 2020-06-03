@@ -8,6 +8,9 @@
 
 #include QMK_KEYBOARD_H
 
+#include "led.h"
+#include "display.h"
+
 #define _BASE 0
 #define _FN1 1
 
@@ -23,16 +26,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT(
 // https://beta.docs.qmk.fm/features/keycodes_basic
  #ifdef LEFT_CLAW
-		   KC_F1,    KC_F2,     KC_F3,     KC_F4,    KC_F5,    KC_F6,    KC_NO,   KC_NO,   KC_NO,    KC_NO,   \
+		   KC_F1,    KC_F2,     KC_F3,     KC_F4,    KC_F5,    KC_F6,    KC_KP_0,   KC_NO,   KC_NO,    KC_NO,   \
 		   KC_KP_1,   KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_KP_PLUS,   KC_KP_ASTERISK, \
 		   KC_KP_2,   LCTL(KC_S),   KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_ENT,  KC_BSLS, \
 		   LALT(KC_TAB),   LCTL(KC_V),   KC_CAPS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_PAUSE,   KC_DELETE, \
 		   MEH(KC_QUOT),   LCTL(KC_C),  KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_SPC, KC_BSPACE, \
-		   MO(_FN1),   KC_APP,  KC_LCTRL,   KC_LALT,   KC_LALT, KC_UP,   KC_RSFT, KC_END, KC_NO,    KC_NO \
+		   MO(_FN1),   KC_APP,  KC_LCTRL,   KC_LALT,   KC_LALT, KC_UP,   KC_RSFT, KC_END, KC_KP_9,    KC_KP_8 \
 		),
 	[_FN1] = LAYOUT(
 		   RESET, RGB_TOG, RGB_MOD,     RGB_MODE_PLAIN,    RGB_MODE_RGBTEST,    RGB_VAI,    KC_NO,   KC_NO,   KC_NO,    KC_NO,   \
-		   MOTOR1,   THING,   KC_MINS,   KC_0,    KC_9,    KC_8,    KC_7,    KC_6,   KC_PAUSE,  KC_SLCK,   \
+		   MOTOR1,   THING,   DISPLAY_TEST,   KC_0,    KC_9,    KC_8,    KC_7,    KC_6,   KC_PAUSE,  KC_SLCK,   \
 		   MOTOR2,   MY_OTHER_MACRO,   KC_LBRC,  KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_ENT,  KC_PSCR, \
 		   MOTOR3,   ALT_TAB,   KC_QUOT,  KC_SCLN,    KC_L,    KC_K,    KC_J,    KC_H,    KC_DELETE,   KC_SPC, \
 		   RGB_MODE_RGBTEST,   QMKURL,  KC_RSFT,   KC_SLSH,    KC_DOT,    KC_COMM,    KC_M,    KC_N,    KC_MS_RIGHT,    KC_MS_LEFT, \
@@ -44,11 +47,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		   KC_DELETE,   KC_RBRC,   KC_LBRC,  KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_ENT,  RSFT(KC_QUOTE), \
 		   KC_PAUSE,   KC_ENT,   KC_QUOT,  KC_SCLN,    KC_L,    KC_K,    KC_J,    KC_H,    KC_DELETE,   KC_RWIN, \
 		   KC_PSCR,   KC_VOLU,  KC_RSFT,   KC_SLSH,    KC_DOT,    KC_COMM,    KC_M,    KC_N,    KC_SPC,    KC_RSFT, \
-		   MO(_FN1),   KC_VOLD,  KC_HOME,   KC_END,    KC_RIGHT, KC_UP,   KC_LEFT, KC_DOWN, KC_KP_9,    RESET \
+		   MO(_FN1),   KC_VOLD,  KC_HOME,   KC_END,    KC_RIGHT, KC_UP,   KC_LEFT, KC_DOWN, KC_KP_9,    KC_KP_8 \
 		),
 	[_FN1] = LAYOUT(
 		   RESET, RGB_TOG, RGB_MOD,     RGB_MODE_PLAIN,    RGB_MODE_RGBTEST,    RGB_VAI,    KC_NO,   KC_NO,   KC_NO,    KC_NO,   \
-		   MOTOR1,   KC_ESC,   KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_PGUP,   KC_PGDN, \
+		   MOTOR1,   KC_ESC,   DISPLAY_TEST,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_PGUP,   KC_PGDN, \
 		   MOTOR2,   KC_PDOT,   KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_ENT,  KC_DEL, \
 		   MOTOR3,   KC_MS_WH_UP,   KC_CAPS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_DELETE,   KC_BSLS, \
 		   RGB_MODE_RGBTEST,   KC_MS_WH_DOWN,  KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MS_BTN1, KC_MS_BTN2, \
@@ -130,4 +133,39 @@ void matrix_scan_user(void) {     //# The very important timer.
 		tap_code(KC_2); // тапаю кнопкой - показательно переодичность одна две милисекунды!
 	}
   }
+
+  display_caps( host_keyboard_leds() ); // вывод на экран состояния капса
+}
+
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+
+  //rgbled_layer(state); // для динамических эффектов нужно дороаботать
+  display_layer(state);
+  return state;
+}
+
+// https://docs.qmk.fm/#/feature_encoders
+void encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 0) { /* First encoder */
+        if (clockwise) {
+            tap_code(KC_MS_WH_DOWN);
+        } else {
+            tap_code(KC_MS_WH_UP);
+        }
+    } else if (index == 1) { /* Second encoder */
+        if (clockwise) {
+            tap_code(KC_DOWN);
+        } else {
+            tap_code(KC_UP);
+        }
+    }
+}
+
+
+void keyboard_post_init_user(void) {
+  // Call the post init code.
+  rgblight_enable();
+  rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT); // sets mode
+  rgblight_setrgb(14,14,14);
 }
