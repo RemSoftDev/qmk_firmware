@@ -9,7 +9,7 @@
 #include "config_common.h"
 
 // define if left board
-#define LEFT_CLAW
+//#define LEFT_CLAW
 
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x60BE

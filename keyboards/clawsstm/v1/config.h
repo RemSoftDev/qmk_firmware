@@ -12,7 +12,7 @@
 #define LEFT_CLAW
 
 // если обьявлено то верхний разем для связи с хостом
-#define TYPE_C_UP
+//#define TYPE_C_UP
 
 // в роли опорного выступает питающее напряжение спу
 #define ADC_REF_MV       3300
@@ -40,7 +40,7 @@
 #define WS_LED_CAPS_LOCK_G   0
 #define WS_LED_CAPS_LOCK_B   100
 // джойстик запаян
-//#define JOYSTIK
+#define JOYSTIK
 #else  //#ifdef LEFT_CLAW
 #define PRODUCT         v1_board_right_claw
 //#define WS_LED_CAPS_LOCK 1

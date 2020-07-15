@@ -1,3 +1,12 @@
+#
+# ПАМЯТКА
+# 0 предполагается установлена - wsl
+# 1 запустить в рабочем каталоге(C:\qmk_firmware): bash
+# 2 запустить в bash(taras@asusrog:/mnt/c/qmk_firmware$): make clean
+# 3 запустить в bash(taras@asusrog:/mnt/c/qmk_firmware$): make clawsstm/v1
+# 4 перевести STM32 в режим бутлоадера: удерживая нажатой TS2 подключить боковой разем USB (без USB хабов!)
+# 5 Прошить контроллер (запустить в рабочем каталоге): dfu-util.exe -a 0 -d 0483:df11 -s 0x08000000:leave -D "C:\qmk_firmware\clawsstm_v1_default.bin"
+#
 ## chip/board settings
 # - the next two should match the directories in
 #   <chibios>/os/hal/ports/$(MCU_FAMILY)/$(MCU_SERIES)
