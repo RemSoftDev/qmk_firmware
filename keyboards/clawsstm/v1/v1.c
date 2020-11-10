@@ -21,7 +21,8 @@ void matrix_scan_kb(void) {
   uint8_t led_kbrd = host_keyboard_leds();
   if (led_kbrd_old != led_kbrd) {
     led_kbrd_old = led_kbrd;
-    rgblight_set();
+    //rgblight_set();
+
   }
     matrix_scan_user();
 }

@@ -10,6 +10,8 @@
 
 #include "led.h"
 #include "display.h"
+#include "rgb.h"
+#include "rgb_matrix_types.h"
 
 #define _BASE 0
 #define _FN1 1
@@ -165,7 +167,56 @@ void encoder_update_user(uint8_t index, bool clockwise) {
 
 void keyboard_post_init_user(void) {
   // Call the post init code.
-  rgblight_enable();
-  rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT); // sets mode
-  rgblight_setrgb(14,14,14);
+//  rgblight_enable();
+//  rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT); // sets mode
+//  rgblight_setrgb(14,14,14);
+//  rgblight_sethsv_noeeprom(180, 255, 255); // sets the color to teal/cyan without saving
+  rgblight_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE_SIMPLE); // sets mode to Fast breathing without saving
+
+  //rgblight_mode_noeeprom(RGBLIGHT_MODE_SNAKE);  // OK
+//  rgblight_mode_noeeprom(RGB_MATRIX_GRADIENT_UP_DOWN);
+  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
 }
+
+led_config_t g_led_config = { {
+  // Key Matrix to LED Index https://docs.qmk.fm/#/feature_rgb_matrix
+  { 55, 54, 53, 52, 51, 50, NO_LED, NO_LED, NO_LED, NO_LED },
+  { 42, 43, 44, 45, 46, 47, 48, 49, 33, 32 },
+  { 41, 40, 39, 38, 37, 36, 35, 34, 31, 13 },
+  { 23, 24, 25, 26, 27, 28, 29, 30, 14, 12 },
+  { 22, 21, 20, 19, 18, 17, 16, 15, 10, 11 },
+  {  3,  4,  5,  6,  7,  8,  9,  2,  1,  0 }
+}, {
+  // LED Index to Physical Position
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 },
+  { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }, { 0,  0 }
+}, {
+  // LED Index to Flag
+  1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+} };
+
+/*
+void rgb_matrix_init(void)
+{
+  ;
+}
+
+bool process_rgb_matrix(uint16_t keycode, keyrecord_t *record)
+{
+ return true;
+}
+
+void rgb_matrix_task (void)
+{
+  ;
+}
+*/

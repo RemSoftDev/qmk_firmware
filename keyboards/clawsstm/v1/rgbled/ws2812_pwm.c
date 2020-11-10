@@ -166,7 +166,7 @@ void ws2812_init(void) {
     pwmEnableChannel(&WS2812_PWM_DRIVER, WS2812_PWM_CHANNEL - 1, 0);  // Initial period is 0; output will be low until first duty cycle is DMA'd in
 }
 
-void ws2812_write_led(uint16_t led_number, uint8_t r, uint8_t g, uint8_t b) {
+void ws2812_write_led(int led_number, uint8_t r, uint8_t g, uint8_t b) {
     // Write color to frame buffer
     for (uint8_t bit = 0; bit < 8; bit++) {
         ws2812_frame_buffer[WS2812_RED_BIT(led_number, bit)]   = ((r >> bit) & 0x01) ? WS2812_DUTYCYCLE_1 : WS2812_DUTYCYCLE_0;
@@ -249,7 +249,7 @@ void ws2812_test_main(uint16_t sped){
   }
 }
 
-// вызывается QMK
+// вызывается QMK при подключеной rgblight
 void rgblight_set(void) {
 
     // поверх єфекта сотояние CAPSLOCK
@@ -278,10 +278,43 @@ LED_TYPE led_buff[RGBLED_NUM];
 void rgbled_layer(layer_state_t state){
   switch (get_highest_layer(state)) {
     case 0:  // нулевой слой
-      rgblight_setrgb(0x20,0x20,0x20);
+      //rgblight_setrgb(0x20,0x20,0x20);
       break;
     case 1:
-      rgblight_setrgb(0x80, 0x00, 0x00);
+      //rgblight_setrgb(0x80, 0x00, 0x00);
       break;
   }
 }
+
+void init(void)
+{
+  ;
+}
+/*
+void flush(void)
+{
+  ;
+}
+*/
+void ws2812_set_color_all(uint8_t r, uint8_t g, uint8_t b)
+{
+    uint16_t led_number;
+    for (led_number = 0; led_number < WS2812_LED_N; led_number++) {
+      //ws2812_write_led(led_number, r, g, b);
+      led[led_number].r = r;
+      led[led_number].g = g;
+      led[led_number].b = b;
+    }
+}
+void ws2812_led(int led_number, uint8_t r, uint8_t g, uint8_t b) {
+      led[led_number].r = r;
+      led[led_number].g = g;
+      led[led_number].b = b;
+}
+
+const rgb_matrix_driver_t rgb_matrix_driver = {
+    .init          = init,
+    .flush         = rgblight_set,
+    .set_color     = ws2812_led,
+    .set_color_all = ws2812_set_color_all,
+};

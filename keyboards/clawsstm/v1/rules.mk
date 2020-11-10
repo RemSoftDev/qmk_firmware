@@ -83,6 +83,10 @@ SRC += led/led.c\
 	   connection/connection.c\
 	   rgbled/ws2812_pwm.c\
 	   security/atecc608a.c
+
+SRC += $(QUANTUM_DIR)/color.c
+SRC += $(QUANTUM_DIR)/rgb_matrix.c
+SRC += $(QUANTUM_DIR)/rgb_matrix_drivers.c
 #	   $(CHIBIOS)/os/various/syscalls.c\
 # https://github.com/qmk/qmk_firmware/issues/7059
 # sprintf вешает QMK

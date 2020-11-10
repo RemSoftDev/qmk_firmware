@@ -64,5 +64,7 @@
 #define RETRO_TAPPING
 #define PERMISSIVE_HOLD
 
+#define USB_POLLING_INTERVAL_MS   1
+
 
 #endif
